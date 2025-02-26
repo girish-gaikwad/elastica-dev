@@ -1,9 +1,9 @@
 "use client";
 
-// package
 import React from "react";
 import { default as NextImage, ImageProps as NextImageProps } from "next/image";
 import { VariantProps, cva } from "class-variance-authority";
+import { ShoppingCart } from "lucide-react";
 
 // ui
 import ButtonPrimitive, { ButtonProps } from "@/components/ui/button";
@@ -23,11 +23,11 @@ export type ProductDataProps = {
   data: {
     id: number;
     image: {
-      src: string;
+      url: string;
       alt: string;
     };
     name: string;
-    rating: number;
+    ratings: number;
     price: number;
     description: string;
   };
@@ -35,12 +35,18 @@ export type ProductDataProps = {
 
 interface RootProps
   extends React.HTMLAttributes<HTMLDivElement>,
-    ProductDataProps {}
+  ProductDataProps { }
 
 const Root: React.FC<RootProps> = ({ data, className, children, ...props }) => {
   return (
     <ProductCardProvider data={data}>
-      <div className={cn("grid grid-cols-1 gap-3", className)} {...props}>
+      <div
+        className={cn(
+          "group relative w-full max-w-sm rounded-lg border bg-white shadow-sm transition-all hover:shadow-md",
+          className
+        )}
+        {...props}
+      >
         {children}
       </div>
     </ProductCardProvider>
@@ -53,7 +59,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({ className, children }) => {
   return (
     <div
       className={cn(
-        "group relative flex h-[308px] w-full flex-col justify-between overflow-hidden bg-[#F3F5F7] p-3.5",
+        "relative h-[300px] overflow-hidden rounded-t-lg bg-gray-50",
         className,
       )}
     >
@@ -64,19 +70,19 @@ const Thumbnail: React.FC<ThumbnailProps> = ({ className, children }) => {
 
 const ThumbnailBadge: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
-    <div className="z-10 flex items-start justify-between">{children}</div>
+    <div className="absolute top-3 left-3 right-3 z-10 flex items-start justify-between">
+      {children}
+    </div>
   );
 };
 
-type BadgeVariants = VariantProps<typeof badgeVariants>;
-
 const badgeVariants = cva(
-  "w-fit rounded px-3.5 py-1 font-inter text-base font-bold uppercase",
+  "w-fit rounded px-3.5 py-1 font-inter text-sm uppercase tracking-wide",
   {
     variants: {
       intent: {
-        default: "bg-white text-black",
-        discount: "bg-[#38CB89] text-[#FEFEFE]",
+        default: "bg-white/90 text-black border border-black/10",
+        discount: "bg-emerald-500 text-white font-medium",
       },
     },
     defaultVariants: {
@@ -87,7 +93,7 @@ const badgeVariants = cva(
 
 interface BadgeProps
   extends BadgeVariants,
-    React.HTMLAttributes<HTMLDivElement> {}
+  React.HTMLAttributes<HTMLDivElement> { }
 
 const Badge: React.FC<BadgeProps> = ({
   intent,
@@ -111,38 +117,43 @@ const WishlistButton: React.FC<WishlistButtonProps> = ({
   return (
     <button
       className={cn(
-        "shadow-[rgba(15, 15, 15, 0.12)] flex h-8 w-8 items-center justify-center rounded-full bg-white opacity-0 shadow-md transition-opacity duration-100 ease-out group-hover:opacity-100",
+        "absolute right-3 top-3 rounded-full bg-white p-2 opacity-0 shadow-md transition-opacity duration-200 ease-out group-hover:opacity-100 hover:bg-gray-50",
         className,
       )}
       {...props}
     >
-      <WishlistIcon className="h-5 w-5" />
+      <WishlistIcon className="h-5 w-5 text-gray-600" />
     </button>
   );
 };
 
-const Button: React.FC<ButtonProps> = ({ children, ...props }) => {
-  return <ButtonPrimitive {...props}>{children}</ButtonPrimitive>;
+const Button: React.FC<ButtonProps> = ({ className, children, ...props }) => {
+  return (
+    <ButtonPrimitive
+      className={cn(
+        "flex items-center rounded-lg bg-black px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-800",
+        className
+      )}
+      {...props}
+    >
+      <ShoppingCart className="mr-2 h-5 w-5" />
+      {children}
+    </ButtonPrimitive>
+  );
 };
 
-type ImageProps = Omit<NextImageProps, "src" | "alt">;
+type ImageProps = Omit<NextImageProps, "url" | "alt">;
 
-const Image: React.FC<ImageProps> = ({
-  width = 231,
-  height = 308,
-  className,
-  ...props
-}) => {
+const Image: React.FC<ImageProps> = ({ className, ...props }) => {
   const { image } = useProductCardContext();
 
   return (
     <NextImage
-      src={image.src}
-      width={width}
-      height={height}
+      src={image.url}
       alt={image.alt}
+      fill
       className={cn(
-        "absolute left-0 top-0 z-0 h-full w-full object-cover",
+        "object-cover object-center transition-transform duration-300 group-hover:scale-105",
         className,
       )}
       {...props}
@@ -156,7 +167,7 @@ const Content: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   ...props
 }) => {
   return (
-    <div className={cn("space-y-1", className)} {...props}>
+    <div className={cn("p-4 space-y-2", className)} {...props}>
       {children}
     </div>
   );
@@ -167,13 +178,32 @@ type RatingsProps = {
 };
 
 const Ratings: React.FC<RatingsProps> = ({ className }) => {
-  const { rating } = useProductCardContext();
+  const { ratings } = useProductCardContext();
+
+  if (ratings == 0) {
+    return (
+      <Text size="sm" color="gray" className={className}>
+        No ratings yet
+      </Text>
+    );
+  }
 
   return (
-    <div className="flex gap-0.5">
-      {formatRating(rating).map((rating) => (
-        <StarIcon key={rating} className={cn("h-4 w-4", className)} />
-      ))}
+    <div className={cn("flex items-center gap-1", className)}>
+      <div className="flex gap-0.5">
+        {formatRating(ratings).map((rating, index) => (
+          <StarIcon
+            key={index}
+            className={cn(
+              "h-5 w-5"
+            )}
+          />
+        ))}
+      </div>
+      <Text size="sm" color="gray">
+        ({ratings})
+
+      </Text>
     </div>
   );
 };
@@ -185,6 +215,7 @@ const Name: React.FC<NameProps> = ({ className, ...props }) => {
 
   return (
     <Text
+      size="lg"
       weight={600}
       color="black/800"
       className={cn("line-clamp-1", className)}
@@ -198,17 +229,37 @@ const Name: React.FC<NameProps> = ({ className, ...props }) => {
 type PriceProps = Omit<TextProps, "children">;
 
 const Price: React.FC<PriceProps> = ({ className, ...props }) => {
-  const { price } = useProductCardContext();
+  const { finalPrice } = useProductCardContext();
+
+  return (
+    <Text
+      size="lg"
+      weight={700}
+      color="black/800"
+      className={cn("line-clamp-1", className)}
+      {...props}
+    >
+      {formatCurrency(finalPrice)}
+    </Text>
+  );
+};
+
+type DiscountProps = Omit<TextProps, "children">;
+
+const Discount: React.FC<DiscountProps> = ({ className, ...props }) => {
+  const { discount } = useProductCardContext();
+
+  if (!discount) return null;
 
   return (
     <Text
       size="sm"
       weight={600}
-      color="black/800"
-      className={cn("line-clamp-1", className)}
+      color="red"
+      className={cn("bg-red/10 px-2 py-1 rounded-md", className)}
       {...props}
     >
-      {formatCurrency(price)}
+      -{discount}%
     </Text>
   );
 };
@@ -220,16 +271,55 @@ const Description: React.FC<DescriptionProps> = ({ className, ...props }) => {
 
   return (
     <Text
-      size="xs"
+      size="sm"
       weight={400}
       color="gray"
-      className={cn(className)}
+      className={cn("line-clamp-2", className)}
       {...props}
     >
       {description}
     </Text>
   );
 };
+
+type AddToCartButtonProps = Omit<ButtonProps, "children">;
+
+const AddToCartButton: React.FC<AddToCartButtonProps> = ({ className, ...props }) => {
+  return (
+    <Button
+      variant="outline"
+      className={cn(
+        "flex items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-800 shadow-sm transition-all hover:border-gray-600 hover:bg-gray-900 hover:text-white active:scale-95",
+        className
+      )}
+      aria-label="Add to cart"
+      {...props}
+    >
+      <span>Add to Cart</span>
+    </Button>
+  );
+};
+
+type MRPProps = Omit<TextProps, "children">;
+
+const MRP: React.FC<MRPProps> = ({ className, ...props }) => {
+  const { mrp } = useProductCardContext();
+
+  if (!mrp) return null;
+
+  return (
+    <Text
+      size="xs"
+      weight={600}
+      color="gray"
+      className={cn("line-through", className)}
+      {...props}
+    >
+      {formatCurrency(mrp)}
+    </Text>
+  );
+};
+
 
 export {
   Root,
@@ -244,4 +334,7 @@ export {
   Name,
   Price,
   Description,
+  AddToCartButton,
+  Discount,
+  MRP,
 };

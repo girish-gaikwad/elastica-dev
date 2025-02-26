@@ -21,8 +21,9 @@ import { useRootContext } from "@/hooks/rootContext";
 
 // lib
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
-interface NavbarProps {}
+interface NavbarProps { }
 
 const Navbar: React.FC<NavbarProps> = () => {
   const isRootPage = useRootContext();
@@ -49,7 +50,7 @@ const Navbar: React.FC<NavbarProps> = () => {
           scroll && "bg-white shadow transition-colors duration-200 ease-in",
         )}
       >
-        <nav className="mx-auto flex max-w-[1440px] items-center justify-between px-8 py-4 lg:justify-normal">
+        <nav className="mx-auto flex max-w-[1440px] items-center justify-between px-3 py-4 lg:justify-normal">
           <div className="flex items-center gap-1 lg:basis-1/4">
             <button className="lg:hidden" onClick={() => setOpen(true)}>
               <HamburgerMenu className="w-6" />
@@ -62,14 +63,17 @@ const Navbar: React.FC<NavbarProps> = () => {
             <NavLinks />
           </div>
 
-          <div className="flex items-center gap-1 lg:basis-1/4 lg:justify-end lg:gap-4">
-            <SearchIcon className="hidden lg:block" />
-            <UserIcon className="hidden lg:block" />
-            <CartIcon className="w-6" />
-            <NotificationCount
-              count={2}
-              className={cn(isRootPage ? "text-[#FFAB00]" : "text-white")}
-            />
+          <div className="flex items-center gap-3 lg:basis-1/4 lg:justify-end lg:gap-4">
+            <Link href="/profilePage"
+               className="hidden lg:block">
+                <UserIcon />
+              
+            </Link>
+            <Link href="/cart" className="flex items-center gap-1">
+                <CartIcon className="w-6" />
+              
+            </Link>
+
           </div>
 
           {/* mobile navbar  */}

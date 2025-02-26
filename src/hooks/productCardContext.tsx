@@ -21,7 +21,7 @@ export const ProductCardProvider = ({
 
 export const useProductCardContext = () => {
   const data = useContext(ProductCardContext);
-  if (!data) throw new Error("tai lu bang");
+  if (!data) throw new Error("useProductCardContext must be used within a ProductCardProvider");
   return {
     ...data,
   };

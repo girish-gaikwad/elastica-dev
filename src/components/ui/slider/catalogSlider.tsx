@@ -15,7 +15,7 @@ import "keen-slider/keen-slider.min.css";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 
-export default function CatalogSlider() {
+export default function CatalogSlider({ products }) {
   const [currentSlide, setCurrentSlide] = useState<number>(0);
   const [loaded, setLoaded] = useState<boolean>(false);
   const [slideRef, instanceRef] = useKeenSlider<HTMLDivElement>({
@@ -63,15 +63,15 @@ export default function CatalogSlider() {
         <>
           <button
             onClick={() => instanceRef.current?.prev()}
-            className="absolute left-2 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow"
+            className="absolute left-2 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-md transition duration-300 hover:opacity-70 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-white"
           >
-            <ChevronLeft className="h-6 w-6" />
+            <ChevronLeft className="h-6 w-6 text-emerald-600" />
           </button>
           <button
             onClick={() => instanceRef.current?.next()}
-            className="absolute right-2 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow"
+            className="absolute right-2 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-md transition duration-300 hover:opacity-70 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-white"
           >
-            <ChevronRight className="h-6 w-6" />
+            <ChevronRight className="h-6 w-6 text-emerald-600" />
           </button>
         </>
       )}
@@ -79,24 +79,49 @@ export default function CatalogSlider() {
         {products.map((product) => (
           <div key={product.id} className="keen-slider__slide">
             <ProductCard.Root data={product}>
-              <ProductCard.Thumbnail>
-                <ProductCard.ThumbnailBadge>
-                  <ProductCard.Badge>new</ProductCard.Badge>
-                  <ProductCard.WishlistButton />
+              <ProductCard.Thumbnail className="relative">
+                <ProductCard.ThumbnailBadge className="absolute top-3 left-3 flex items-center gap-2">
+                  <ProductCard.Badge>{product?.tags?.[2]}</ProductCard.Badge>
+                  <ProductCard.WishlistButton className="absolute top-0 right-0 p-2 bg-white rounded-full shadow-md hover:bg-gray-100 transition" />
                 </ProductCard.ThumbnailBadge>
 
-                <Link href="/product">
+                <Link href="/purchase/[id]" as={`/purchase/${product.id}`} className="block">
                   <ProductCard.Image />
                 </Link>
               </ProductCard.Thumbnail>
 
-              <Link href="/product">
-                <ProductCard.Content>
+
+              <ProductCard.Content className="p-4">
+                <Link href={`/purchase/${product.id}`} className="flex  justify-between">
+                  <ProductCard.Name className="text-lg font-semibold text-gray-800 truncate" />
+                  <ProductCard.Discount className="text-gray-500 " />
+                </Link>
+
+                <Link href={`/purchase/${product.id}`} className="flex items-center justify-between mt-1">
                   <ProductCard.Ratings />
-                  <ProductCard.Name />
-                  <ProductCard.Price />
-                </ProductCard.Content>
-              </Link>
+                  <div className="flex items-center gap-2">
+
+                    <ProductCard.MRP />
+                    <ProductCard.Price />
+                  </div>
+                </Link>
+              </ProductCard.Content>
+              <div className="p-2 w-full flex justify-center">
+
+                <ProductCard.AddToCartButton
+                  className="px-8"
+                  onClick={() => {
+                    fetch("/api/cart", {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({ productId: product.id }),
+                    });
+                  }}
+                />
+              </div>
+
             </ProductCard.Root>
           </div>
         ))}
