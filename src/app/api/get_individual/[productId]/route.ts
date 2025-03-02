@@ -3,12 +3,16 @@ import Product from "@/models/produts";
 import Rating from "@/models/ratings";
 import { NextResponse } from "next/server";
 
-export async function GET(request: Request, { params }: { params: { productId: string } }) {
+export async function GET(
+  request: Request, 
+  {params}: { params: { productId: string } } // ✅ Destructure params from context properly
+) {
+  const { productId } = await params
+
+
   await connectToDatabase();
 
   try {
-    const { productId } = params;
-
     if (!productId) {
       return NextResponse.json(
         { message: "Product ID is required" },
@@ -17,16 +21,14 @@ export async function GET(request: Request, { params }: { params: { productId: s
     }
 
     // Fetch product details
-    const products = await Product.find({ id: productId });
+    const product = await Product.findOne({ id: productId });  // ✅ Use findOne instead of find
 
-    if (!products.length) {
+    if (!product) {
       return NextResponse.json(
         { message: "Product not found" },
         { status: 404 }
       );
     }
-
-    const product = products[0];
 
     // Fetch all ratings for the product
     const ratings = await Rating.find({ productId });
