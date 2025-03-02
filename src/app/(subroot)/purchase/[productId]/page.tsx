@@ -43,7 +43,7 @@ export default function ProductPage() {
     const fetchProduct = async () => {
       try {
         const res = await fetch(
-          `http://localhost:3000/api/get_individual/${productId}`
+          `/api/get_individual/${productId}`
         );
 
         if (res.status === 404) {
