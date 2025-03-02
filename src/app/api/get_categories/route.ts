@@ -64,6 +64,12 @@ export async function GET() {
         path: "/products",
         name: "Products",
       },
+
+      {
+        id: "about-us",
+        path: "/aboutUs",
+        name: "About Us",
+      },
       {
         id: "contact-us",
         path: "/contactUs",

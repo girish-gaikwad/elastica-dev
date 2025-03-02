@@ -177,7 +177,7 @@ Hey i am enquiring about this product "Iam intrested"
         <div className="mx-auto p-8 flex justify-center items-center h-[50vh]" style={{ background: bgLight }}>
           <div className="flex flex-col items-center">
             <div className="w-16 h-16 border-4 border-t-4 rounded-full animate-spin" style={{ borderColor: `${primaryColor} transparent transparent transparent` }}></div>
-            <p className="mt-4 font-medium" style={{ color: accentColor }}>Loading luxury details...</p>
+            <p className="mt-4 font-medium" style={{ color: accentColor }}>Loading Product details...</p>
           </div>
         </div>
       </SectionLayout>

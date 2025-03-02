@@ -40,7 +40,7 @@ export default function RootLayout({
     {/* <html lang="en" > */}
       <body className={cn(poppins.className, inter.className)}>
       {/* <body className="font-sans"> */}
-        <Toaster position="top-right" reverseOrder={false} />
+        <Toaster position="top-center" reverseOrder={false} />
        <SessionProvider>{children}</SessionProvider>
       </body>
     </html>

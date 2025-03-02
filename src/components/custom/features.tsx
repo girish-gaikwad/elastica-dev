@@ -99,7 +99,7 @@ function Features() {
                 Dedicated Assistance
               </Text>
               <Text size="sm" color="gray" className="text-sm">
-                24/7 concierge service available
+                Complete Customer Care Support
               </Text>
             </div>
           </div>
