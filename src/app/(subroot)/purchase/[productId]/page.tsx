@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import SectionLayout from "@/layouts/sectionLayout";
 
 // lib
-import { addToCart, addToWishlist, removeFromWishlist } from "@/lib/cartWishlistUtils";
+import { addToCart, addToWishlist, getWishlist, removeFromWishlist } from "@/lib/cartWishlistUtils";
 
 // ui
 import ProductTab from "@/app/(subroot)/purchase/productTab";
