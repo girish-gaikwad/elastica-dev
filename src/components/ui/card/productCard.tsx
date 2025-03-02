@@ -1,9 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { default as NextImage, ImageProps as NextImageProps } from "next/image";
 import { VariantProps, cva } from "class-variance-authority";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Heart } from "lucide-react";
 
 // ui
 import ButtonPrimitive, { ButtonProps } from "@/components/ui/button";
@@ -12,6 +12,7 @@ import { StarIcon, WishlistIcon } from "@/components/ui/assets/svg";
 
 // lib
 import { cn, formatCurrency, formatRating } from "@/lib/utils";
+import { addToWishlist, removeFromWishlist, addToCart, getWishlist } from "@/lib/cartWishlistUtils";
 
 // hooks
 import {
@@ -42,11 +43,12 @@ const Root: React.FC<RootProps> = ({ data, className, children, ...props }) => {
     <ProductCardProvider data={data}>
       <div
         className={cn(
-          "group relative w-full max-w-sm rounded-lg border bg-white shadow-sm transition-all hover:shadow-md",
+          "group relative w-full max-w-sm overflow-hidden rounded-xl border border-[#ffc156]/30 bg-white shadow-lg transition-all duration-300 hover:shadow-xl hover:shadow-[#ffc156]/10 hover:translate-y-[-4px]",
           className
         )}
         {...props}
       >
+        <div className="absolute inset-0 bg-gradient-to-b from-[#f8f9ff] to-white opacity-50 pointer-events-none" />
         {children}
       </div>
     </ProductCardProvider>
@@ -59,10 +61,11 @@ const Thumbnail: React.FC<ThumbnailProps> = ({ className, children }) => {
   return (
     <div
       className={cn(
-        "relative h-[300px] overflow-hidden rounded-t-lg bg-gray-50",
+        "relative h-[320px] overflow-hidden bg-[#f0f8ff]",
         className,
       )}
     >
+      <div className="absolute inset-0 bg-gradient-to-tr from-[#e0f2ff]/30 to-transparent pointer-events-none z-10" />
       {children}
     </div>
   );
@@ -70,19 +73,21 @@ const Thumbnail: React.FC<ThumbnailProps> = ({ className, children }) => {
 
 const ThumbnailBadge: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
-    <div className="absolute top-3 left-3 right-3 z-10 flex items-start justify-between">
+    <div className="absolute top-4 left-4 right-4 z-10 flex items-start justify-between">
       {children}
     </div>
   );
 };
 
 const badgeVariants = cva(
-  "w-fit rounded px-3.5 py-1 font-inter text-sm uppercase tracking-wide",
+  "w-fit rounded-md px-3.5 py-1.5 font-inter text-xs uppercase tracking-wider font-semibold",
   {
     variants: {
       intent: {
-        default: "bg-white/90 text-black border border-black/10",
-        discount: "bg-emerald-500 text-white font-medium",
+        default: "bg-white/95 text-[#2c405e] border border-[#ffc156]/20 shadow-sm backdrop-blur-sm",
+        discount: "bg-gradient-to-r from-[#ffc156] to-[#ffb830] text-[#2c405e]",
+        new: "bg-gradient-to-r from-[#a1c4fd] to-[#c2e9fb] text-[#2c405e]",
+        exclusive: "bg-gradient-to-r from-[#2c405e] to-[#15273e] text-[#ffc156]",
       },
     },
     defaultVariants: {
@@ -108,21 +113,70 @@ const Badge: React.FC<BadgeProps> = ({
   );
 };
 
-type WishlistButtonProps = React.HTMLAttributes<HTMLButtonElement>;
+type WishlistButtonProps = React.HTMLAttributes<HTMLButtonElement> & {
+  productId: string | number;
+};
 
 const WishlistButton: React.FC<WishlistButtonProps> = ({
   className,
+  productId,
   ...props
 }) => {
+  const [isInWishlist, setIsInWishlist] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Check if product is in wishlist on component mount
+  useEffect(() => {
+    const checkWishlist = async () => {
+      try {
+        const wishlist = await getWishlist();
+        setIsInWishlist(wishlist.includes(productId));
+      } catch (error) {
+        console.error("Failed to check wishlist:", error);
+      }
+    };
+
+    checkWishlist();
+  }, [productId]);
+
+  const handleWishlistToggle = async (e) => {
+    e.stopPropagation(); // Prevent triggering card click
+    
+    setIsLoading(true);
+    try {
+      if (isInWishlist) {
+        await removeFromWishlist(productId);
+        setIsInWishlist(false);
+      } else {
+        await addToWishlist(productId);
+        setIsInWishlist(true);
+      }
+    } catch (error) {
+      console.error("Wishlist operation failed:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <button
       className={cn(
-        "absolute right-3 top-3 rounded-full bg-white p-2 opacity-0 shadow-md transition-opacity duration-200 ease-out group-hover:opacity-100 hover:bg-gray-50",
+        "absolute right-4 top-4 z-20 rounded-full bg-white/90 p-2.5 shadow-md backdrop-blur-sm transition-all duration-300 ease-out opacity-0 group-hover:opacity-100 hover:bg-white border border-[#ffc156]/20 hover:border-[#ffc156]/40 hover:shadow-lg",
+        isLoading ? "cursor-not-allowed" : "hover:scale-110 active:scale-95",
+        isInWishlist ? "bg-[#ffc156]/10" : "",
         className,
       )}
+      onClick={handleWishlistToggle}
+      disabled={isLoading}
+      aria-label={isInWishlist ? "Remove from wishlist" : "Add to wishlist"}
       {...props}
     >
-      <WishlistIcon className="h-5 w-5 text-gray-600" />
+      <Heart 
+        className={cn(
+          "h-5 w-5 transition-colors",
+          isInWishlist ? "fill-[#ffc156] text-[#ffc156]" : "text-[#2c405e]"
+        )}
+      />
     </button>
   );
 };
@@ -131,12 +185,12 @@ const Button: React.FC<ButtonProps> = ({ className, children, ...props }) => {
   return (
     <ButtonPrimitive
       className={cn(
-        "flex items-center rounded-lg bg-black px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-800",
+        "flex items-center justify-center rounded-lg bg-[#2c405e] px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-all hover:bg-[#15273e] hover:shadow-md active:scale-95",
         className
       )}
       {...props}
     >
-      <ShoppingCart className="mr-2 h-5 w-5" />
+      <ShoppingCart className="mr-2 h-4 w-4" />
       {children}
     </ButtonPrimitive>
   );
@@ -150,10 +204,10 @@ const Image: React.FC<ImageProps> = ({ className, ...props }) => {
   return (
     <NextImage
       src={image.url}
-      alt={image.alt}
+      alt={image.alt || "luxury product"}
       fill
       className={cn(
-        "object-cover object-center transition-transform duration-300 group-hover:scale-105",
+        "object-cover object-center transition-transform duration-500 group-hover:scale-105",
         className,
       )}
       {...props}
@@ -167,7 +221,8 @@ const Content: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   ...props
 }) => {
   return (
-    <div className={cn("p-4 space-y-2", className)} {...props}>
+    <div className={cn("px-6 py-5 space-y-3 relative", className)} {...props}>
+      <div className="absolute top-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-[#ffc156]/30 to-transparent"></div>
       {children}
     </div>
   );
@@ -189,20 +244,19 @@ const Ratings: React.FC<RatingsProps> = ({ className }) => {
   }
 
   return (
-    <div className={cn("flex items-center gap-1", className)}>
+    <div className={cn("flex items-center gap-1.5", className)}>
       <div className="flex gap-0.5">
         {formatRating(ratings).map((rating, index) => (
           <StarIcon
             key={index}
             className={cn(
-              "h-5 w-5"
+              "h-4 w-4 text-[#ffc156]"
             )}
           />
         ))}
       </div>
-      <Text size="sm" color="gray">
+      <Text size="xs" weight={500} color="gray/600">
         ({ratings})
-
       </Text>
     </div>
   );
@@ -217,8 +271,8 @@ const Name: React.FC<NameProps> = ({ className, ...props }) => {
     <Text
       size="lg"
       weight={600}
-      color="black/800"
-      className={cn("line-clamp-1", className)}
+      color="black/900"
+      className={cn("line-clamp-1 font-serif text-[#2c405e]", className)}
       {...props}
     >
       {name}
@@ -235,8 +289,8 @@ const Price: React.FC<PriceProps> = ({ className, ...props }) => {
     <Text
       size="lg"
       weight={700}
-      color="black/800"
-      className={cn("line-clamp-1", className)}
+      color="black/900"
+      className={cn("line-clamp-1 text-[#2c405e]", className)}
       {...props}
     >
       {formatCurrency(finalPrice)}
@@ -253,10 +307,10 @@ const Discount: React.FC<DiscountProps> = ({ className, ...props }) => {
 
   return (
     <Text
-      size="sm"
-      weight={600}
-      color="red"
-      className={cn("bg-red/10 px-2 py-1 rounded-md", className)}
+      size="xs"
+      weight={700}
+      color="[#2c405e]"
+      className={cn("bg-[#ffc156] px-2.5 py-1 rounded-md inline-block", className)}
       {...props}
     >
       -{discount}%
@@ -273,7 +327,7 @@ const Description: React.FC<DescriptionProps> = ({ className, ...props }) => {
     <Text
       size="sm"
       weight={400}
-      color="gray"
+      color="gray/600"
       className={cn("line-clamp-2", className)}
       {...props}
     >
@@ -282,20 +336,51 @@ const Description: React.FC<DescriptionProps> = ({ className, ...props }) => {
   );
 };
 
-type AddToCartButtonProps = Omit<ButtonProps, "children">;
+type AddToCartButtonProps = Omit<ButtonProps, "children"> & {
+  productId?: string | number;
+  quantity?: number;
+};
 
-const AddToCartButton: React.FC<AddToCartButtonProps> = ({ className, ...props }) => {
+const AddToCartButton: React.FC<AddToCartButtonProps> = ({ 
+  className, 
+  productId,
+  quantity = 1,
+  ...props 
+}) => {
+  const context = useProductCardContext();
+  const [isLoading, setIsLoading] = useState(false);
+  
+  // If productId is not explicitly provided, use the one from context
+  const id = productId || context.id;
+
+  const handleAddToCart = async (e) => {
+    e.stopPropagation(); // Prevent triggering card click
+    
+    if (!id) return;
+    
+    setIsLoading(true);
+    try {
+      await addToCart(id.toString(), quantity);
+    } catch (error) {
+      console.error("Add to cart failed:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <Button
-      variant="outline"
       className={cn(
-        "flex items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-800 shadow-sm transition-all hover:border-gray-600 hover:bg-gray-900 hover:text-white active:scale-95",
+        "w-full bg-gradient-to-r from-[#ffc156] to-[#ffb830] text-[#2c405e] border-none px-6 py-3 text-sm font-medium shadow-md transition-all duration-300 hover:shadow-lg hover:shadow-[#ffc156]/20 active:scale-98 font-serif",
+        isLoading ? "opacity-80 cursor-not-allowed" : "",
         className
       )}
       aria-label="Add to cart"
+      onClick={handleAddToCart}
+      disabled={isLoading}
       {...props}
     >
-      <span>Add to Cart</span>
+      <span>{isLoading ? "Adding..." : "Add to Cart"}</span>
     </Button>
   );
 };
@@ -310,16 +395,15 @@ const MRP: React.FC<MRPProps> = ({ className, ...props }) => {
   return (
     <Text
       size="xs"
-      weight={600}
-      color="gray"
-      className={cn("line-through", className)}
+      weight={500}
+      color="gray/500"
+      className={cn("line-through text-gray-500", className)}
       {...props}
     >
       {formatCurrency(mrp)}
     </Text>
   );
 };
-
 
 export {
   Root,

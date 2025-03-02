@@ -19,7 +19,6 @@ export async function POST(request) {
     const body = await request.json();
     const { firstName, lastName, email, subject, message } = body;
 
-    console.log(body);
 
     // Input validation
     if (!firstName?.trim() || !lastName?.trim() || !email?.trim() || !subject?.trim() || !message?.trim()) {

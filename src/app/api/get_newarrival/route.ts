@@ -1,6 +1,5 @@
 import connectToDatabase from "@/lib/mongoose";
 import products from "@/models/produts";
-import ratings from "@/models/ratings";
 
 export async function GET() {
   await connectToDatabase();

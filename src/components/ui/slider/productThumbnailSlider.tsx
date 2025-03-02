@@ -74,7 +74,7 @@ const ProductThumbnailSlider: React.FC<ProductThumbnailSLiderProps> = ({
             width={231}
             height={308}
             src={product.url}
-            alt={product.altText}
+            alt={product.altText||"elastica product"}
             className="h-full w-full object-cover"
           />
         </div>

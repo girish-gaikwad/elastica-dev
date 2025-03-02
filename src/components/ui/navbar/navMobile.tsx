@@ -1,5 +1,7 @@
 // package
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 
 // ui
 import Logo from "@/components/ui/assets/logo";
@@ -18,6 +20,7 @@ import {
 // lib
 import { cn } from "@/lib/utils";
 
+// This would typically come from your API like in NavLinks
 const links = [
   {
     id: "home",
@@ -35,6 +38,11 @@ const links = [
     name: "Product",
   },
   {
+    id: "new-arrivals",
+    path: "/new-arrivals",
+    name: "New Arrivals",
+  },
+  {
     id: "contact-us",
     path: "/contact-us",
     name: "Contact Us",
@@ -48,106 +56,189 @@ export default function NavMobile({
   onClick: () => void;
   open: boolean;
 }) {
+  const [searchValue, setSearchValue] = useState("");
+  
+  // Lock body scroll when menu is open
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [open]);
+
   return (
-    <div
-      className={cn(
-        "absolute left-0 top-0 z-10 grid min-h-[100dvh] w-full grid-cols-[11fr_1fr] transition-transform duration-100 ease-in md:grid-cols-[10fr_2fr] lg:hidden",
-        open ? "transform-none touch-none" : "-translate-x-full",
-      )}
-    >
-      <div className="flex h-full flex-col justify-between bg-white p-6">
-        {/* top section */}
-        <div className="flex flex-col gap-4">
-          {/* logo */}
-          <div className="flex items-center justify-between">
-            <Logo />
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          className="fixed inset-0 z-50 lg:hidden"
+        >
+          <div className="grid h-full grid-cols-[85fr_15fr] md:grid-cols-[70fr_30fr]">
+            <motion.div 
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="flex h-full flex-col justify-between bg-white p-6 overflow-y-auto"
+            >
+              {/* Top section */}
+              <div className="flex flex-col gap-6">
+                {/* Logo and close button */}
+                <div className="flex items-center justify-between">
+                  <Logo />
+                  <button 
+                    onClick={onClick}
+                    className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+                  >
+                    <CloseIcon className="w-6 text-gray-800" />
+                  </button>
+                </div>
 
-            <button onClick={onClick}>
-              <CloseIcon className="w-6" />
-            </button>
-          </div>
+                {/* Search input */}
+                <div className="flex h-12 items-center gap-2 rounded-lg border border-gray-200 px-4 focus-within:border-amber-500 focus-within:ring-1 focus-within:ring-amber-500 transition-all duration-200">
+                  <label htmlFor="mobile-search" className="cursor-pointer text-gray-500">
+                    <SearchIcon />
+                  </label>
+                  <input
+                    id="mobile-search"
+                    name="mobile-search"
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    className="h-full w-full font-medium text-sm text-gray-800 outline-none placeholder:text-gray-400"
+                    placeholder="Search products..."
+                  />
+                  {searchValue && (
+                    <button 
+                      onClick={() => setSearchValue("")}
+                      className="text-gray-400 hover:text-gray-600"
+                    >
+                      <CloseIcon className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
 
-          {/* search input */}
-          <div className="flex h-12 items-center gap-2 rounded-md border border-[#6C7275] px-4">
-            <label htmlFor="search" className="cursor-pointer">
-              <SearchIcon />
-            </label>
-            <input
-              id="search"
-              name="search"
-              className="font-inter text-sm font-normal text-[#141718] outline-none placeholder:opacity-70"
-              placeholder="Search"
+                {/* Navigation links */}
+                <ul className="grid grid-cols-1 -mx-4">
+                  {links.map((link, index) => (
+                    <motion.li
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.1 + index * 0.05 }}
+                      key={link.id}
+                      className="border-b border-gray-100"
+                    >
+                      <Link
+                        href={link.path}
+                        className={cn(
+                          "flex justify-between items-center px-4 py-4 font-medium text-gray-800",
+                          link.id === "new-arrivals" && "text-amber-600"
+                        )}
+                        onClick={onClick}
+                      >
+                        {link.name}
+                        {link.id === "new-arrivals" && (
+                          <span className="text-xs font-medium bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full">New</span>
+                        )}
+                      </Link>
+                    </motion.li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Bottom section */}
+              <div className="flex flex-col gap-6 mt-6">
+                {/* Cart & wishlist */}
+                <ul className="bg-gray-50 rounded-lg -mx-2">
+                  <li>
+                    <Link
+                      href="/cart"
+                      className="flex items-center justify-between px-4 py-4 border-b border-gray-100"
+                      onClick={onClick}
+                    >
+                      <span className="font-medium text-gray-800">
+                        Shopping Bag
+                      </span>
+
+                      <div className="flex items-center gap-2">
+                        <CartIcon className="w-5 h-5" />
+                        <span className="w-6 h-6 bg-amber-500 text-white rounded-full text-xs flex items-center justify-center">
+                          6
+                        </span>
+                      </div>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/wishlist"
+                      className="flex items-center justify-between px-4 py-4"
+                      onClick={onClick}
+                    >
+                      <span className="font-medium text-gray-800">
+                        Saved Items
+                      </span>
+
+                      <div className="flex items-center gap-2">
+                        <WishlistIcon className="w-5 h-5" />
+                        <span className="w-6 h-6 bg-rose-500 text-white rounded-full text-xs flex items-center justify-center">
+                          12
+                        </span>
+                      </div>
+                    </Link>
+                  </li>
+                </ul>
+
+                {/* Sign in/Join buttons */}
+                <div className="flex flex-col gap-3">
+                  <Button 
+                    width="full" 
+                    fontSize="sm" 
+                    className="py-3 bg-amber-500 hover:bg-amber-600 text-white rounded-lg transition-colors"
+                  >
+                    Sign In
+                  </Button>
+                  <Link 
+                    href="/signup" 
+                    className="py-3 border border-gray-200 text-center rounded-lg font-medium text-sm text-gray-800 hover:bg-gray-50 transition-colors"
+                  >
+                    Create Account
+                  </Link>
+                </div>
+
+                {/* Social media */}
+                <div className="flex items-center justify-center gap-6 pt-4 border-t border-gray-100">
+                  <a href="#" aria-label="Instagram" className="text-gray-600 hover:text-black transition-colors">
+                    <InstagramIcon className="w-5 h-5" />
+                  </a>
+                  <a href="#" aria-label="Facebook" className="text-gray-600 hover:text-black transition-colors">
+                    <FacebookIcon className="w-5 h-5" />
+                  </a>
+                  <a href="#" aria-label="YouTube" className="text-gray-600 hover:text-black transition-colors">
+                    <YoutubeIcon className="w-5 h-5" />
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Overlay backdrop */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="h-full bg-black/60 backdrop-blur-sm" 
+              onClick={onClick}
             />
           </div>
-          {/* navbar links */}
-          <ul className="grid grid-cols-1">
-            {links.map((link) => (
-              <li
-                key={link.id}
-                className="border-b border-[#E8ECEF] first:pt-0"
-              >
-                <Link
-                  href={link.path}
-                  className="block py-4 font-inter text-sm font-medium text-[#141718]"
-                >
-                  {link.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* bottom section */}
-        <div className="flex flex-col gap-5">
-          {/* cart & wishlist */}
-          <ul>
-            <li>
-              <Link
-                href="/cart"
-                className="flex items-center justify-between border-b border-[#E8ECEF] py-4"
-              >
-                <span className="font-inter text-sm font-medium text-[#141718]">
-                  Cart
-                </span>
-
-                <div className="flex items-center gap-1.5">
-                  <CartIcon className="w-6" />
-                  <NotificationCount count={6} />
-                </div>
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/cart"
-                className="flex items-center justify-between border-b border-[#E8ECEF] py-4"
-              >
-                <span className="font-inter text-sm font-medium text-[#141718]">
-                  Wishlist
-                </span>
-
-                <div className="flex items-center gap-1.5">
-                  <WishlistIcon className="w-6" />
-                  <NotificationCount count={12} />
-                </div>
-              </Link>
-            </li>
-          </ul>
-
-          {/* login button */}
-          <Button width="full" fontSize="lg" className="py-2.5">
-            Sign In
-          </Button>
-
-          {/* social media button */}
-          <div className="flex items-center gap-6">
-            <InstagramIcon className="w-6" />
-            <FacebookIcon className="w-6" />
-            <YoutubeIcon className="w-6" />
-          </div>
-        </div>
-      </div>
-
-      <div className="h-full bg-black/30" onClick={onClick}></div>
-    </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

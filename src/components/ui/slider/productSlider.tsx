@@ -76,7 +76,7 @@ const ProductSlider = ({ images }: { images: string[] }) => {
                 width={231}
                 height={308}
                 src={image.url}
-                alt={image.altText}
+                alt={image.altText||"elastica product"}
                 className={cn(
                   "h-full w-full",
                   idx === array.length - 1

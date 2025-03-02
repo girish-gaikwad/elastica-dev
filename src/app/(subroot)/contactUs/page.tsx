@@ -1,258 +1,354 @@
 "use client";
-import NewsFeed from '@/components/custom/newsfeed';
+import { useRef, useState } from 'react';
+import emailjs from '@emailjs/browser';
+import toast from 'react-hot-toast';
+import { Mail, MessageCircle, Phone, Clock, MapPin, Send } from 'lucide-react';
 import { InstagramIcon } from '@/components/ui/assets/svg';
-import { Mail, MessageCircle, Phone } from 'lucide-react';
-import React, { useState } from 'react';
+import NewsFeed from '@/components/custom/newsfeed';
 
-const ContactUsPage = () => {
-    const [formData, setFormData] = useState({
+const ContactForm = () => {
+    const formRef = useRef();
+    const [loading, setLoading] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState(null);
+
+    const [form, setForm] = useState({
         name: '',
         email: '',
         subject: '',
         message: ''
     });
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [submitStatus, setSubmitStatus] = useState(null);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prevData => ({
-            ...prevData,
-            [name]: value
-        }));
+        setForm({ ...form, [name]: value });
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        setIsSubmitting(true);
+        setLoading(true);
 
-        // Simulate form submission
-        setTimeout(() => {
-            setIsSubmitting(false);
-            setSubmitStatus('success');
-            setFormData({
-                name: '',
-                email: '',
-                subject: '',
-                message: ''
-            });
+        const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'YOUR_SERVICE_ID';
+        const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || 'YOUR_TEMPLATE_ID';
+        const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || 'YOUR_PUBLIC_KEY';
 
-            // Reset status after 5 seconds
-            setTimeout(() => setSubmitStatus(null), 5000);
-        }, 1500);
+        // Your email address (where you want to receive messages)
+        const yourEmail = 'info@elastica.co.in';
+
+        emailjs
+            .send(
+                serviceId,
+                templateId,
+                {
+                    from_name: form.name,
+                    to_name: 'Admin',
+                    from_email: form.email,
+                    to_email: yourEmail,
+                    subject: form.subject,
+                    message: form.message,
+                    reply_to: form.email
+                },
+                publicKey
+            )
+            .then(
+                () => {
+                    setLoading(false);
+                    setSubmitStatus('success');
+
+                    // Reset form after successful submission
+                    setTimeout(() => {
+                        setSubmitStatus(null);
+                        setForm({
+                            name: '',
+                            email: '',
+                            subject: '',
+                            message: '',
+                        });
+                    }, 5000);
+
+                    toast.success('Thank you! Your message has been sent successfully.');
+                },
+                (error) => {
+                    setLoading(false);
+                    console.error('Error sending email:', error);
+                    setSubmitStatus('error');
+
+                    // Clear error message after some time
+                    setTimeout(() => {
+                        setSubmitStatus(null);
+                    }, 5000);
+                }
+            );
     };
 
     return (
-        <div className="min-h-screen bg-white">
-            {/* Hero Section */}
-            <div className="bg-[#ffc95c] relative overflow-hidden">
-                <div className="absolute inset-0 bg-black bg-opacity-10"></div>
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 relative z-10">
-                    <h1 className="text-4xl md:text-5xl font-bold text-black mb-4">Get in Touch</h1>
-                    <p className="text-lg md:text-xl text-black max-w-2xl">
+        <div className="min-h-screen bg-gray-50">
+            {/* Hero Section with Luxury Gradient */}
+            <div className="relative overflow-hidden bg-gradient-to-r from-[#ffc155] to-[#ffb030]">
+                <div className="absolute inset-0 bg-black bg-opacity-5"></div>
+                
+                {/* Decorative Patterns */}
+                <div className="absolute inset-0 opacity-10">
+                    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <pattern id="diagonalHatch" width="10" height="10" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+                                <line x1="0" y1="0" x2="0" y2="10" stroke="#000" strokeWidth="1" />
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#diagonalHatch)" />
+                    </svg>
+                </div>
+                
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-28 relative z-10">
+                    <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-4 tracking-tight">Get in Touch</h1>
+                    <p className="text-xl md:text-2xl text-gray-800 max-w-2xl font-light">
                         We'd love to hear from you. Our friendly team is always here to help with any questions or concerns.
                     </p>
                 </div>
 
-                {/* Decorative Elements */}
-                <div className="absolute bottom-0 right-0 w-64 h-64 bg-[#8BC34A] opacity-20 rounded-full -mr-32 -mb-32"></div>
-                <div className="absolute top-0 left-0 w-32 h-32 bg-[#8BC34A] opacity-20 rounded-full -ml-16 -mt-16"></div>
+                {/* Luxury Decorative Elements */}
+                <div className="absolute bottom-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full -mr-32 -mb-32"></div>
+                <div className="absolute top-0 left-0 w-48 h-48 bg-white opacity-10 rounded-full -ml-24 -mt-24"></div>
+                <div className="absolute top-1/2 right-1/4 w-24 h-24 bg-white opacity-10 rounded-full"></div>
             </div>
 
-            {/* Contact Information & Form Section */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 grid md:grid-cols-2 gap-12">
-                {/* Left Column - Contact Information */}
-                <div>
-                    <h2 className="text-3xl font-semibold text-black mb-8">Contact Information</h2>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 grid md:grid-cols-2 gap-16">
+                {/* Left Column - Contact Information with Luxury Styling */}
+                <div className="space-y-10">
+                    <div>
+                        <h2 className="text-3xl font-bold text-gray-900 mb-8 relative">
+                            Contact Information
+                            <span className="absolute bottom-0 left-0 w-24 h-1 bg-[#ffc155]"></span>
+                        </h2>
+                    </div>
 
                     <div className="space-y-8">
-                        <div className="flex items-start">
-                            <div className="flex-shrink-0 bg-[#ffc95c] p-3 rounded-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                </svg>
+                        <div className="flex items-start group">
+                            <div className="flex-shrink-0 bg-[#ffc155] p-4 rounded-xl shadow-md transform transition-transform group-hover:scale-110">
+                                <MapPin className="h-6 w-6 text-gray-900" />
                             </div>
-                            <div className="ml-4">
-                                <h3 className="text-lg font-medium text-black">Our Address</h3>
-                                <p className="mt-1 text-gray-700">
+                            <div className="ml-6">
+                                <h3 className="text-lg font-semibold text-gray-900">Our Address</h3>
+                                <p className="mt-2 text-gray-700 leading-relaxed">
                                     BDS ELASTICA RUBBER AND
                                     ALLIED PRODUCTS LLP
+                                    <br />
                                     Old no 2F, New no 38 LGB Nagar,
+                                    <br />
                                     Saravanampatti, Coimbatore 641035
                                 </p>
                             </div>
                         </div>
 
-                        <div className="flex items-start">
-                            <div className="flex-shrink-0 bg-[#ffc95c] p-3 rounded-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                                </svg>
+                        <div className="flex items-start group">
+                            <div className="flex-shrink-0 bg-[#ffc155] p-4 rounded-xl shadow-md transform transition-transform group-hover:scale-110">
+                                <Phone className="h-6 w-6 text-gray-900" />
                             </div>
-                            <div className="ml-4">
-                                <h3 className="text-lg font-medium text-black">Call Us</h3>
-                                <p className="mt-1 text-gray-700">+91 7598315432</p>
+                            <div className="ml-6">
+                                <h3 className="text-lg font-semibold text-gray-900">Call Us</h3>
+                                <p className="mt-2 text-gray-700">+91 7598315432</p>
                                 <p className="mt-1 text-gray-500">Mon-Fri from 8am to 6pm</p>
                             </div>
                         </div>
 
-                        <div className="flex items-start">
-                            <div className="flex-shrink-0 bg-[#ffc95c] p-3 rounded-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                </svg>
+                        <div className="flex items-start group">
+                            <div className="flex-shrink-0 bg-[#ffc155] p-4 rounded-xl shadow-md transform transition-transform group-hover:scale-110">
+                                <Mail className="h-6 w-6 text-gray-900" />
                             </div>
-                            <div className="ml-4">
-                                <h3 className="text-lg font-medium text-black">Email Us</h3>
-                                <p className="mt-1 text-gray-700">sales@elastica.co.in</p>
-                                <p className="mt-1 text-gray-500">We&apos;ll respond as soon as possible</p>
+                            <div className="ml-6">
+                                <h3 className="text-lg font-semibold text-gray-900">Email Us</h3>
+                                <p className="mt-2 text-gray-700">sales@elastica.co.in</p>
+                                <p className="mt-1 text-gray-500">We'll respond as soon as possible</p>
                             </div>
                         </div>
 
-                        <div className="flex items-start">
-                            <div className="flex-shrink-0 bg-[#ffc95c] p-3 rounded-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
+                        <div className="flex items-start group">
+                            <div className="flex-shrink-0 bg-[#ffc155] p-4 rounded-xl shadow-md transform transition-transform group-hover:scale-110">
+                                <Clock className="h-6 w-6 text-gray-900" />
                             </div>
-                            <div className="ml-4">
-                                <h3 className="text-lg font-medium text-black">Business Hours</h3>
-                                <p className="mt-1 text-gray-700">Monday - Friday: 9:00 AM - 5:00 PM</p>
+                            <div className="ml-6">
+                                <h3 className="text-lg font-semibold text-gray-900">Business Hours</h3>
+                                <p className="mt-2 text-gray-700">Monday - Friday: 9:00 AM - 5:00 PM</p>
                                 <p className="mt-1 text-gray-700">Saturday: 10:00 AM - 2:00 PM</p>
                                 <p className="mt-1 text-gray-700">Sunday: Closed</p>
                             </div>
                         </div>
                     </div>
 
-                    {/* Social Media Links */}
-                    <div className="mt-12">
-                        <h3 className="text-lg font-medium text-black mb-4">Connect With Us</h3>
+                    {/* Social Media Links with Luxury Styling */}
+                    <div className="mt-16">
+                        <h3 className="text-xl font-semibold text-gray-900 mb-6">Connect With Us</h3>
                         <div className="flex space-x-4">
-                            <a href="tel:7598315432" className="bg-[#ffc95c] p-3 rounded-full hover:bg-[#e9b64e] transition-colors">
-                                <Phone className='text-black'/>
+                            <a href="tel:7598315432" className="bg-[#ffc155] p-4 rounded-full shadow-md hover:bg-[#e9b040] transition-all duration-300 transform hover:scale-110 hover:shadow-lg">
+                                <Phone className="text-gray-900" />
                             </a>
-                            <a href="mailto:sales@elastica.co.in" className="bg-[#ffc95c] p-3 rounded-full hover:bg-[#e9b64e] transition-colors">
-                                <Mail className='text-black'/>
+                            <a href="mailto:sales@elastica.co.in" className="bg-[#ffc155] p-4 rounded-full shadow-md hover:bg-[#e9b040] transition-all duration-300 transform hover:scale-110 hover:shadow-lg">
+                                <Mail className="text-gray-900" />
                             </a>
-                            <a href="https://www.instagram.com/elastica_srkp" className="bg-[#ffc95c] p-3 rounded-full hover:bg-[#e9b64e] transition-colors">
-                               <InstagramIcon className='text-black'/>
+                            <a href="https://www.instagram.com/elastica_srkp" className="bg-[#ffc155] p-4 rounded-full shadow-md hover:bg-[#e9b040] transition-all duration-300 transform hover:scale-110 hover:shadow-lg">
+                                <InstagramIcon className="text-gray-900" />
                             </a>
-                            <a href="https://wa.me/7598315432" className="bg-[#ffc95c] p-3 rounded-full hover:bg-[#e9b64e] transition-colors">
-                                <MessageCircle className='text-black'/>
+                            <a href="https://wa.me/7598315432" className="bg-[#ffc155] p-4 rounded-full shadow-md hover:bg-[#e9b040] transition-all duration-300 transform hover:scale-110 hover:shadow-lg">
+                                <MessageCircle className="text-gray-900" />
                             </a>
                         </div>
                     </div>
                 </div>
 
-                {/* Right Column - Contact Form */}
-                <div className="bg-white rounded-lg shadow-lg p-8 border border-gray-100">
-                    <h2 className="text-3xl font-semibold text-black mb-6">Send us a Message</h2>
+                {/* Luxury Form */}
+                <div className="bg-white rounded-xl shadow-xl p-10 border border-gray-100 relative overflow-hidden">
+                    {/* Decorative element */}
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-[#ffc155] opacity-10 rounded-bl-full"></div>
+                    
+                    <h2 className="text-3xl font-bold text-gray-900 mb-6 relative inline-block">
+                        Send us a Message
+                        <span className="absolute bottom-0 left-0 w-full h-1 bg-[#ffc155]"></span>
+                    </h2>
+                    <p className="text-gray-700 mb-8">
+                        Have a question or want to discuss a project? Fill out the form below and we'll get back to you as soon as possible.
+                    </p>
 
                     {submitStatus === 'success' && (
-                        <div className="mb-6 bg-[#8BC34A] bg-opacity-20 border border-[#8BC34A] text-[#2E7D32] px-4 py-3 rounded">
-                            Thank you! Your message has been sent successfully.
+                        <div className="mb-6 bg-green-50 border-l-4 border-green-500 text-green-700 p-4 rounded-r">
+                            <div className="flex">
+                                <div className="flex-shrink-0">
+                                    <svg className="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                                    </svg>
+                                </div>
+                                <div className="ml-3">
+                                    <p className="text-sm font-medium">Thank you! Your message has been sent successfully.</p>
+                                </div>
+                            </div>
                         </div>
                     )}
 
-                    <form onSubmit={handleSubmit}>
-                        <div className="grid gap-6">
-                            <div>
-                                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                                <input
-                                    type="text"
-                                    id="name"
-                                    name="name"
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#ffc95c] focus:border-[#ffc95c] transition-colors"
-                                    placeholder="John Doe"
-                                    required
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#ffc95c] focus:border-[#ffc95c] transition-colors"
-                                    placeholder="john@example.com"
-                                    required
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
-                                <input
-                                    type="text"
-                                    id="subject"
-                                    name="subject"
-                                    value={formData.subject}
-                                    onChange={handleChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#ffc95c] focus:border-[#ffc95c] transition-colors"
-                                    placeholder="How can we help you?"
-                                    required
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Message</label>
-                                <textarea
-                                    id="message"
-                                    name="message"
-                                    value={formData.message}
-                                    onChange={handleChange}
-                                    rows="5"
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#ffc95c] focus:border-[#ffc95c] transition-colors"
-                                    placeholder="Tell us how we can assist you..."
-                                    required
-                                ></textarea>
-                            </div>
-
-                            <div>
-                                <button
-                                    type="submit"
-                                    disabled={isSubmitting}
-                                    className={`w-full px-6 py-3 bg-[#ffc95c] text-black font-medium rounded-md hover:bg-[#e9b64e] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#ffc95c] transition-colors ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
-                                        }`}
-                                >
-                                    {isSubmitting ? 'Sending...' : 'Send Message'}
-                                </button>
+                    {submitStatus === 'error' && (
+                        <div className="mb-6 bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-r">
+                            <div className="flex">
+                                <div className="flex-shrink-0">
+                                    <svg className="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                                    </svg>
+                                </div>
+                                <div className="ml-3">
+                                    <p className="text-sm font-medium">Sorry, there was an error sending your message. Please try again later.</p>
+                                </div>
                             </div>
                         </div>
+                    )}
+
+                    <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+                        <div>
+                            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                                Full Name
+                            </label>
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                value={form.name}
+                                onChange={handleChange}
+                                required
+                                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ffc155] focus:border-[#ffc155] transition-colors"
+                                placeholder="John Doe"
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                                Email Address
+                            </label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value={form.email}
+                                onChange={handleChange}
+                                required
+                                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ffc155] focus:border-[#ffc155] transition-colors"
+                                placeholder="john@example.com"
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
+                                Subject
+                            </label>
+                            <input
+                                type="text"
+                                id="subject"
+                                name="subject"
+                                value={form.subject}
+                                onChange={handleChange}
+                                required
+                                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ffc155] focus:border-[#ffc155] transition-colors"
+                                placeholder="How can we help you?"
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+                                Message
+                            </label>
+                            <textarea
+                                id="message"
+                                name="message"
+                                value={form.message}
+                                onChange={handleChange}
+                                required
+                                rows="6"
+                                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ffc155] focus:border-[#ffc155] transition-colors"
+                                placeholder="Tell us more about your project or inquiry..."
+                            ></textarea>
+                        </div>
+
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className={`w-full px-6 py-4 bg-[#ffc155] text-gray-900 font-medium rounded-lg hover:bg-[#e9b040] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#ffc155] transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                        >
+                            {loading ? 'Sending...' : (
+                                <>
+                                    <span>Send Message</span>
+                                    <Send className="ml-2 h-4 w-4" />
+                                </>
+                            )}
+                        </button>
                     </form>
                 </div>
             </div>
 
-            {/* Map Section */}
-            <div className="bg-[#f9f9f9] py-16">
+            {/* Map Section with Luxury Styling */}
+            <div className="py-20 bg-gray-100">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <h2 className="text-3xl font-semibold text-black mb-8 text-center">Find Us</h2>
+                    <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center relative inline-block">
+                        Find Us
+                        <span className="absolute bottom-0 left-0 w-16 h-1 bg-[#ffc155]"></span>
+                    </h2>
 
-                    <div className="relative h-96 rounded-lg overflow-hidden shadow-lg border-8 border-white">
-                        {/* This is a placeholder for a map - in a real application, you would integrate with Google Maps or similar */}
-                        <div className="absolute inset-0 bg-gray-300">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3914.6368208325493!2d77.02523247486243!3d11.140402789031363!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba8587495555555%3A0x40f051893debd129!2sSri%20Ramkarthic%20Polymers%20Pvt%20Ltd!5e0!3m2!1sen!2sin!4v1740556183677!5m2!1sen!2sin" width="1200" height="450"  allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
-                           
-                        </div>
+                    <div className="relative rounded-xl overflow-hidden shadow-2xl border-8 border-white">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3914.6368208325493!2d77.02523247486243!3d11.140402789031363!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba8587495555555%3A0x40f051893debd129!2sSri%20Ramkarthic%20Polymers%20Pvt%20Ltd!5e0!3m2!1sen!2sin!4v1740556183677!5m2!1sen!2sin" 
+                            width="100%" 
+                            height="500"  
+                            allowFullScreen="" 
+                            loading="lazy" 
+                            referrerPolicy="no-referrer-when-downgrade"
+                            className="w-full"
+                        ></iframe>
                     </div>
 
-                    <div className="mt-8 text-center">
-                        <p className="text-gray-700">
-                        BDS ELASTICA RUBBER AND
-                                    ALLIED PRODUCTS LLP
-                                    Old no 2F, New no 38 LGB Nagar,
-                                    Saravanampatti, Coimbatore 641035
+                    <div className="mt-10 text-center">
+                        <p className="text-gray-700 max-w-2xl mx-auto">
+                            BDS ELASTICA RUBBER AND ALLIED PRODUCTS LLP<br />
+                            Old no 2F, New no 38 LGB Nagar,<br />
+                            Saravanampatti, Coimbatore 641035
                         </p>
                         <a
                             href="https://www.google.co.in/maps/place/Sri+Ramkarthic+Polymers+Pvt+Ltd/@11.1404028,77.0252325,17z/data=!3m1!4b1!4m6!3m5!1s0x3ba8587495555555:0x40f051893debd129!8m2!3d11.1404028!4d77.0278074!16s%2Fg%2F11c0qgzmfc?authuser=1&entry=ttu&g_ep=EgoyMDI1MDIyMy4xIKXMDSoASAFQAw%3D%3D"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-block mt-4 px-6 py-2 bg-[#8BC34A] text-white font-medium rounded-md hover:bg-opacity-90 transition-colors"
+                            className="inline-block mt-6 px-8 py-3 bg-[#ffc155] text-gray-900 font-medium rounded-lg hover:bg-[#e9b040] transition-all duration-300 shadow-md hover:shadow-lg"
                         >
                             Get Directions
                         </a>
@@ -260,37 +356,39 @@ const ContactUsPage = () => {
                 </div>
             </div>
 
-            {/* FAQ Section */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                <h2 className="text-3xl font-semibold text-black mb-8 text-center">Frequently Asked Questions</h2>
+            {/* FAQ Section with Luxury Styling */}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+                <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center relative inline-block">
+                    Frequently Asked Questions
+                    <span className="absolute bottom-0 left-0 w-16 h-1 bg-[#ffc155]"></span>
+                </h2>
 
                 <div className="grid md:grid-cols-2 gap-8">
-                    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                        <h3 className="text-lg font-medium text-black mb-2">What are your business hours?</h3>
+                    <div className="bg-white p-8 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-300">
+                        <h3 className="text-xl font-semibold text-gray-900 mb-4">What are your business hours?</h3>
                         <p className="text-gray-700">Our office is open Monday through Friday from 9:00 AM to 5:00 PM, and Saturday from 10:00 AM to 2:00 PM. We are closed on Sundays and major holidays.</p>
                     </div>
 
-                    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                        <h3 className="text-lg font-medium text-black mb-2">How quickly do you respond to inquiries?</h3>
+                    <div className="bg-white p-8 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-300">
+                        <h3 className="text-xl font-semibold text-gray-900 mb-4">How quickly do you respond to inquiries?</h3>
                         <p className="text-gray-700">We strive to respond to all inquiries within 24 business hours. For urgent matters, we recommend calling our office directly.</p>
                     </div>
 
-                    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                        <h3 className="text-lg font-medium text-black mb-2">Do you offer virtual meetings?</h3>
+                    <div className="bg-white p-8 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-300">
+                        <h3 className="text-xl font-semibold text-gray-900 mb-4">Do you offer virtual meetings?</h3>
                         <p className="text-gray-700">Yes, we offer virtual meetings via Zoom, Google Meet, or Microsoft Teams. Please let us know your preference when scheduling.</p>
                     </div>
 
-                    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                        <h3 className="text-lg font-medium text-black mb-2">Is there parking available at your office?</h3>
+                    <div className="bg-white p-8 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-300">
+                        <h3 className="text-xl font-semibold text-gray-900 mb-4">Is there parking available at your office?</h3>
                         <p className="text-gray-700">Yes, we have free parking available for clients in our designated parking area. Additional street parking is also available nearby.</p>
                     </div>
                 </div>
             </div>
 
             <NewsFeed />
-
         </div>
     );
 };
 
-export default ContactUsPage;
+export default ContactForm;

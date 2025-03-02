@@ -1,6 +1,5 @@
 import connectToDatabase from "@/lib/mongoose";
 import products from "@/models/produts";
-import ratings from "@/models/ratings";
 
 export async function GET() {
   await connectToDatabase();
@@ -42,7 +41,6 @@ export async function GET() {
 
     // If we got less than 5 products, fetch random products to fill the list
     if (FeaturedProducts.length < 5) {
-      console.log("FeaturedProducts.length", FeaturedProducts);
       const additionalProducts = await products.aggregate([
         {
           $match: {

@@ -1,7 +1,7 @@
-import { NextResponse } from "next/server";
 import connectToDatabase from "@/lib/mongoose";
 import Product from "@/models/produts";
 import Rating from "@/models/ratings";
+import { NextResponse } from "next/server";
 
 export async function GET(request: Request, { params }: { params: { productId: string } }) {
   await connectToDatabase();

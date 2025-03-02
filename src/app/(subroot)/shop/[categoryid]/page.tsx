@@ -5,10 +5,10 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 // Components
-import SectionLayout from "@/layouts/sectionLayout";
-import Text from "@/components/ui/text";
-import Heading from "@/components/ui/head";
+import CatalogProduct from "@/app/(subroot)/shop/catalogProduct";
+import CatalogToggle from "@/app/(subroot)/shop/catalogToggle";
 import { DropdownIcon, SearchIcon } from "@/components/ui/assets/svg";
+import Heading from "@/components/ui/head";
 import {
   Select,
   SelectContent,
@@ -17,8 +17,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import CatalogToggle from "@/app/(subroot)/shop/catalogToggle";
-import CatalogProduct from "@/app/(subroot)/shop/catalogProduct";
+import Text from "@/components/ui/text";
+import SectionLayout from "@/layouts/sectionLayout";
 
 // Utils
 import { cn } from "@/lib/utils";
@@ -46,17 +46,19 @@ const FILTER_OPTIONS = {
   ],
 };
 
-// Styled Components remain the same
+// Enhanced Styled Components
 const StyledSelectTrigger = ({ children, variant = "default" }) => {
   const styles = {
     default: cn(
       "group h-auto bg-white",
       "rounded-lg",
-      "border-2 border-[#6C7275]",
-      "p-2 pl-4",
-      "font-inter font-semibold",
+      "border border-[#E8E8E8] hover:border-[#FFC156]",
+      "p-3 pl-4",
+      "font-inter font-medium",
       "text-sm text-[#141718]",
-      "focus:ring-0 focus:ring-offset-0"
+      "shadow-sm",
+      "transition-all duration-200",
+      "focus:ring-1 focus:ring-[#FFC156] focus:ring-offset-0"
     ),
     sortBy: cn(
       "group h-auto bg-white",
@@ -64,8 +66,10 @@ const StyledSelectTrigger = ({ children, variant = "default" }) => {
       "max-w-[120px] md:max-w-[150px]",
       "justify-start lg:justify-end",
       "border-none outline-none",
-      "font-inter font-semibold",
+      "font-inter font-medium",
       "text-sm text-[#121212]",
+      "transition-all duration-200",
+      "hover:text-[#FFC156]",
       "focus:ring-0 focus:ring-offset-0"
     ),
   };
@@ -81,11 +85,13 @@ const StyledSelectItem = ({ value, children }) => (
   <SelectItem
     value={value}
     className={cn(
-      "cursor-pointer rounded-lg p-2",
+      "cursor-pointer rounded-lg p-3",
       "font-inter font-normal",
       "text-sm text-[#6C7275] bg-white",
-      "focus:bg-[#F3F5F7] focus:text-[#141718]",
-      "data-[state=checked]:font-semibold data-[state=checked]:text-[#141718]"
+      "focus:bg-[#FFF8E7] focus:text-[#141718]",
+      "hover:bg-[#FFF8E7] hover:text-[#FFC156]",
+      "transition-all duration-150",
+      "data-[state=checked]:bg-[#FFF8E7] data-[state=checked]:font-medium data-[state=checked]:text-[#FFC156]"
     )}
   >
     {children}
@@ -94,7 +100,7 @@ const StyledSelectItem = ({ value, children }) => (
 
 const FilterSelect = ({ label, options, value, onValueChange }) => (
   <div className="w-full space-y-2">
-    <Text size="sm" weight={600} color="gray" transform="uppercase">
+    <Text size="sm" weight={600} color="gray" transform="uppercase" className="tracking-wider">
       {label}
     </Text>
     <Select value={value} onValueChange={onValueChange}>
@@ -103,11 +109,11 @@ const FilterSelect = ({ label, options, value, onValueChange }) => (
         <SelectIcon asChild>
           <ChevronDown
             color="#6C7275"
-            className="h-6 w-6 transition-transform duration-200 group-data-[state=open]:rotate-180"
+            className="h-5 w-5 transition-transform duration-200 group-data-[state=open]:rotate-180 group-hover:text-[#FFC156]"
           />
         </SelectIcon>
       </StyledSelectTrigger>
-      <SelectContent className="rounded-xl">
+      <SelectContent className="rounded-xl border border-[#E8E8E8] p-1 shadow-lg">
         {options.map((option) => (
           <StyledSelectItem key={option.value} value={option.value}>
             {option.text}
@@ -125,7 +131,7 @@ export default function ShopPage() {
   const isAllCategories = routeCategoryId === "all";
 
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(routeCategoryId); // Initialize with route param
+  const [selectedCategory, setSelectedCategory] = useState(routeCategoryId);
   const [productList, setProductList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
@@ -193,7 +199,6 @@ export default function ShopPage() {
         limit: filters.limit
       };
 
-
       const response = await fetch("/api/get_productsCt", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -231,8 +236,6 @@ export default function ShopPage() {
   };
 
   const handleCategoryChange = (categoryId) => {
-    console.log(categoryId, "category selected");
-
     // Update the selected category
     setSelectedCategory(categoryId);
 
@@ -290,27 +293,33 @@ export default function ShopPage() {
   return (
     <SectionLayout>
       <div>
-        {/* Hero Section */}
-        <div className="relative flex h-[250px] flex-col items-center justify-center gap-4 bg-[#ffc95c] text-center">
-          <div className="flex items-center gap-4">
-            <Text size="sm" color="gray" weight={500} className="flex items-center gap-1">
-              Home <DropdownIcon stroke="#6C7275" className="h-3 w-3 -rotate-90" />
+        {/* Enhanced Hero Section */}
+        <div className="relative flex h-[320px] flex-col items-center justify-center gap-6 bg-gradient-to-r from-[#FFC156] to-[#FFD68A] text-center">
+          <div className="absolute inset-0 bg-[url('/patterns/subtle-dots.png')] opacity-10"></div>
+          <div className="relative z-10 flex items-center gap-4">
+            <Text size="sm" color="gray/900" weight={500} className="flex items-center gap-1 text-[#5A5A5A]">
+              Home <DropdownIcon stroke="#5A5A5A" className="h-3 w-3 -rotate-90" />
             </Text>
-            <Text size="sm" weight={500}>Shop</Text>
+            <Text size="sm" weight={600} className="text-[#141718]">Shop</Text>
           </div>
-          <Heading as="h1" intent="shop-page">Shop Page</Heading>
-          <Text className="lg:text-lg">
-            Welcome to the amazing Recycled Rubber Products.
+          <div className="relative">
+            <Heading as="h1" className="text-4xl md:text-5xl font-serif text-[#141718]">
+              Premium Collection
+            </Heading>
+            <div className="absolute -bottom-3 left-1/2 h-[3px] w-20 -translate-x-1/2 bg-[#141718] opacity-30"></div>
+          </div>
+          <Text className="relative z-10 max-w-md px-4 text-lg text-[#212121] md:text-xl">
+            Sustainable luxury through recycled rubber products for modern living.
           </Text>
         </div>
 
-        {/* Search Bar */}
-        <div className="my-2 border">
-          <div className="relative">
+        {/* Enhanced Search Bar */}
+        <div className="mx-auto my-8 max-w-3xl px-4">
+          <div className="relative drop-shadow-sm">
             <input
               type="text"
-              placeholder="Search products..."
-              className="w-full p-2 pl-10 border-2 border-[#6C7275] rounded-lg"
+              placeholder="Search our collection..."
+              className="w-full rounded-xl border border-[#E8E8E8] bg-white p-4 pl-12 text-[#141718] placeholder-[#9CA3AF] transition-all duration-200 focus:border-[#FFC156] focus:outline-none focus:ring-1 focus:ring-[#FFC156]"
               value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
@@ -319,83 +328,99 @@ export default function ShopPage() {
                 }
               }}
             />
-            <div className="absolute inset-y-0 left-0 flex items-center pl-2">
-              <SearchIcon className="h-5 w-5 text-gray-500" />
+            <div className="absolute inset-y-0 left-0 flex items-center pl-4">
+              <SearchIcon className="h-5 w-5 text-[#9CA3AF]" />
             </div>
           </div>
         </div>
 
-        {/* Filters and Sort Section */}
-        <div className={cn(
-          "grid gap-8 py-3",
-          isAllCategories
-            ? "lg:grid-cols-[1fr_1fr_1fr] lg:items-end lg:gap-4"
-            : "lg:grid-cols-[2fr_1fr_2fr] lg:items-end lg:gap-4"
-        )}>
+        {/* Enhanced Filters Section with subtle card */}
+        <div className="mx-auto mb-10 mt-4 max-w-6xl rounded-xl bg-white px-6 py-8 shadow-sm">
           <div className={cn(
-            "flex flex-col gap-6 md:flex-row lg:items-center lg:gap-4",
-            isAllCategories ? "lg:col-span-2" : "lg:col-span-1"
+            "grid gap-8",
+            isAllCategories
+              ? "lg:grid-cols-[1fr_1fr_1fr] lg:items-end lg:gap-6"
+              : "lg:grid-cols-[2fr_1fr_2fr] lg:items-end lg:gap-6"
           )}>
-            {/* Category dropdown - only show if on "all" route */}
-            {isAllCategories && categories.length > 0 && (
+            <div className={cn(
+              "flex flex-col gap-6 md:flex-row lg:items-center lg:gap-6",
+              isAllCategories ? "lg:col-span-2" : "lg:col-span-1"
+            )}>
+              {/* Category dropdown - only show if on "all" route */}
+              {isAllCategories && categories.length > 0 && (
+                <FilterSelect
+                  label="category"
+                  options={categories}
+                  value={selectedCategory}
+                  onValueChange={handleCategoryChange}
+                />
+              )}
+
               <FilterSelect
-                label="category"
-                options={categories}
-                value={selectedCategory} // Use the state variable
-                onValueChange={handleCategoryChange}
+                label="price range"
+                options={FILTER_OPTIONS.prices}
+                value={filterState.price}
+                onValueChange={(value) => handleFilterChange('price', value)}
               />
-            )}
 
-            <FilterSelect
-              label="price range"
-              options={FILTER_OPTIONS.prices}
-              value={filterState.price}
-              onValueChange={(value) => handleFilterChange('price', value)}
-            />
+              <FilterSelect
+                label="discount"
+                options={FILTER_OPTIONS.discounts}
+                value={filterState.discount}
+                onValueChange={(value) => handleFilterChange('discount', value)}
+              />
+            </div>
 
-            <FilterSelect
-              label="discount"
-              options={FILTER_OPTIONS.discounts}
-              value={filterState.discount}
-              onValueChange={(value) => handleFilterChange('discount', value)}
-            />
-          </div>
-
-          <div className="flex items-center justify-between border-y border-[#000] py-2 lg:col-start-3 lg:justify-end lg:gap-8 lg:border-y-0 lg:py-0">
-            <Select
-              value={filterState.sortBy}
-              onValueChange={(value) => handleFilterChange('sortBy', value)}
-            >
-              <StyledSelectTrigger variant="sortBy">
-                <SelectValue placeholder="sort by" />
-                <SelectIcon asChild>
-                  <ChevronDown
-                    color="#121212"
-                    className="h-5 w-5 transition-transform duration-200 group-data-[state=open]:rotate-180"
-                  />
-                </SelectIcon>
-              </StyledSelectTrigger>
-              <SelectContent className="w-[200px] rounded-xl">
-                {FILTER_OPTIONS.sorts.map((sort) => (
-                  <StyledSelectItem key={sort.value} value={sort.value}>
-                    {sort.text}
-                  </StyledSelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <CatalogToggle />
+            <div className="flex items-center justify-between border-y border-[#F1F1F1] py-4 lg:col-start-3 lg:justify-end lg:gap-8 lg:border-y-0 lg:py-0">
+              <div className="flex items-center gap-3">
+                <Text size="xs" weight={500} className="text-[#6C7275]">
+                  SORT BY:
+                </Text>
+                <Select
+                  value={filterState.sortBy}
+                  onValueChange={(value) => handleFilterChange('sortBy', value)}
+                >
+                  <StyledSelectTrigger variant="sortBy">
+                    <SelectValue placeholder="sort by" />
+                    <SelectIcon asChild>
+                      <ChevronDown
+                        color="#121212"
+                        className="h-5 w-5 transition-transform duration-200 group-data-[state=open]:rotate-180 group-hover:text-[#FFC156]"
+                      />
+                    </SelectIcon>
+                  </StyledSelectTrigger>
+                  <SelectContent className="w-[200px] rounded-xl border border-[#E8E8E8] p-1 shadow-lg">
+                    {FILTER_OPTIONS.sorts.map((sort) => (
+                      <StyledSelectItem key={sort.value} value={sort.value}>
+                        {sort.text}
+                      </StyledSelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <CatalogToggle />
+            </div>
           </div>
         </div>
 
-        {/* Content Section with proper loading and error states */}
-        <div className="min-h-[400px]">
+        {/* Enhanced Content Section with proper loading and error states */}
+        <div className="min-h-[400px] px-4">
           {loading && productList.length === 0 ? (
-            <div className="flex items-center justify-center py-8">
-              <Text>Loading products...</Text>
+            <div className="flex flex-col items-center justify-center gap-4 py-16">
+              <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#FFC156] border-t-transparent"></div>
+              <Text className="text-[#6C7275]">Loading exquisite products...</Text>
             </div>
           ) : error ? (
-            <div className="flex items-center justify-center py-8 text-red-500">
-              <Text>Error: {error}</Text>
+            <div className="flex flex-col items-center justify-center gap-3 rounded-xl bg-red-50 p-8 py-16 text-red-700">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="12" />
+                <line x1="12" y1="16" x2="12.01" y2="16" />
+              </svg>
+              <Text weight={500}>Error: {error}</Text>
+              <Text size="sm" className="max-w-md text-center opacity-80">
+                We apologize for the inconvenience. Please try again later.
+              </Text>
             </div>
           ) : productList.length > 0 ? (
             <CatalogProduct
@@ -405,48 +430,40 @@ export default function ShopPage() {
               loading={loading}
             />
           ) : (
-            <div className="flex items-center justify-center py-8">
-
-
+            <div className="flex flex-col items-center justify-center py-16">
               {routeCategoryId === "C0000" ? (
-
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 300">
-                  <rect width="500" height="200" rx="15" fill="#f3f4f6" />
-
-                  <g id="coming-soon" transform="translate(0, -70)">
-                    <rect x="50" y="120" width="400" height="100" rx="10" fill="#e0f2fe" stroke="#60a5fa" stroke-width="2" />
-
-                    <circle cx="100" cy="170" r="20" fill="#60a5fa" opacity="0.7" />
-                    <circle cx="400" cy="170" r="20" fill="#60a5fa" opacity="0.7" />
-
-                    <text x="250" y="175" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="#1e40af">Coming soon</text>
-
-                    <path d="M120,140 L125,135 L130,140 L125,145 Z" fill="#3b82f6" />
-                    <path d="M380,140 L385,135 L390,140 L385,145 Z" fill="#3b82f6" />
-                    <path d="M120,200 L125,195 L130,200 L125,205 Z" fill="#3b82f6" />
-                    <path d="M380,200 L385,195 L390,200 L385,205 Z" fill="#3b82f6" />
-                  </g>
-
-                 
-                </svg>
+                // Enhanced Coming Soon
+                <div className="flex flex-col items-center justify-center gap-6 rounded-xl bg-amber-50 p-12 text-center shadow-sm">
+                  <div className="relative inline-block">
+                    <div className="absolute inset-0 animate-pulse rounded-full bg-[#FFC156] opacity-20"></div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#FFC156" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10" />
+                      <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                  </div>
+                  <Text size="2xl" weight={600} family="serif" className="text-[#141718]">
+                    Coming Soon
+                  </Text>
+                  <Text className="max-w-md text-[#6C7275]">
+                    We&apos;re crafting something exceptional. Stay tuned for our latest premium collection.
+                  </Text>
+                  <div className="mt-2 h-1 w-16 rounded-full bg-[#FFC156] opacity-60"></div>
+                </div>
               ) : (
-
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 300">
-                  <rect width="500" height="200" rx="15" fill="#f3f4f6" />
-
-                <g id="no-products" transform="translate(0, -70)">
-                <rect x="50" y="120" width="400" height="100" rx="10" fill="#fee2e2" stroke="#f87171" stroke-width="2" />
-
-                <rect x="140" y="145" width="40" height="50" rx="3" fill="none" stroke="#ef4444" stroke-width="2" />
-                <path d="M130,145 L150,125 L170,125 L190,145" fill="none" stroke="#ef4444" stroke-width="2" />
-
-                <text x="300" y="175" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="#b91c1c">No products found</text>
-              </g>
-              </svg>
-
-)}
-
-
+                // Enhanced No Products
+                <div className="flex flex-col items-center justify-center gap-6 rounded-xl bg-gray-50 p-12 text-center shadow-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#6C7275" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                  </svg>
+                  <Text size="2xl" weight={500} family="serif" className="text-[#141718]">
+                    No Products Found
+                  </Text>
+                  <Text className="max-w-md text-[#6C7275]">
+                    We couldn&apos;t find any products matching your criteria. Try adjusting your filters or explore our other collections.
+                  </Text>
+                </div>
+              )}
             </div>
           )}
         </div>

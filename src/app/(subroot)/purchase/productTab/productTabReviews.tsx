@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { formatDate, getReviews, submitReview } from "@/lib/reviewQuestionUtils";
+import { useEffect, useState } from "react";
 
 const ReviewSection = ({ productId }) => {
   const [reviews, setReviews] = useState([]);
@@ -9,13 +10,13 @@ const ReviewSection = ({ productId }) => {
 
   // Fetch Reviews
   useEffect(() => {
-    fetch(`/api/reviews/${productId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setReviews(data);
-        calculateRatingMetrics(data);
-      })
-      .catch(console.error);
+    const fetchReviews = async () => {
+      const reviewsData = await getReviews(productId);
+      setReviews(reviewsData);
+      calculateRatingMetrics(reviewsData);
+    };
+    
+    fetchReviews();
   }, [productId]);
 
   // Calculate average rating and rating distribution
@@ -41,40 +42,16 @@ const ReviewSection = ({ productId }) => {
     
     setIsSubmitting(true);
     try {
-      const res = await fetch(`/api/reviews/${productId}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          productId, 
-          userId: "U123", 
-          username: "JohnDoe", 
-          rating: Number(newReview.rating), 
-          comment: newReview.comment 
-        }),
-      });
-
-      if (res.ok) {
-        const newRev = await res.json();
-        const updatedReviews = [newRev, ...reviews];
-        setReviews(updatedReviews);
-        calculateRatingMetrics(updatedReviews);
-        setNewReview({ rating: 5, comment: "" });
-      }
+      const newRev = await submitReview(productId, newReview.rating, newReview.comment);
+      const updatedReviews = [newRev, ...reviews];
+      setReviews(updatedReviews);
+      calculateRatingMetrics(updatedReviews);
+      setNewReview({ rating: 5, comment: "" });
     } catch (error) {
       console.error("Failed to submit review:", error);
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  // Format date nicely
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat('en-US', { 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
-    }).format(date);
   };
 
   // Render stars for ratings
@@ -84,16 +61,16 @@ const ReviewSection = ({ productId }) => {
         {[1, 2, 3, 4, 5].map((star) => (
           <button 
             key={star}
-            className={`${interactive ? 'cursor-pointer' : 'cursor-default'} focus:outline-none`}
+            className={`${interactive ? 'cursor-pointer' : 'cursor-default'} focus:outline-none transition-all duration-300 transform hover:scale-110`}
             onClick={interactive ? () => setNewReview({ ...newReview, rating: star }) : undefined}
             disabled={!interactive}
           >
             <svg 
               xmlns="http://www.w3.org/2000/svg" 
               className="h-6 w-6" 
-              fill={star <= rating ? "#FFD700" : "none"} 
+              fill={star <= rating ? "#FFC155" : "none"} 
               viewBox="0 0 24 24" 
-              stroke="#FFD700"
+              stroke="#FFC155"
               strokeWidth={star <= rating ? "0" : "1.5"}
             >
               <path 
@@ -112,17 +89,17 @@ const ReviewSection = ({ productId }) => {
   const RatingProgressBars = () => {
     const total = reviews.length;
     return (
-      <div className="space-y-2 my-4">
+      <div className="space-y-3 my-4">
         {[5, 4, 3, 2, 1].map((rating) => (
           <div key={rating} className="flex items-center">
-            <span className="w-8 text-sm text-gray-600">{rating} star</span>
-            <div className="w-full mx-2 bg-gray-200 rounded-full h-2.5">
+            <span className="w-16 text-sm font-medium text-gray-700">{rating} stars</span>
+            <div className="w-full mx-2 bg-gray-100 rounded-full h-2.5 overflow-hidden shadow-inner">
               <div 
-                className="bg-yellow-400 h-2.5 rounded-full" 
+                className="bg-gradient-to-r from-amber-300 to-amber-500 h-2.5 rounded-full transition-all duration-500 ease-out" 
                 style={{width: `${total ? (ratingCounts[rating] / total) * 100 : 0}%`}}
               ></div>
             </div>
-            <span className="w-8 text-sm text-gray-600 text-right">{ratingCounts[rating]}</span>
+            <span className="w-10 text-sm font-medium text-gray-700 text-right">{ratingCounts[rating]}</span>
           </div>
         ))}
       </div>
@@ -130,21 +107,26 @@ const ReviewSection = ({ productId }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800 border-b pb-3">Customer Reviews</h2>
+    <div className="bg-white rounded-xl shadow-xl p-8 border border-gray-100">
+      <h2 className="text-2xl font-bold mb-8 text-gray-800 border-b border-amber-200 pb-4 flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 mr-2 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+        </svg>
+        Customer Reviews
+      </h2>
       
       {/* Rating Summary */}
-      <div className="mb-8">
+      <div className="mb-10 bg-gradient-to-r from-amber-50 to-white p-6 rounded-xl shadow-sm">
         <div className="flex items-start justify-between flex-wrap">
           <div className="mb-4">
             <div className="flex items-baseline">
-              <span className="text-4xl font-bold text-gray-800">{averageRating.toFixed(1)}</span>
-              <span className="text-lg text-gray-600 ml-1">out of 5</span>
+              <span className="text-5xl font-bold text-amber-600">{averageRating.toFixed(1)}</span>
+              <span className="text-lg text-gray-600 ml-2 font-medium">out of 5</span>
             </div>
-            <div className="mt-1">
+            <div className="mt-2">
               <RatingStars rating={Math.round(averageRating)} />
             </div>
-            <div className="mt-1 text-sm text-gray-500">
+            <div className="mt-2 text-sm font-medium text-gray-500">
               Based on {reviews.length} {reviews.length === 1 ? 'review' : 'reviews'}
             </div>
           </div>
@@ -156,18 +138,23 @@ const ReviewSection = ({ productId }) => {
       </div>
 
       {/* Write a Review */}
-      <div className="mb-8 bg-gray-50 p-4 rounded-lg">
-        <h3 className="text-lg font-semibold mb-3 text-gray-700">Write a Review</h3>
+      <div className="mb-10 bg-white p-6 rounded-xl shadow-sm border border-amber-100">
+        <h3 className="text-xl font-semibold mb-4 text-gray-800 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+          </svg>
+          Write a Review
+        </h3>
         
-        <div className="mb-4">
-          <label className="block text-gray-700 mb-2">Your Rating</label>
+        <div className="mb-6">
+          <label className="block text-gray-700 mb-2 font-medium">Your Rating</label>
           <RatingStars rating={newReview.rating} interactive={true} />
         </div>
         
-        <div className="mb-4">
-          <label className="block text-gray-700 mb-2">Your Review</label>
+        <div className="mb-6">
+          <label className="block text-gray-700 mb-2 font-medium">Your Review</label>
           <textarea
-            className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full p-4 border text-black border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition-all duration-300 shadow-sm"
             placeholder="Share your experience with this product..."
             rows="4"
             value={newReview.comment}
@@ -178,10 +165,10 @@ const ReviewSection = ({ productId }) => {
         <button 
           onClick={handleSubmitReview} 
           disabled={isSubmitting || !newReview.comment.trim()} 
-          className={`px-4 py-2 rounded-md font-medium transition-colors ${
+          className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
             isSubmitting || !newReview.comment.trim() 
-              ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
-              : 'bg-blue-600 text-white hover:bg-blue-700'
+              ? 'bg-gray-200 text-gray-500 cursor-not-allowed' 
+              : 'bg-amber-500 text-white hover:bg-amber-600 shadow-md hover:shadow-lg transform hover:-translate-y-1'
           }`}
         >
           {isSubmitting ? 'Submitting...' : 'Submit Review'}
@@ -190,25 +177,40 @@ const ReviewSection = ({ productId }) => {
 
       {/* Reviews List */}
       <div>
-        <h3 className="text-lg font-semibold mb-4 text-gray-700">
+        <h3 className="text-xl font-semibold mb-6 text-gray-800 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
+          </svg>
           {reviews.length} {reviews.length === 1 ? 'Review' : 'Reviews'}
         </h3>
         
         {reviews.length === 0 ? (
-          <div className="text-center py-8 bg-gray-50 rounded-lg">
+          <div className="text-center py-12 bg-amber-50 rounded-xl border border-amber-100">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto text-amber-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+            </svg>
             <p className="text-gray-500 mb-2">No reviews yet.</p>
-            <p className="text-gray-600 font-medium">Be the first to review this product!</p>
+            <p className="text-gray-700 font-medium">Be the first to review this product!</p>
           </div>
         ) : (
-          <div className="space-y-6">
+          <div className="space-y-8">
             {reviews.map((r) => (
-              <div key={r._id} className="border-b pb-6">
-                <div className="flex items-center mb-2">
-                  <RatingStars rating={r.rating} />
-                  <span className="ml-2 text-gray-700 font-medium">{r.username}</span>
+              <div key={r._id} className="border-b border-amber-100 pb-8 hover:bg-amber-50 p-4 rounded-lg transition-colors duration-300">
+                <div className="flex items-center mb-3">
+                  <div className="bg-amber-100 rounded-full p-2 mr-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <span className="text-gray-800 font-medium">{r.username}</span>
+                    <div className="flex items-center mt-1">
+                      <RatingStars rating={r.rating} />
+                      <span className="ml-2 text-xs text-gray-500">{formatDate(r.date)}</span>
+                    </div>
+                  </div>
                 </div>
-                <p className="text-gray-800 mb-2">{r.comment}</p>
-                <p className="text-gray-500 text-sm">{formatDate(r.date)}</p>
+                <p className="text-gray-700 ml-10 border-l-2 border-amber-200 pl-4 py-1">{r.comment}</p>
               </div>
             ))}
           </div>

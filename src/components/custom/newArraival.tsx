@@ -1,22 +1,22 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { usePathname } from "next/navigation"; // Correct import for App Router
+import { usePathname } from "next/navigation";
 import SectionLayout from "@/layouts/sectionLayout";
 import Heading from "../ui/head";
 import CatalogSlider from "../ui/slider/catalogSlider";
+import { Sparkles, Star } from "lucide-react";
 
 const NewArrival = () => {
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [sectionType, setSectionType] = useState("new"); // 'new' or 'featured'
-    const pathname = usePathname(); // Get current route
+    const [sectionType, setSectionType] = useState("new");
+    const pathname = usePathname();
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
                 setIsLoading(true);
-                // First try to fetch new arrivals
                 const newArrivalsResponse = await fetch("/api/get_newarrival");
                 const newArrivalsData = await newArrivalsResponse.json();
 
@@ -24,14 +24,13 @@ const NewArrival = () => {
                     setProducts(newArrivalsData);
                     setSectionType("new");
                 } else {
-                    // If no new arrivals, fetch featured products
                     const featuredResponse = await fetch("/api/get_featuredProducts");
                     const featuredData = await featuredResponse.json();
                     setProducts(featuredData);
                     setSectionType("featured");
                 }
             } catch (err) {
-                setError("Failed to fetch products. Please try again later.");
+                setError("Unable to retrieve collection. Please refresh or try again later.");
                 console.error("Error fetching products:", err);
             } finally {
                 setIsLoading(false);
@@ -41,11 +40,19 @@ const NewArrival = () => {
         fetchProducts();
     }, []);
 
+    const getSectionTitle = () => {
+        if (pathname.startsWith("/purchase/")) {
+            return "Curated Selections";
+        } else {
+            return sectionType === "new" ? "Latest Collection" : "Exclusive Selections";
+        }
+    };
+
     if (isLoading) {
         return (
-            <SectionLayout>
-                <div className="flex items-center justify-center min-h-[200px]">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
+            <SectionLayout className="bg-gradient-to-r from-stone-50 to-neutral-50">
+                <div className="flex items-center justify-center min-h-[300px]">
+                    <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-amber-800"></div>
                 </div>
             </SectionLayout>
         );
@@ -53,23 +60,37 @@ const NewArrival = () => {
 
     if (error) {
         return (
-            <SectionLayout>
-                <div className="text-center text-red-600 py-8">{error}</div>
+            <SectionLayout className="bg-gradient-to-r from-stone-50 to-neutral-50">
+                <div className="text-center text-amber-800 py-12 font-light">{error}</div>
             </SectionLayout>
         );
     }
 
     return (
-        <SectionLayout>
-            <div className="space-y-6">
-                <Heading
-                    as="h2"
-                    intent="base-section"
-                    className="text-center pt-3 md:text-left"
-                >
-                    {pathname.startsWith("/purchase/") ? "You might like" : sectionType === "new" ? "New Arrivals" : "Featured Products"}
-                </Heading>
-                <CatalogSlider products={products} />
+        <SectionLayout className=" py-14">
+            <div >
+                <div className="relative">
+                    <div className="absolute -top-2 -left-2 opacity-75">
+                        {sectionType === "new" ? (
+                            <Sparkles size={20} className="text-amber-700" />
+                        ) : (
+                            <Star size={20} className="text-amber-700" />
+                        )}
+                    </div>
+                    <Heading
+                        as="h2"
+                        intent="base-section"
+                        className="text-center md:text-left font-light tracking-wider text-stone-800 pb-2 border-b border-amber-200"
+                    >
+                        {getSectionTitle()}
+                    </Heading>
+                </div>
+                
+                <div className="px-2">
+                    <CatalogSlider products={products} />
+                </div>
+                
+               
             </div>
         </SectionLayout>
     );

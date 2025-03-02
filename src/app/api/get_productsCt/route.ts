@@ -8,7 +8,6 @@ export async function POST(request) {
     const body = await request.json();
     const { categoryId, search, minPrice, maxPrice, minDiscount, maxDiscount, sortBy, skip = 0, limit = 10 } = body;
 
-    console.log(body, "body");
     let query = {};
 
     // ✅ If categoryId is not "all", filter by category

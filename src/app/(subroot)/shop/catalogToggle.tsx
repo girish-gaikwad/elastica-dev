@@ -1,8 +1,8 @@
 // CatalogToggle.tsx
 "use client";
 
-import { useProductDetail } from "@/stores/zustand";
 import { cn } from "@/lib/utils";
+import { useProductDetail } from "@/stores/zustand";
 import { useCallback } from 'react'; // Add this import
 
 export default function CatalogToggle() {

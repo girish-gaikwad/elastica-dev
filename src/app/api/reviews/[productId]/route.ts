@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/mongoose";
 import Review from "@/models/reviews";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../auth/[...nextauth]/route";
+import User from "@/models/User";
 
 export async function GET(
   request: Request,
@@ -18,14 +21,25 @@ export async function GET(
 }
 
 export async function POST(request: Request) {
+
+  const session = await getServerSession(authOptions);
+  
+    if (!session) {
+      return Response.json({ message: "Please Login First" }, { status: 400 });
+    }
   await connectDB();
 
   try {
-    const { productId, userId, username, rating, comment } = await request.json();
+    const { productId, rating, comment } = await request.json();
 
-    if (!productId || !userId || !username || !rating || !comment) {
+    if (!productId || !rating || !comment) {
       return NextResponse.json({ error: "All fields are required" }, { status: 400 });
     }
+
+    const user = await User.findOne({ email: session.user.email });
+
+    const userId = user.userId;
+    const username = user.name;
 
     const newReview = new Review({ productId, userId, username, rating, comment, date: new Date() });
     await newReview.save();

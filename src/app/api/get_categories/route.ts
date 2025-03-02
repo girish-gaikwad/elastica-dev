@@ -23,7 +23,6 @@ export async function GET() {
           name: product.name,
         }));
 
-        console.log("subLinks", subLinks);
         return {
           id: category.categoryId,
           path: `/shop/${category.categoryId}`,

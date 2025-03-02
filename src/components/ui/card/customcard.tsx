@@ -1,7 +1,7 @@
 "use client";
 
 // package
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { default as NextImage, ImageProps as NextImageProps } from "next/image";
 import { VariantProps, cva } from "class-variance-authority";
 
@@ -18,6 +18,7 @@ import {
   ProductCardProvider,
   useProductCardContext,
 } from "@/hooks/productCardContext";
+import { addToWishlist, getWishlist, removeFromWishlist } from "@/lib/cartWishlistUtils";
 
 export type ProductDataProps = {
   data: {
@@ -106,14 +107,51 @@ type WishlistButtonProps = React.HTMLAttributes<HTMLButtonElement>;
 
 const WishlistButton: React.FC<WishlistButtonProps> = ({
   className,
+  productId,
   ...props
 }) => {
+   const [isInWishlist, setIsInWishlist] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+  // Check if product is in wishlist on component mount
+    useEffect(() => {
+      const checkWishlist = async () => {
+        try {
+          const wishlist = await getWishlist();
+          setIsInWishlist(wishlist.includes(productId));
+        } catch (error) {
+          console.error("Failed to check wishlist:", error);
+        }
+      };
+  
+      checkWishlist();
+    }, [productId]);
+    const handleWishlistToggle = async (e) => {
+        e.stopPropagation(); // Prevent triggering card click
+        
+        setIsLoading(true);
+        try {
+          if (isInWishlist) {
+            await removeFromWishlist(productId);
+            setIsInWishlist(false);
+          } else {
+            await addToWishlist(productId);
+            setIsInWishlist(true);
+          }
+        } catch (error) {
+          console.error("Wishlist operation failed:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
   return (
     <button
       className={cn(
         "shadow-[rgba(15, 15, 15, 0.12)] flex h-8 w-8 items-center justify-center rounded-full bg-white opacity-0 shadow-md transition-opacity duration-100 ease-out group-hover:opacity-100",
         className,
       )}
+      onClick={handleWishlistToggle}
+      disabled={isLoading}
+
       {...props}
     >
       <WishlistIcon className="h-5 w-5" />
@@ -142,7 +180,7 @@ const Image: React.FC<ImageProps> = ({
       src={src}
       width={width}
       height={height}
-      alt={alt}
+      alt={alt ||"elasticaProduct"}
       className={cn(
         "absolute left-0 top-0 z-0 h-full w-full object-cover",
         className,

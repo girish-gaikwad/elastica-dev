@@ -1,9 +1,8 @@
 // ui
 import {
   Dialog,
-  DialogTrigger,
   DialogContent,
-  DialogClose,
+  DialogTrigger
 } from "@/components/ui/dialog";
 
 const ProductTabDialog = ({
