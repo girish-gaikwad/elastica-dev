@@ -29,7 +29,7 @@ export default function ProductPage() {
   const [cartLoading, setCartLoading] = useState(false);
 
   // WhatsApp phone number - replace with your actual WhatsApp number
-  const whatsappNumber = "8220458859";
+  const whatsappNumber = "7598315432";
 
   // Luxurious theme colors
   const primaryColor = "#FFC155"; // Golden base color

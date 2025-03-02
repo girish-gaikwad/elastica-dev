@@ -15,7 +15,7 @@ const CartPage = () => {
   const [savings, setSavings] = useState(0);
   
   // Configure your WhatsApp number here
-  const whatsappNumber = "8220458859"; // Replace with your actual WhatsApp number
+  const whatsappNumber = "7598315432"; // Replace with your actual WhatsApp number
 
   useEffect(() => {
     fetchCartData();
