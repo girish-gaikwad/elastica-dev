@@ -25,7 +25,7 @@ const Promotion = () => {
                 {
                     icon: <TruckIcon className="h-6 w-6 text-[#FFC156]" />,
                     title: "Free Delivery",
-                    description: "On orders over $50",
+                    description: "On orders over ₹50",
                 },
                 {
                     icon: <TagIcon className="h-6 w-6 text-[#FFC156]" />,
