@@ -31,28 +31,28 @@ const CatalogProduct = ({
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-24">
-        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#ffc155]"></div>
+      <div className="flex justify-center items-center py-12 sm:py-16 md:py-20">
+        <div className="animate-spin rounded-full h-8 w-8 sm:h-10 sm:w-10 border-b-2 border-[#ffc155]"></div>
       </div>
     );
   }
 
   if (!products.length) {
     return (
-      <div className="flex justify-center items-center py-24">
-        <p className="text-gray-700 text-lg font-light italic">No products available at this moment</p>
+      <div className="flex justify-center items-center py-12 sm:py-16 md:py-20">
+        <p className="text-gray-700 text-base sm:text-lg font-light italic px-4 text-center">No products available at this moment</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-12 py-20 pt-8 lg:space-y-24">
+    <div className="space-y-8 sm:space-y-10 py-8 sm:py-12 md:py-16 lg:space-y-20">
       <div
         className={cn(
-          "grid gap-x-4 gap-y-6 lg:gap-x-6 lg:gap-y-10",
+          "grid gap-x-2 gap-y-4 sm:gap-x-3 sm:gap-y-5 md:gap-x-4 md:gap-y-6 lg:gap-x-6 lg:gap-y-8",
           showDetail
-            ? "grid-cols-1 lg:grid-cols-2"
-            : "grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4",
+            ? "grid-cols-1 md:grid-cols-2"
+            : "grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4",
         )}
       >
         {products.map((product) => (
@@ -61,87 +61,86 @@ const CatalogProduct = ({
             data={product}
             className={cn(
               "group transition-all duration-300 hover:shadow-lg rounded-lg overflow-hidden border border-transparent hover:border-[#ffc15540]",
-              showDetail ? "sm:grid-cols-2 sm:place-items-center" : undefined
+              showDetail ? "sm:grid sm:grid-cols-2 sm:place-items-center" : undefined
             )}
           >
             {/* product card thumbnail */}
-            <ProductCard.Thumbnail className="relative overflow-hidden bg-[#f9f6f0]">
+            <ProductCard.Thumbnail className="relative overflow-hidden bg-[#f9f6f0] aspect-square">
               {/* badge */}
-              <ProductCard.ThumbnailBadge>
-                <div className="space-y-1.5">
+              <ProductCard.ThumbnailBadge className="flex justify-between w-full p-2 sm:p-3">
+                <div className="space-y-1">
                   {isNewProduct(product.createdAt) && (
-                    <ProductCard.Badge className="bg-[#ffc155] text-white font-medium tracking-wide px-3 py-1">new</ProductCard.Badge>
+                    <ProductCard.Badge className="bg-[#ffc155] text-white font-medium tracking-wide px-2 py-0.5 text-xs sm:px-3 sm:py-1 sm:text-sm">new</ProductCard.Badge>
                   )}
                   {product.originalPrice && product.originalPrice > product.price && (
-                    <ProductCard.Badge intent="discount" className="bg-black text-white font-medium tracking-wide px-3 py-1">
+                    <ProductCard.Badge intent="discount" className="bg-black text-white font-medium tracking-wide px-2 py-0.5 text-xs sm:px-3 sm:py-1 sm:text-sm">
                       {calculateDiscount(product.originalPrice, product.price)}% off
                     </ProductCard.Badge>
                   )}
                 </div>
 
-                {!showDetail && <ProductCard.WishlistButton className="text-gray-800 hover:text-[#ffc155] transition-colors" />}
+                {!showDetail && <ProductCard.WishlistButton className="text-gray-800 hover:text-[#ffc155] transition-colors h-6 w-6 sm:h-7 sm:w-7" />}
               </ProductCard.ThumbnailBadge>
 
               {/* image */}
-              <Link href={`/purchase/${product.id}`} className="block overflow-hidden">
+              <Link href={`/purchase/${product.id}`} className="block overflow-hidden h-full w-full">
                 <ProductCard.Image
                   src={product.images?.[0].url}
                   alt={product.name || "luxury product"}
-                  className="transition-transform duration-700 group-hover:scale-105"
+                  className="transition-transform duration-700 group-hover:scale-105 h-full w-full object-cover"
                 />
               </Link>
             </ProductCard.Thumbnail>
 
             {/* product card content */}
-            <ProductCard.Content className="p-4 md:p-6 bg-white">
+            <ProductCard.Content className="p-3 sm:p-4 md:p-5 lg:p-6 bg-white">
               <Link href={`/purchase/${product.id}`}>
-                <ProductCard.Ratings value={product.rating || 0} className="text-[#ffc155]" />
-                <div className="flex items-center justify-between gap-1 mt-2">
-                  <ProductCard.Name className="font-serif text-gray-900 tracking-wide">{product.name}</ProductCard.Name>
+                <ProductCard.Ratings value={product.rating || 0} className="text-[#ffc155] text-sm sm:text-base" />
+                <div className="flex items-center justify-between gap-1 mt-1.5 sm:mt-2">
+                  <ProductCard.Name className="font-serif text-gray-900 tracking-wide text-sm sm:text-base truncate">{product.name}</ProductCard.Name>
                   <button
-                    className={`flex items-center justify-center p-1.5 md:hidden ${!showDetail && "hidden"}`}
+                    className={`flex items-center justify-center p-1 sm:p-1.5 md:hidden ${!showDetail && "hidden"}`}
                   >
-                    <WishlistIcon className="h-7 w-7 text-gray-800 hover:text-[#ffc155] transition-colors" />
+                    <WishlistIcon className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-gray-800 hover:text-[#ffc155] transition-colors" />
                   </button>
                 </div>
-                <div className="flex items-center gap-3 mt-2">
-                  {product?.discount>0 &&(
-
-                  <ProductCard.MRP className="text-gray-500" />
+                <div className="flex items-center gap-2 sm:gap-3 mt-1 sm:mt-2">
+                  {product?.discount > 0 && (
+                    <ProductCard.MRP className="text-gray-500 text-xs sm:text-sm" />
                   )}
                   <ProductCard.Price
                     price={product.price}
                     originalPrice={product.originalPrice}
                     currency={product.currency || "USD"}
-                    className="text-[#333] font-medium"
+                    className="text-[#333] font-medium text-sm sm:text-base"
                   />
                 </div>
               </Link>
 
               {showDetail && (
-                <div className="space-y-5 pt-4 lg:space-y-6 border-t border-gray-100 mt-4">
+                <div className="space-y-3 sm:space-y-4 pt-3 sm:pt-4 lg:space-y-6 border-t border-gray-100 mt-3 sm:mt-4">
                   <Link href={`/purchase/${product.id}`}>
-                    <ProductCard.Description className="line-clamp-3 md:text-sm text-gray-600 italic">
+                    <ProductCard.Description className="line-clamp-3 text-xs sm:text-sm text-gray-600 italic">
                       {product.description}
                     </ProductCard.Description>
                   </Link>
 
-                  <div className="flex flex-col gap-3">
+                  <div className="flex flex-col gap-2 sm:gap-3">
                     <ProductCard.Button
                       variant="ghost"
                       width="full"
                       fontSize="sm"
                       onClick={() => addToWishlist(product.id)}
-                      className="flex items-center justify-center gap-2 lg:text-base border border-gray-200 hover:border-[#ffc155] hover:text-[#ffc155] transition-colors py-3"
+                      className="flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm lg:text-base border border-gray-200 hover:border-[#ffc155] hover:text-[#ffc155] transition-colors py-2 sm:py-2.5 lg:py-3"
                     >
-                      <WishlistIcon fill="currentColor" className="h-5 w-5" />
+                      <WishlistIcon fill="currentColor" className="h-4 w-4 sm:h-5 sm:w-5" />
                       Add to Wishlist
                     </ProductCard.Button>
                     <ProductCard.Button
                       width="full"
                       fontSize="sm"
                       onClick={() => addToCart(product.id)}
-                      className="lg:text-base bg-[#ffc155] text-white hover:bg-[#e5ad4d] transition-colors py-3 hover:cursor-pointer"
+                      className="text-xs sm:text-sm lg:text-base bg-[#ffc155] text-white hover:bg-[#e5ad4d] transition-colors py-2 sm:py-2.5 lg:py-3 hover:cursor-pointer"
                       disabled={!product.inStock}
                     >
                       {product.stock ? "Add to cart" : "Out of stock"}
@@ -155,9 +154,9 @@ const CatalogProduct = ({
       </div>
 
       {hasmore && (
-        <div className="flex justify-center pt-6">
+        <div className="flex justify-center pt-4 sm:pt-6">
           <button
-            className="rounded-full border-2 border-[#ffc155] px-12 py-2.5 font-serif text-base font-medium text-[#333] hover:bg-[#ffc155] hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed tracking-wide"
+            className="rounded-full border-2 border-[#ffc155] px-6 sm:px-8 md:px-12 py-2 sm:py-2.5 font-serif text-sm sm:text-base font-medium text-[#333] hover:bg-[#ffc155] hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed tracking-wide"
             onClick={onLoadMore}
             disabled={loading}
           >

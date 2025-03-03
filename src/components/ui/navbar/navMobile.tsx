@@ -29,22 +29,22 @@ const links = [
   },
   {
     id: "shop",
-    path: "/shop",
+    path: "/shop/all",
     name: "Shop",
   },
   {
     id: "product",
-    path: "/product",
-    name: "Product",
+    path: "/products",
+    name: "Products",
   },
   {
-    id: "new-arrivals",
-    path: "/new-arrivals",
-    name: "New Arrivals",
+    id: "About Us",
+    path: "/aboutUs",
+    name: "About Us",
   },
   {
     id: "contact-us",
-    path: "/contact-us",
+    path: "/contactUs",
     name: "Contact Us",
   },
 ];
@@ -79,7 +79,7 @@ export default function NavMobile({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="fixed inset-0 z-50 lg:hidden"
+          className="absolute h-[100vh] inset-0 z-[1000] lg:hidden"
         >
           <div className="grid h-full grid-cols-[85fr_15fr] md:grid-cols-[70fr_30fr]">
             <motion.div 
@@ -103,7 +103,7 @@ export default function NavMobile({
                 </div>
 
                 {/* Search input */}
-                <div className="flex h-12 items-center gap-2 rounded-lg border border-gray-200 px-4 focus-within:border-amber-500 focus-within:ring-1 focus-within:ring-amber-500 transition-all duration-200">
+                {/* <div className="flex h-12 items-center gap-2 rounded-lg border border-gray-200 px-4 focus-within:border-amber-500 focus-within:ring-1 focus-within:ring-amber-500 transition-all duration-200">
                   <label htmlFor="mobile-search" className="cursor-pointer text-gray-500">
                     <SearchIcon />
                   </label>
@@ -123,7 +123,7 @@ export default function NavMobile({
                       <CloseIcon className="w-4 h-4" />
                     </button>
                   )}
-                </div>
+                </div> */}
 
                 {/* Navigation links */}
                 <ul className="grid grid-cols-1 -mx-4">
