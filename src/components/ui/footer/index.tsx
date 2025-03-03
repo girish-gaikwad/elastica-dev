@@ -23,7 +23,7 @@ const Footer = () => {
               <div className="absolute -bottom-2 left-0 h-[2px] w-16 bg-[#FFC156] opacity-70"></div>
             </div>
             <Text size="sm" color="white/900" className="max-w-xs text-center lg:text-left">
-              Discover the world of recycled rubber products crafted with sustainability and elegance in mind.
+              Discover the world of  recycled rubber products crafted with sustainability and elegance in mind.
             </Text>
             
             <div className="mt-4 flex items-center justify-center gap-6 lg:mt-6">
