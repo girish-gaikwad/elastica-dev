@@ -36,10 +36,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={cn(poppins.variable, inter.variable)}>
-    {/* <html lang="en" > */}
-      <body className={cn(poppins.className, inter.className)}>
-      {/* <body className="font-sans"> */}
+    // <html lang="en" className={cn(poppins.variable, inter.variable)}>
+    <html lang="en" >
+      {/* <body className={cn(poppins.className, inter.className)}> */}
+      <body className="font-sans">
         <Toaster position="top-center" reverseOrder={false} />
        <SessionProvider>{children}</SessionProvider>
       </body>

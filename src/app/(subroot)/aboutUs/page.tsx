@@ -47,7 +47,8 @@ export default function AboutUs() {
               transition={{ duration: 0.8 }}
             >
               <Image 
-                src="/api/placeholder/600/800" 
+                // src="/images/elastica.png" 
+                src="/images/ELASTICA_Logo.jpg" 
                 alt="Elastica production process" 
                 width={600} 
                 height={800} 
@@ -171,7 +172,7 @@ export default function AboutUs() {
                     transition={{ duration: 0.3 }}
                   >
                     <div className="text-white text-center p-6">
-                      <p className="font-medium mb-2">Expertise in sustainable rubber production with 10+ years of experience</p>
+                      <p className="font-medium mb-2">Our Expert Artisans</p>
                       <div className="flex justify-center space-x-4 mt-4">
                         {/* Social icons would go here */}
                         <div className="w-8 h-8 rounded-full bg-white/20"></div>
@@ -181,8 +182,6 @@ export default function AboutUs() {
                     </div>
                   </motion.div>
                 </div>
-                <h3 className="text-xl font-semibold">Artisan {index + 1}</h3>
-                <p className="text-[#FFC155] font-medium">Senior Rubber Specialist</p>
               </motion.div>
             ))}
           </div>
@@ -239,7 +238,7 @@ export default function AboutUs() {
               transition={{ duration: 0.8 }}
             >
               <Image 
-                src="/api/placeholder/600/600" 
+                src="/images/impact.png" 
                 alt="Elastica impact visualization" 
                 width={600} 
                 height={600} 

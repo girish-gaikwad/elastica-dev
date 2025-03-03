@@ -52,6 +52,9 @@ const Footer = () => {
                   <Link href="/">Home</Link>
                 </li>
                 <li className="font-inter text-sm font-normal text-[#FEFEFE] transition-all hover:text-[#FFC156]">
+                  <Link href="/aboutUs">About Us</Link>
+                </li>
+                <li className="font-inter text-sm font-normal text-[#FEFEFE] transition-all hover:text-[#FFC156]">
                   <Link href="/shop/all">Shop</Link>
                 </li>
                 <li className="font-inter text-sm font-normal text-[#FEFEFE] transition-all hover:text-[#FFC156]">
