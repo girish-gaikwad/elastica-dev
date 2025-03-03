@@ -213,7 +213,7 @@ Hey i am enquiring about this product "Iam intrested"
               <div className="inline-block px-3 py-1 rounded-full mb-2" style={{ background: `${primaryColor}20`, color: accentColor }}>
                 <span className="font-medium text-sm">{product.product.brand}</span>
               </div>
-              
+
               {/* Ratings */}
               <div className="flex items-center gap-2.5">
                 <div className="flex items-center gap-1">
@@ -276,19 +276,27 @@ Hey i am enquiring about this product "Iam intrested"
               <div className="mt-6 p-4 rounded-lg" style={{ background: `${primaryColor}10` }}>
                 <p className="font-poppins text-3xl font-medium" style={{ color: textDark }}>
                   <span className="align-middle">
-                    ₹{(product.product.finalPrice).toLocaleString()}
+                    ₹{product.product.finalPrice.toLocaleString()}
                   </span>
-                  <span className="ml-3 align-middle text-lg line-through decoration-2" style={{ color: textLight }}>
-                    ₹{(product.product.mrp).toLocaleString()}
-                  </span>
-                  <span className="ml-3 align-middle text-lg" style={{ color: '#2E7D32' }}>
-                    -{product.product.discount}%
-                  </span>
+                  {product.product.discount > 0 &&
+                    (<>
+                      <span className="ml-3 align-middle text-lg line-through decoration-2" style={{ color: textLight }}>
+                        ₹{product.product.mrp.toLocaleString()}
+                      </span>
+                      <span className="ml-3 align-middle text-lg" style={{ color: '#2E7D32' }}>
+                        -{product.product.discount}%
+                      </span>
+                    </>
+                    )
+                  }
                 </p>
-                <p className="text-sm mt-1" style={{ color: '#2E7D32' }}>
-                  You save: ₹{calculateSavings().toLocaleString()}
-                </p>
+                {product.product.discount > 0 && (
+                  <p className="text-sm mt-1" style={{ color: '#2E7D32' }}>
+                    You save: ₹{calculateSavings().toLocaleString()}
+                  </p>
+                )}
               </div>
+
             </div>
 
             {/* Tags */}
@@ -356,9 +364,9 @@ Hey i am enquiring about this product "Iam intrested"
                   className={`flex h-full w-1/2 items-center justify-center gap-2 rounded-lg border ${isInWishlist ? 'border-2' : 'border'}`}
                   onClick={handleWishlistToggle}
                   disabled={wishlistLoading}
-                  style={{ 
-                    borderColor: accentColor, 
-                    background: isInWishlist ? `${primaryColor}20` : 'transparent' 
+                  style={{
+                    borderColor: accentColor,
+                    background: isInWishlist ? `${primaryColor}20` : 'transparent'
                   }}
                 >
                   <WishlistIcon
@@ -377,7 +385,7 @@ Hey i am enquiring about this product "Iam intrested"
                 className="w-full h-12 rounded-lg flex items-center justify-center gap-2"
                 disabled={product.product.stock === 0 || cartLoading}
                 onClick={handleAddToCart}
-                style={{ 
+                style={{
                   background: product.product.stock === 0 ? '#E0E0E0' : primaryColor,
                   color: product.product.stock === 0 ? textLight : 'white'
                 }}
@@ -423,7 +431,7 @@ Hey i am enquiring about this product "Iam intrested"
               <div className="text-center pb-3 border-b" style={{ borderColor: `${primaryColor}50` }}>
                 <h3 className="font-poppins text-xl font-semibold" style={{ color: accentColor }}>Order Summary</h3>
               </div>
-              
+
               <div className="space-y-4">
                 <p className="font-poppins font-medium" style={{ color: textDark }}>
                   Quantity
@@ -455,7 +463,7 @@ Hey i am enquiring about this product "Iam intrested"
                     />
                   </button>
                 </div>
-                
+
                 <div className="space-y-2 pt-2">
                   <div className="flex justify-between items-center">
                     <p className="font-inter text-sm" style={{ color: textLight }}>Price ({quantity} {quantity > 1 ? 'items' : 'item'})</p>
@@ -477,13 +485,13 @@ Hey i am enquiring about this product "Iam intrested"
                   </div>
                 </div>
               </div>
-              
+
               <div className="space-y-3 pt-2">
                 <button
                   className="w-full h-12 rounded-lg flex items-center justify-center gap-2"
                   disabled={product.product.stock === 0 || cartLoading}
                   onClick={handleAddToCart}
-                  style={{ 
+                  style={{
                     background: product.product.stock === 0 ? '#E0E0E0' : primaryColor,
                     color: product.product.stock === 0 ? textLight : 'white'
                   }}
@@ -493,14 +501,14 @@ Hey i am enquiring about this product "Iam intrested"
                     {product.product.stock === 0 ? "Out of Stock" : cartLoading ? "Adding..." : "Add to Cart"}
                   </span>
                 </button>
-                
+
                 <button
                   className="w-full h-12 rounded-lg flex items-center justify-center gap-2 border"
                   onClick={handleWishlistToggle}
                   disabled={wishlistLoading}
-                  style={{ 
-                    borderColor: accentColor, 
-                    background: isInWishlist ? `${primaryColor}20` : 'transparent' 
+                  style={{
+                    borderColor: accentColor,
+                    background: isInWishlist ? `${primaryColor}20` : 'transparent'
                   }}
                 >
                   <WishlistIcon
@@ -525,7 +533,7 @@ Hey i am enquiring about this product "Iam intrested"
                   </div>
                 </button>
               </div>
-              
+
               {/* Secure transaction message */}
               <div className="flex items-center justify-center gap-2 mt-4 p-3 rounded-lg" style={{ background: `${primaryColor}10` }}>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill={accentColor}>
@@ -539,10 +547,10 @@ Hey i am enquiring about this product "Iam intrested"
 
         {/* Product Tabs styling */}
         <div className="rounded-xl overflow-hidden shadow-md" style={{ border: `1px solid ${primaryColor}30` }}>
-          <ProductTab 
-            technicalDetails={product.product.technicalDetails} 
-            description={product.product.description} 
-            id={product.product.id} 
+          <ProductTab
+            technicalDetails={product.product.technicalDetails}
+            description={product.product.description}
+            id={product.product.id}
           />
         </div>
 

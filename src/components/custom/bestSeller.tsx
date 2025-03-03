@@ -84,8 +84,10 @@ function BestSeller() {
                                 <Link href={`/purchase/${product.id}`} className="flex items-center justify-between mt-1">
                                     <ProductCard.Ratings className='text-[#ffc156]' />
                                     <div className="flex items-center gap-2">
+                                        {product?.discount > 0 && (
 
-                                        <ProductCard.MRP />
+                                            <ProductCard.MRP />
+                                        )}
                                         <ProductCard.Price />
                                     </div>
                                 </Link>

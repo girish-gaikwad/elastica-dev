@@ -105,7 +105,10 @@ const CatalogProduct = ({
                   </button>
                 </div>
                 <div className="flex items-center gap-3 mt-2">
+                  {product?.discount>0 &&(
+
                   <ProductCard.MRP className="text-gray-500" />
+                  )}
                   <ProductCard.Price
                     price={product.price}
                     originalPrice={product.originalPrice}

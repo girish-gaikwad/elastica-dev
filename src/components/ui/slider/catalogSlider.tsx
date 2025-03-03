@@ -108,13 +108,18 @@ export default function CatalogSlider({ products }) {
                 <ProductCard.Content>
                   <Link href={`/purchase/${product.id}`} className="flex justify-between items-center mb-1">
                     <ProductCard.Name className="text-md font-serif" />
+                    {product?.discount >0 && (
+                      
                     <ProductCard.Discount />
+                    )}
                   </Link>
 
                   <Link href={`/purchase/${product.id}`} className="flex items-center justify-between mb-3">
                     <ProductCard.Ratings />
                     <div className="flex items-center gap-2">
+                    {product?.discount >0 && (
                       <ProductCard.MRP />
+                    )}
                       <ProductCard.Price />
                     </div>
                   </Link>
