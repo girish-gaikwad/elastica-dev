@@ -1,4 +1,3 @@
-"use client";
 // package
 import type { Metadata } from "next";
 import { Poppins, Inter } from "next/font/google";
@@ -8,8 +7,7 @@ import { cn } from "@/lib/utils";
 
 // css
 import "./globals.css";
-import { Toaster } from "react-hot-toast";
-import { SessionProvider } from "next-auth/react";
+import SessionProviderWrapper from "@/components/custom/SessionProviderWrapper";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -25,10 +23,10 @@ const inter = Inter({
   display: "swap",
 });
 
-// export const metadata: Metadata = {
-//   title: "Elastica - Recycled rubber products",
-//   description: "High-quality recycled rubber products",
-// };
+export const metadata: Metadata = {
+  title: "Elastica - Recycled rubber products",
+  description: "High-quality recycled rubber products",
+};
 
 export default function RootLayout({
   children,
@@ -36,12 +34,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    // <html lang="en" className={cn(poppins.variable, inter.variable)}>
-    <html lang="en" >
-      {/* <body className={cn(poppins.className, inter.className)}> */}
+    <html lang="en">
       <body className="font-sans">
-        <Toaster position="top-center" reverseOrder={false} />
-       <SessionProvider>{children}</SessionProvider>
+        <SessionProviderWrapper>{children}</SessionProviderWrapper>
       </body>
     </html>
   );

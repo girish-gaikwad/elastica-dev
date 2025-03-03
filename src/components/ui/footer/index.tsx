@@ -5,8 +5,8 @@ import Link from "next/link";
 import SectionLayout from "@/layouts/sectionLayout";
 
 // ui
+import { CallIcon, InstagramIcon } from "@/components/ui/assets/svg";
 import Text from "@/components/ui/text";
-import { CallIcon, FacebookIcon, InstagramIcon, YoutubeIcon } from "@/components/ui/assets/svg";
 import { Mail } from "lucide-react";
 
 const Footer = () => {
@@ -17,12 +17,13 @@ const Footer = () => {
           <div className="flex flex-col items-center gap-6 lg:items-start lg:gap-4">
             <div className="relative">
               <h3 className="font-poppins text-4xl font-medium text-white">
-                Elastica<span className="text-[#FFC156]">.</span>
+                Elastica
+                {/* <span className="text-[#FFC156]">.</span> */}
               </h3>
               <div className="absolute -bottom-2 left-0 h-[2px] w-16 bg-[#FFC156] opacity-70"></div>
             </div>
             <Text size="sm" color="white/900" className="max-w-xs text-center lg:text-left">
-              Premium recycled rubber products crafted with sustainability and elegance in mind.
+              Discover the world of recycled rubber products crafted with sustainability and elegance in mind.
             </Text>
             
             <div className="mt-4 flex items-center justify-center gap-6 lg:mt-6">
