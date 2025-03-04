@@ -28,6 +28,11 @@ const links = [
     name: "Home",
   },
   {
+    id: "About Us",
+    path: "/aboutUs",
+    name: "About Us",
+  },
+  {
     id: "shop",
     path: "/shop/all",
     name: "Shop",
@@ -37,11 +42,7 @@ const links = [
     path: "/products",
     name: "Products",
   },
-  {
-    id: "About Us",
-    path: "/aboutUs",
-    name: "About Us",
-  },
+
   {
     id: "contact-us",
     path: "/contactUs",
@@ -57,7 +58,7 @@ export default function NavMobile({
   open: boolean;
 }) {
   const [searchValue, setSearchValue] = useState("");
-  
+
   // Lock body scroll when menu is open
   useEffect(() => {
     if (open) {
@@ -65,7 +66,7 @@ export default function NavMobile({
     } else {
       document.body.style.overflow = "auto";
     }
-    
+
     return () => {
       document.body.style.overflow = "auto";
     };
@@ -82,7 +83,7 @@ export default function NavMobile({
           className="absolute h-[100vh] inset-0 z-[1000] lg:hidden"
         >
           <div className="grid h-full grid-cols-[85fr_15fr] md:grid-cols-[70fr_30fr]">
-            <motion.div 
+            <motion.div
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
@@ -94,7 +95,7 @@ export default function NavMobile({
                 {/* Logo and close button */}
                 <div className="flex items-center justify-between">
                   <Logo />
-                  <button 
+                  <button
                     onClick={onClick}
                     className="p-2 rounded-full hover:bg-gray-100 transition-colors"
                   >
@@ -197,15 +198,15 @@ export default function NavMobile({
 
                 {/* Sign in/Join buttons */}
                 <div className="flex flex-col gap-3">
-                  <Button 
-                    width="full" 
-                    fontSize="sm" 
+                  <Button
+                    width="full"
+                    fontSize="sm"
                     className="py-3 bg-amber-500 hover:bg-amber-600 text-white rounded-lg transition-colors"
                   >
                     Sign In
                   </Button>
-                  <Link 
-                    href="/signup" 
+                  <Link
+                    href="/signup"
                     className="py-3 border border-gray-200 text-center rounded-lg font-medium text-sm text-gray-800 hover:bg-gray-50 transition-colors"
                   >
                     Create Account
@@ -228,12 +229,12 @@ export default function NavMobile({
             </motion.div>
 
             {/* Overlay backdrop */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="h-full bg-black/60 backdrop-blur-sm" 
+              className="h-full bg-black/60 backdrop-blur-sm"
               onClick={onClick}
             />
           </div>
