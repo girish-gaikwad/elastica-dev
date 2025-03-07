@@ -12,7 +12,7 @@ import Text from "@/components/ui/text";
 // Custom components
 const LuxuryDivider = () => (
   <div className="relative h-px w-full my-1">
-    <div className="absolute h-px w-full bg-gradient-to-r from-transparent via-amber-300 to-transparent"></div>
+    <div className="absolute h-px w-full bg-gradient-to-r from-transparent via-emerald-300 to-transparent"></div>
   </div>
 );
 
@@ -27,7 +27,7 @@ const ChevronIcon = ({ isActive }) => (
   >
     <path 
       d="M6 9L12 15L18 9" 
-      stroke={isActive ? "#FFC155" : "#333333"} 
+      stroke={isActive ? "#15803d" : "#333333"} 
       strokeWidth="2" 
       strokeLinecap="round" 
       strokeLinejoin="round"
@@ -88,8 +88,8 @@ const ProductTab = ({
   return (
     <div className="relative mx-auto w-full max-w-[420px] space-y-10 md:max-w-[520px] lg:max-w-none bg-white rounded-md shadow-sm overflow-hidden">
       {/* Background elegance */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-amber-100/30 to-transparent rounded-full -translate-y-1/2 translate-x-1/2 blur-xl"></div>
-      <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-amber-100/30 to-transparent rounded-full translate-y-1/2 -translate-x-1/2 blur-xl"></div>
+      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-emerald-100/30 to-transparent rounded-full -translate-y-1/2 translate-x-1/2 blur-xl"></div>
+      <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-emerald-100/30 to-transparent rounded-full translate-y-1/2 -translate-x-1/2 blur-xl"></div>
       
       <div className="relative z-10 p-6">
         {/* Tabs Header */}
@@ -102,11 +102,11 @@ const ProductTab = ({
               onMouseLeave={() => setIsHovered("")}
               className={`relative flex items-center gap-2 py-4 px-2 transition-all duration-300 ${
                 currentTab === tab.value
-                  ? "text-amber-600 font-medium"
-                  : "text-gray-600 hover:text-amber-500"
+                  ? "text-emerald-600 font-medium"
+                  : "text-gray-600 hover:text-emerald-500"
               }`}
             >
-              <span className="text-amber-500 mr-1 text-sm">
+              <span className="text-emerald-500 mr-1 text-sm">
                 {tab.icon}
               </span>
               <Text variant="body1">{tab.name}</Text>
@@ -116,9 +116,9 @@ const ProductTab = ({
               {currentTab === tab.value && (
                 <motion.div 
                   layoutId="activeTab" 
-                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-amber-500"
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-500"
                   style={{ 
-                    background: "linear-gradient(to right, transparent, #FFC155, transparent)" 
+                    background: "linear-gradient(to right, transparent, #15803d, transparent)" 
                   }}
                 />
               )}
@@ -127,7 +127,7 @@ const ProductTab = ({
               {isHovered === tab.value && currentTab !== tab.value && (
                 <motion.div 
                   layoutId="hoverTab" 
-                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-amber-200"
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-200"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}

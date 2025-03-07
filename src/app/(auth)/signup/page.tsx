@@ -47,7 +47,7 @@ export default function Page() {
     };
 
     return (
-        <div className="relative min-h-screen bg-gradient-to-br from-[#ffefd1] to-white">
+        <div className="relative min-h-screen bg-gradient-to-br from-[#22c55e] to-white">
             <div className={cn([
                 "grid lg:grid-cols-2",
                 "max-w-[1440px]",
@@ -56,21 +56,21 @@ export default function Page() {
                 "lg:max-h-[800px]",
                 "lg:absolute lg:inset-0 lg:m-auto",
                 "overflow-hidden",
-                "border border-[#FFC155]/10",
+                "border border-[#22c55e]/10",
             ])}>
                 {/* Left Side - Image Section */}
-                <div className="relative flex items-center justify-center bg-gradient-to-b from-[#FFC155]/5 to-[#FFC155]/10 p-8 pt-20 lg:h-full lg:rounded-l-2xl">
+                <div className="relative flex items-center justify-center bg-gradient-to-b from-[#22c55e]/5 to-[#22c55e]/10 p-8 pt-20 lg:h-full lg:rounded-l-2xl">
                     <Text
                         family="poppins"
                         size="2xl"
                         weight={600}
-                        className="absolute left-0 top-8 w-full text-center text-[#FFC155] tracking-wide"
+                        className="absolute left-0 top-8 w-full text-center text-[#22c55e] tracking-wide"
                     >
                         Join Elastica 
                     </Text>
 
                     <div className="relative">
-                        <div className="absolute -inset-1 rounded-full bg-[#FFC155]/20 blur-3xl"></div>
+                        <div className="absolute -inset-1 rounded-full bg-[#22c55e]/20 blur-3xl"></div>
                         <Image
                             src="/images/auth.png"
                             width={2500}
@@ -82,9 +82,9 @@ export default function Page() {
                     </div>
                     
                     {/* Decorative elements */}
-                    <div className="absolute top-24 left-20 w-8 h-8 rounded-full bg-[#FFC155]/20 animate-pulse"></div>
-                    <div className="absolute bottom-20 right-20 w-12 h-12 rounded-full bg-[#FFC155]/30 animate-pulse"></div>
-                    <div className="absolute top-1/3 right-20 w-6 h-6 rounded-full bg-[#FFC155]/40 animate-pulse"></div>
+                    <div className="absolute top-24 left-20 w-8 h-8 rounded-full bg-[#22c55e]/20 animate-pulse"></div>
+                    <div className="absolute bottom-20 right-20 w-12 h-12 rounded-full bg-[#22c55e]/30 animate-pulse"></div>
+                    <div className="absolute top-1/3 right-20 w-6 h-6 rounded-full bg-[#22c55e]/40 animate-pulse"></div>
                 </div>
 
                 {/* Right Side - Form Section */}
@@ -98,13 +98,13 @@ export default function Page() {
                         ])}>
                             <div className="space-y-4">
                                 <h1 className="font-poppins text-[42px] font-medium text-[#121212] tracking-tight">
-                                    Sign Up <span className="text-[#FFC155]">.</span>
+                                    Sign Up <span className="text-[#22c55e]">.</span>
                                 </h1>
                                 <Text weight={400} color="gray" className="text-base">
                                     Already have an account?{" "}
                                     <Link
                                         href="/login"
-                                        className="font-semibold text-[#FFC155] transition-colors hover:text-[#E0A542] hover:underline"
+                                        className="font-semibold text-[#22c55e] transition-colors hover:text-emerald-600 hover:underline"
                                     >
                                         Sign In
                                     </Link>
@@ -119,9 +119,9 @@ export default function Page() {
                                         placeholder="Username"
                                         onChange={(e) => setName(e.target.value)}
                                         required
-                                        className="w-full border-b border-[#E8ECEF] pb-3 pt-2 outline-none transition-all focus:border-[#FFC155]"
+                                        className="w-full border-b border-[#E8ECEF] pb-3 pt-2 outline-none transition-all focus:border-[#22c55e]"
                                     />
-                                    <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-[#FFC155] transition-all duration-300 group-focus-within:w-full"></div>
+                                    <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-[#22c55e] transition-all duration-300 group-focus-within:w-full"></div>
                                 </div>
 
                                 <div className="group relative">
@@ -131,9 +131,9 @@ export default function Page() {
                                         placeholder="Email address"
                                         onChange={(e) => setEmail(e.target.value)}
                                         required
-                                        className="w-full border-b border-[#E8ECEF] pb-3 pt-2 outline-none transition-all focus:border-[#FFC155]"
+                                        className="w-full border-b border-[#E8ECEF] pb-3 pt-2 outline-none transition-all focus:border-[#22c55e]"
                                     />
-                                    <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-[#FFC155] transition-all duration-300 group-focus-within:w-full"></div>
+                                    <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-[#22c55e] transition-all duration-300 group-focus-within:w-full"></div>
                                 </div>
                                 <div className="group relative">
                                     <Input
@@ -142,9 +142,9 @@ export default function Page() {
                                         placeholder="Phone"
                                         onChange={(e) => setPhone(e.target.value)}
                                         required
-                                        className="w-full border-b border-[#E8ECEF] pb-3 pt-2 outline-none transition-all focus:border-[#FFC155]"
+                                        className="w-full border-b border-[#E8ECEF] pb-3 pt-2 outline-none transition-all focus:border-[#22c55e]"
                                     />
-                                    <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-[#FFC155] transition-all duration-300 group-focus-within:w-full"></div>
+                                    <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-[#22c55e] transition-all duration-300 group-focus-within:w-full"></div>
                                 </div>
 
                                 <div className="group relative">
@@ -154,9 +154,9 @@ export default function Page() {
                                         placeholder="Password"
                                         onChange={(e) => setPassword(e.target.value)}
                                         required
-                                        className="w-full border-b border-[#E8ECEF] pb-3 pt-2 outline-none transition-all focus:border-[#FFC155]"
+                                        className="w-full border-b border-[#E8ECEF] pb-3 pt-2 outline-none transition-all focus:border-[#22c55e]"
                                     />
-                                    <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-[#FFC155] transition-all duration-300 group-focus-within:w-full"></div>
+                                    <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-[#22c55e] transition-all duration-300 group-focus-within:w-full"></div>
                                 </div>
 
                                 <div className="flex items-center gap-3 mt-6">
@@ -166,8 +166,8 @@ export default function Page() {
                                         className={cn(
                                             "h-6 w-6 rounded-md border transition-all duration-200",
                                             checked
-                                                ? "border-[#FFC155] bg-[#FFC155]"
-                                                : "border-[#6C7275] hover:border-[#FFC155]"
+                                                ? "border-[#22c55e] bg-[#22c55e]"
+                                                : "border-[#6C7275] hover:border-[#22c55e]"
                                         )}
                                     >
                                         {checked && (
@@ -193,11 +193,11 @@ export default function Page() {
                                         className="select-none"
                                     >
                                         I agree with{" "}
-                                        <button type="button" className="font-semibold text-[#141718] hover:text-[#FFC155] transition-colors">
+                                        <button type="button" className="font-semibold text-[#141718] hover:text-[#22c55e] transition-colors">
                                             Privacy Policy
                                         </button>{" "}
                                         and{" "}
-                                        <button type="button" className="font-semibold text-[#141718] hover:text-[#FFC155] transition-colors">
+                                        <button type="button" className="font-semibold text-[#141718] hover:text-[#22c55e] transition-colors">
                                             Terms of Use
                                         </button>
                                     </Text>
@@ -207,9 +207,9 @@ export default function Page() {
                             <Button
                                 width="full"
                                 className={cn(
-                                    "bg-[#FFC155] py-4 text-base font-semibold text-white",
+                                    "bg-[#22c55e] py-4 text-base font-semibold text-white",
                                     "transform transition-all duration-200",
-                                    "hover:bg-[#E0A542] hover:shadow-lg hover:shadow-[#FFC155]/30",
+                                    "hover:bg-emerald-600 hover:shadow-lg hover:shadow-[#22c55e]/30",
                                     "active:scale-[0.98]",
                                     "disabled:opacity-50 disabled:cursor-not-allowed",
                                     "rounded-xl"
@@ -225,11 +225,11 @@ export default function Page() {
                             <div className="text-center mt-4">
                                 <p className="text-xs text-gray-500">
                                     By creating an account, you agree to our{" "}
-                                    <Link href="/terms" className="text-[#FFC155] hover:underline">
+                                    <Link href="/terms" className="text-[#22c55e] hover:underline">
                                         Terms of Service
                                     </Link>{" "}
                                     and{" "}
-                                    <Link href="/privacy" className="text-[#FFC155] hover:underline">
+                                    <Link href="/privacy" className="text-[#22c55e] hover:underline">
                                         Privacy Policy
                                     </Link>
                                 </p>

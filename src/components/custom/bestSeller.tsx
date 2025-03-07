@@ -51,7 +51,7 @@ function BestSeller() {
 
     return (
         <SectionLayout>
-            <div className="space-y-4 px-4 sm:px-6 md:px-8 py-6 sm:py-8 md:py-10 lg:pb-16 xl:pb-24">
+            <div className="space-y-4 px-4 sm:px-6 md:px-8 py-6 sm:py-8 md:py-10  lg:pb-16 xl:pb-24">
                 <Heading
                     as="h2"
                     intent="base-section"
@@ -86,7 +86,7 @@ function BestSeller() {
                                 </Link>
 
                                 <Link href={`/purchase/${product.id}`} className="flex items-center justify-between mt-1 sm:mt-2">
-                                    <ProductCard.Ratings className="text-[#ffc156] text-xs sm:text-sm flex-shrink-0" />
+                                    <ProductCard.Ratings className="text-[#22c55e] text-xs sm:text-sm flex-shrink-0" />
                                     <div className="flex items-center gap-1 sm:gap-2 ml-1">
                                         {product?.discount > 0 && (
                                             <ProductCard.MRP className="text-xs sm:text-sm" />
@@ -98,7 +98,7 @@ function BestSeller() {
                             
                             <div className="p-2 w-full flex justify-center mt-auto">
                                 <ProductCard.AddToCartButton
-                                    className="w-full sm:w-auto sm:px-4 md:px-6 lg:px-8 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold text-white bg-[#d97706] hover:bg-[#b45309] hover:shadow-md active:scale-95 transition-all rounded-sm sm:rounded"
+                                    className="w-full sm:w-auto sm:px-4 md:px-6 lg:px-8 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold text-white bg-[#22c55e] hover:bg-[#3ead46] hover:shadow-md active:scale-95 transition-all rounded-sm sm:rounded"
                                 />
                             </div>
                         </ProductCard.Root>

@@ -205,7 +205,7 @@ const CategoriesPage = () => {
     return (
         <div className="min-h-screen bg-slate-50">
             {/* Header */}
-            <header className="bg-gradient-to-r from-[#ffc155] to-amber-300 py-14 shadow-lg">
+            <header className="bg-gradient-to-r from-[#22c55e] to-[#22c55e]/80 py-14 shadow-lg">
                 <div className="container mx-auto px-6">
                     <div className="flex flex-col md:flex-row md:items-center justify-between">
                         <div>
@@ -221,7 +221,7 @@ const CategoriesPage = () => {
                                     placeholder="Search for luxury items..."
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="w-full py-3 pl-12 pr-4 rounded-full border-none focus:outline-none focus:ring-2 focus:ring-[#ffc155] shadow-md text-gray-800"
+                                    className="w-full py-3 pl-12 pr-4 rounded-full border-none focus:outline-none focus:ring-2 focus:ring-[#22c55e] shadow-md text-gray-800"
                                 />
                                 <Search className="absolute left-4 top-3.5 h-5 w-5 text-gray-400" />
                             </div>
@@ -244,8 +244,8 @@ const CategoriesPage = () => {
                                     className={`px-5 py-2.5 rounded-full font-medium transition-colors whitespace-nowrap text-sm
                     ${category.value === "all" ? 'hidden' : ''}
                     ${expandedCategory === category.value
-                                            ? 'bg-[#ffc155] text-gray-900 shadow-sm'
-                                            : 'bg-gray-100 text-gray-700 hover:bg-amber-50'
+                                            ? 'bg-[#22c55e] text-gray-900 shadow-sm'
+                                            : 'bg-gray-100 text-gray-700 hover:bg-emerald-50'
                                         }`}
                                 >
                                     {category.text}
@@ -274,7 +274,7 @@ const CategoriesPage = () => {
                             <div className="flex flex-col sm:flex-row mt-4 sm:mt-0 w-full sm:w-auto gap-3 sm:gap-4">
                                 <button
                                     onClick={() => toggleCategoryExpansion(category.value)}
-                                    className="text-gray-900 font-medium flex items-center justify-center sm:justify-start bg-[#ffc155] hover:bg-[#ffb84d] px-5 py-2.5 rounded-full text-sm shadow-sm transition-all"
+                                    className="text-gray-900 font-medium flex items-center justify-center sm:justify-start bg-[#22c55e] hover:bg-[#ffb84d] px-5 py-2.5 rounded-full text-sm shadow-sm transition-all"
                                 >
                                     {expandedCategory === category.value ? 'Show Less' : 'See All'}
                                     <ChevronRight className="ml-1 h-4 w-4" />
@@ -325,7 +325,7 @@ const CategoriesPage = () => {
                                                 
                                                 {/* Elegant ribbon for discount */}
                                                 {product.discount > 0 && (
-                                                    <div className="absolute top-0 left-0 bg-[#ffc155] text-gray-900 py-1 px-3 font-medium text-xs shadow-md clip-path-ribbon">
+                                                    <div className="absolute top-0 left-0 bg-[#22c55e] text-gray-900 py-1 px-3 font-medium text-xs shadow-md clip-path-ribbon">
                                                         {product.discount}% OFF
                                                     </div>
                                                 )}
@@ -333,7 +333,7 @@ const CategoriesPage = () => {
                                                 {/* Quick action buttons - animated on hover */}
                                                 <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2 transition-all duration-500 transform translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100">
                                                     <div className="flex items-center space-x-1 bg-white rounded-full px-3 py-1 text-xs font-medium text-gray-800 shadow-md">
-                                                        <Package className="h-4 w-4 text-[#ffc155]" />
+                                                        <Package className="h-4 w-4 text-[#22c55e]" />
                                                         <span>Only {product.stock} left</span>
                                                     </div>
                                                     
@@ -347,13 +347,13 @@ const CategoriesPage = () => {
                                                 <Link href={`/purchase/${product.id}`}>
                                                     <div className="min-h-12 mb-2">
                                                         <div className="flex justify-between items-start">
-                                                            <h3 className="font-medium text-gray-900 line-clamp-2 hover:text-[#ffc155] transition-colors group-hover:text-[#ffc155]">{product.name}</h3>
+                                                            <h3 className="font-medium text-gray-900 line-clamp-2 hover:text-[#22c55e] transition-colors group-hover:text-[#22c55e]">{product.name}</h3>
                                                         </div>
                                                     </div>
                                                     
                                                     {/* Animated line separator */}
                                                     <div className="w-full h-px bg-gray-200 my-3 relative overflow-hidden">
-                                                        <div className={`absolute top-0 left-0 h-px bg-[#ffc155] transition-all duration-1000 ease-in-out ${hoveredProduct === product.id ? 'w-full' : 'w-0'}`}></div>
+                                                        <div className={`absolute top-0 left-0 h-px bg-[#22c55e] transition-all duration-1000 ease-in-out ${hoveredProduct === product.id ? 'w-full' : 'w-0'}`}></div>
                                                     </div>
                                                     
                                                     <div className="flex flex-col">
@@ -373,7 +373,7 @@ const CategoriesPage = () => {
                                                     disabled={loadingCartItems[product.id]}
                                                     onClick={() => handleAddToCart(product.id)} 
                                                     className={cn(
-                                                        "w-full group-hover:bg-[#ffc155] group-hover:text-gray-900 bg-gray-900 text-white px-4 py-3 rounded-lg text-sm font-medium transition-all duration-300 flex items-center justify-center overflow-hidden relative",
+                                                        "w-full group-hover:bg-[#22c55e] group-hover:text-gray-900 bg-gray-900 text-white px-4 py-3 rounded-lg text-sm font-medium transition-all duration-300 flex items-center justify-center overflow-hidden relative",
                                                         loadingCartItems[product.id] ? "opacity-70 cursor-not-allowed" : ""
                                                     )}
                                                 >
@@ -400,7 +400,7 @@ const CategoriesPage = () => {
                                         <p className="text-gray-500 mb-3">No products found matching your search.</p>
                                         <button
                                             onClick={() => setSearchQuery('')}
-                                            className="px-4 py-2 bg-[#ffc155] text-gray-900 rounded-full font-medium text-sm hover:bg-[#ffb84d] transition-colors"
+                                            className="px-4 py-2 bg-[#22c55e] text-gray-900 rounded-full font-medium text-sm hover:bg-[#ffb84d] transition-colors"
                                         >
                                             Clear search
                                         </button>
@@ -415,11 +415,11 @@ const CategoriesPage = () => {
                                             <button
                                                 onClick={() => loadMoreProducts(category.value)}
                                                 disabled={loading}
-                                                className="bg-white border-2 border-[#ffc155] hover:bg-[#fff8ec] text-gray-900 font-medium px-8 py-3 rounded-full transition-colors disabled:opacity-50 flex items-center mx-auto group"
+                                                className="bg-white border-2 border-[#22c55e] hover:bg-[#fff8ec] text-gray-900 font-medium px-8 py-3 rounded-full transition-colors disabled:opacity-50 flex items-center mx-auto group"
                                             >
                                                 {loading ? (
                                                     <>
-                                                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[#ffc155] mr-2"></div>
+                                                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[#22c55e] mr-2"></div>
                                                         Loading...
                                                     </>
                                                 ) : (

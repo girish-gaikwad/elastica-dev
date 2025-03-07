@@ -61,7 +61,7 @@ const NewArrival = () => {
     if (error) {
         return (
             <SectionLayout className="bg-gradient-to-r from-stone-50 to-neutral-50">
-                <div className="text-center text-amber-800 py-12 font-light">{error}</div>
+                <div className="text-center text-green-800 py-12 font-light">{error}</div>
             </SectionLayout>
         );
     }
@@ -72,15 +72,15 @@ const NewArrival = () => {
                 <div className="relative">
                     <div className="absolute -top-2 -left-2 opacity-75">
                         {sectionType === "new" ? (
-                            <Sparkles size={20} className="text-amber-700" />
+                            <Sparkles size={20} className="text-green-700" />
                         ) : (
-                            <Star size={20} className="text-amber-700" />
+                            <Star size={20} className="text-green-700" />
                         )}
                     </div>
                     <Heading
                         as="h2"
                         intent="base-section"
-                        className="text-center md:text-left font-light tracking-wider text-stone-800 pb-2 border-b border-amber-200"
+                        className="text-center md:text-left font-light tracking-wider text-stone-800 pb-2 border-b border-[#22c55e]"
                     >
                         {getSectionTitle()}
                     </Heading>

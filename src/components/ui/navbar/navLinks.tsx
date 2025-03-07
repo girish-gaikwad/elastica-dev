@@ -53,13 +53,13 @@ export default function NavLinks() {
               className={cn(
                 "font-medium text-sm py-2 px-1 block transition-colors duration-200",
                 pathname === link.path
-                  ? "text-amber-800"
+                  ? "text-emerald-950"
                   : "text-gray-700 hover:text-black"
               )}
             >
               {link.name}
               <span className={cn(
-                "absolute -bottom-1 left-0 h-0.5 bg-amber-400 transition-all duration-300 group-hover:w-full",
+                "absolute -bottom-1 left-0 h-0.5 bg-emerald-400 transition-all duration-300 group-hover:w-full",
                 pathname === link.path ? "w-full" : "w-0"
               )}></span>
             </Link>

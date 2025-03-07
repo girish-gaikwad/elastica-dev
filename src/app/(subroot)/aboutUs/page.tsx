@@ -61,7 +61,7 @@ export default function AboutUs() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <h2 className="text-3xl md:text-4xl font-bold mb-6">Our Story</h2>
-              <div className="w-20 h-1 bg-[#FFC155] mb-8"></div>
+              <div className="w-20 h-1 bg-[#22c55e] mb-8"></div>
               <p className="text-lg text-neutral-600 mb-6">
                 Elastica was born from a vision to transform the rubber industry through sustainable practices and innovative design. Founded in 2020, our journey began with a simple question: How can we create beautiful, functional products while minimizing environmental impact?
               </p>
@@ -86,7 +86,7 @@ export default function AboutUs() {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-6">The Elastica Difference</h2>
-            <div className="w-20 h-1 bg-[#FFC155] mx-auto mb-8"></div>
+            <div className="w-20 h-1 bg-[#22c55e] mx-auto mb-8"></div>
             <p className="text-lg text-neutral-600 max-w-3xl mx-auto">
               Our core values guide everything we do, from design and production to customer service and community engagement.
             </p>
@@ -124,7 +124,7 @@ export default function AboutUs() {
                 whileHover={{ y: -10, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" }}
               >
                 <div className="text-4xl mb-4">{value.icon}</div>
-                <h3 className="text-xl font-semibold mb-3 text-[#FFC155]">{value.title}</h3>
+                <h3 className="text-xl font-semibold mb-3 text-[#22c55e]">{value.title}</h3>
                 <p className="text-neutral-600">{value.description}</p>
               </motion.div>
             ))}
@@ -142,7 +142,7 @@ export default function AboutUs() {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-6">Meet Our Artisans</h2>
-            <div className="w-20 h-1 bg-[#FFC155] mx-auto mb-8"></div>
+            <div className="w-20 h-1 bg-[#22c55e] mx-auto mb-8"></div>
             <p className="text-lg text-neutral-600 max-w-3xl mx-auto">
               The talented individuals who bring Elastica products to life through their expertise, creativity, and dedication.
             </p>
@@ -167,7 +167,7 @@ export default function AboutUs() {
                     className="w-full" 
                   />
                   <motion.div 
-                    className="absolute inset-0 bg-[#FFC155]/80 flex items-center justify-center opacity-0"
+                    className="absolute inset-0 bg-[#22c55e]/80 flex items-center justify-center opacity-0"
                     whileHover={{ opacity: 1 }}
                     transition={{ duration: 0.3 }}
                   >
@@ -189,7 +189,7 @@ export default function AboutUs() {
       </section>
 
       {/* Our Impact Section */}
-      <section ref={impactRef} className="py-20 md:py-32 px-8 bg-[#FFC155]/10">
+      <section ref={impactRef} className="py-20 md:py-32 px-8 bg-[#22c55e]/10">
         <div className="container mx-auto max-w-7xl">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -198,16 +198,17 @@ export default function AboutUs() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <h2 className="text-3xl md:text-4xl font-bold mb-6">Our Impact</h2>
-              <div className="w-20 h-1 bg-[#FFC155] mb-8"></div>
+              <div className="w-20 h-1 bg-[#22c55e] mb-8"></div>
               <p className="text-lg text-neutral-600 mb-6">
-                At Elastica, we measure success not just by sales, but by the positive change we create in our communities and environment.
+
+              Elastica aims to reduce the burden of industrial rubber flash scrap which would otherwise end up as landfill.
               </p>
               
               <div className="space-y-6">
                 {[
-                  { metric: "60%", description: "Reduction in carbon footprint compared to traditional manufacturing" },
-                  { metric: "100+", description: "Women employed with fair wages and growth opportunities" },
-                  { metric: "5 tons", description: "Of plastic waste diverted from landfills annually" },
+                  { metric: "60%", description: "Elastica aims to create awareness regarding the potential and possibilities associated with recycling and repurposing waste." },
+                  { metric: "100+", description: "Elastica is focused in encouraging women towards meaningful employment." },
+                  { metric: "5 tons", description: "Elastica is dedicated to research and development of new designs and innovative production of products using industrial scrap." },
                   { metric: "15,000+", description: "Trees planted through our reforestation initiative" }
                 ].map((item, index) => (
                   <motion.div 
@@ -217,14 +218,15 @@ export default function AboutUs() {
                     animate={isImpactInView ? { opacity: 1, x: 0 } : {}}
                     transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
                   >
-                    <div className="text-2xl font-bold text-[#FFC155] mr-4">{item.metric}</div>
+                    {/* <div className="text-2xl font-bold text-[#22c55e] mr-4">{item.metric}</div> */}
+                    <div className="text-2xl font-bold text-[#22c55e] mr-4">🍀</div>
                     <p className="text-neutral-600">{item.description}</p>
                   </motion.div>
                 ))}
               </div>
               
               <motion.button 
-                className="mt-8 border-2 border-[#FFC155] text-[#FFC155] hover:bg-[#FFC155] hover:text-white px-8 py-3 rounded-full font-medium transition-colors"
+                className="mt-8 border-2 border-[#22c55e] text-[#22c55e] hover:bg-[#22c55e] hover:text-white px-8 py-3 rounded-full font-medium transition-colors"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -251,7 +253,7 @@ export default function AboutUs() {
 
       {/* Call to Action */}
       <motion.section 
-        className="py-20 md:py-32 px-8 bg-[#FFC155]"
+        className="py-20 md:py-32 px-8 bg-[#22c55e]"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
@@ -264,7 +266,7 @@ export default function AboutUs() {
           </p>
           <Link href="/">
           <motion.button 
-            className="bg-white text-[#FFC155] px-8 py-3 rounded-full font-medium"
+            className="bg-white text-[#22c55e] px-8 py-3 rounded-full font-medium"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >

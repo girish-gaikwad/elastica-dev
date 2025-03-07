@@ -83,7 +83,7 @@ const ContactForm = () => {
     return (
         <div className="min-h-screen bg-gray-50">
             {/* Hero Section with Luxury Gradient */}
-            <div className="relative overflow-hidden bg-gradient-to-r from-[#ffc155] to-[#ffb030]">
+            <div className="relative overflow-hidden bg-gradient-to-r from-[#22c55e] to-[#ffb030]">
                 <div className="absolute inset-0 bg-black bg-opacity-5"></div>
                 
                 {/* Decorative Patterns */}
@@ -117,13 +117,13 @@ const ContactForm = () => {
                     <div>
                         <h2 className="text-3xl font-bold text-gray-900 mb-8 relative">
                             Contact Information
-                            <span className="absolute bottom-0 left-0 w-24 h-1 bg-[#ffc155]"></span>
+                            <span className="absolute bottom-0 left-0 w-24 h-1 bg-[#22c55e]"></span>
                         </h2>
                     </div>
 
                     <div className="space-y-8">
                         <div className="flex items-start group">
-                            <div className="flex-shrink-0 bg-[#ffc155] p-4 rounded-xl shadow-md transform transition-transform group-hover:scale-110">
+                            <div className="flex-shrink-0 bg-[#22c55e] p-4 rounded-xl shadow-md transform transition-transform group-hover:scale-110">
                                 <MapPin className="h-6 w-6 text-gray-900" />
                             </div>
                             <div className="ml-6">
@@ -140,7 +140,7 @@ const ContactForm = () => {
                         </div>
 
                         <div className="flex items-start group">
-                            <div className="flex-shrink-0 bg-[#ffc155] p-4 rounded-xl shadow-md transform transition-transform group-hover:scale-110">
+                            <div className="flex-shrink-0 bg-[#22c55e] p-4 rounded-xl shadow-md transform transition-transform group-hover:scale-110">
                                 <Phone className="h-6 w-6 text-gray-900" />
                             </div>
                             <div className="ml-6">
@@ -151,7 +151,7 @@ const ContactForm = () => {
                         </div>
 
                         <div className="flex items-start group">
-                            <div className="flex-shrink-0 bg-[#ffc155] p-4 rounded-xl shadow-md transform transition-transform group-hover:scale-110">
+                            <div className="flex-shrink-0 bg-[#22c55e] p-4 rounded-xl shadow-md transform transition-transform group-hover:scale-110">
                                 <Mail className="h-6 w-6 text-gray-900" />
                             </div>
                             <div className="ml-6">
@@ -162,7 +162,7 @@ const ContactForm = () => {
                         </div>
 
                         <div className="flex items-start group">
-                            <div className="flex-shrink-0 bg-[#ffc155] p-4 rounded-xl shadow-md transform transition-transform group-hover:scale-110">
+                            <div className="flex-shrink-0 bg-[#22c55e] p-4 rounded-xl shadow-md transform transition-transform group-hover:scale-110">
                                 <Clock className="h-6 w-6 text-gray-900" />
                             </div>
                             <div className="ml-6">
@@ -178,16 +178,16 @@ const ContactForm = () => {
                     <div className="mt-16">
                         <h3 className="text-xl font-semibold text-gray-900 mb-6">Connect With Us</h3>
                         <div className="flex space-x-4">
-                            <a href="tel:7598315432" className="bg-[#ffc155] p-4 rounded-full shadow-md hover:bg-[#e9b040] transition-all duration-300 transform hover:scale-110 hover:shadow-lg">
+                            <a href="tel:7598315432" className="bg-[#22c55e] p-4 rounded-full shadow-md hover:bg-[#e9b040] transition-all duration-300 transform hover:scale-110 hover:shadow-lg">
                                 <Phone className="text-gray-900" />
                             </a>
-                            <a href="mailto:sales@elastica.co.in" className="bg-[#ffc155] p-4 rounded-full shadow-md hover:bg-[#e9b040] transition-all duration-300 transform hover:scale-110 hover:shadow-lg">
+                            <a href="mailto:sales@elastica.co.in" className="bg-[#22c55e] p-4 rounded-full shadow-md hover:bg-[#e9b040] transition-all duration-300 transform hover:scale-110 hover:shadow-lg">
                                 <Mail className="text-gray-900" />
                             </a>
-                            <a href="https://www.instagram.com/elastica_srkp" className="bg-[#ffc155] p-4 rounded-full shadow-md hover:bg-[#e9b040] transition-all duration-300 transform hover:scale-110 hover:shadow-lg">
+                            <a href="https://www.instagram.com/elastica_srkp" className="bg-[#22c55e] p-4 rounded-full shadow-md hover:bg-[#e9b040] transition-all duration-300 transform hover:scale-110 hover:shadow-lg">
                                 <InstagramIcon className="text-gray-900" />
                             </a>
-                            <a href="https://wa.me/7598315432" className="bg-[#ffc155] p-4 rounded-full shadow-md hover:bg-[#e9b040] transition-all duration-300 transform hover:scale-110 hover:shadow-lg">
+                            <a href="https://wa.me/7598315432" className="bg-[#22c55e] p-4 rounded-full shadow-md hover:bg-[#e9b040] transition-all duration-300 transform hover:scale-110 hover:shadow-lg">
                                 <MessageCircle className="text-gray-900" />
                             </a>
                         </div>
@@ -197,11 +197,11 @@ const ContactForm = () => {
                 {/* Luxury Form */}
                 <div className="bg-white rounded-xl shadow-xl p-10 border border-gray-100 relative overflow-hidden">
                     {/* Decorative element */}
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-[#ffc155] opacity-10 rounded-bl-full"></div>
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-[#22c55e] opacity-10 rounded-bl-full"></div>
                     
                     <h2 className="text-3xl font-bold text-gray-900 mb-6 relative inline-block">
                         Send us a Message
-                        <span className="absolute bottom-0 left-0 w-full h-1 bg-[#ffc155]"></span>
+                        <span className="absolute bottom-0 left-0 w-full h-1 bg-[#22c55e]"></span>
                     </h2>
                     <p className="text-gray-700 mb-8">
                         Have a question or want to discuss a project? Fill out the form below and we'll get back to you as soon as possible.
@@ -249,7 +249,7 @@ const ContactForm = () => {
                                 value={form.name}
                                 onChange={handleChange}
                                 required
-                                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ffc155] focus:border-[#ffc155] transition-colors"
+                                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#22c55e] focus:border-[#22c55e] transition-colors"
                                 placeholder="John Doe"
                             />
                         </div>
@@ -265,7 +265,7 @@ const ContactForm = () => {
                                 value={form.email}
                                 onChange={handleChange}
                                 required
-                                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ffc155] focus:border-[#ffc155] transition-colors"
+                                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#22c55e] focus:border-[#22c55e] transition-colors"
                                 placeholder="john@example.com"
                             />
                         </div>
@@ -281,7 +281,7 @@ const ContactForm = () => {
                                 value={form.subject}
                                 onChange={handleChange}
                                 required
-                                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ffc155] focus:border-[#ffc155] transition-colors"
+                                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#22c55e] focus:border-[#22c55e] transition-colors"
                                 placeholder="How can we help you?"
                             />
                         </div>
@@ -297,7 +297,7 @@ const ContactForm = () => {
                                 onChange={handleChange}
                                 required
                                 rows="6"
-                                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ffc155] focus:border-[#ffc155] transition-colors"
+                                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#22c55e] focus:border-[#22c55e] transition-colors"
                                 placeholder="Tell us more about your project or inquiry..."
                             ></textarea>
                         </div>
@@ -305,7 +305,7 @@ const ContactForm = () => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className={`w-full px-6 py-4 bg-[#ffc155] text-gray-900 font-medium rounded-lg hover:bg-[#e9b040] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#ffc155] transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                            className={`w-full px-6 py-4 bg-[#22c55e] text-gray-900 font-medium rounded-lg hover:bg-[#e9b040] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#22c55e] transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
                         >
                             {loading ? 'Sending...' : (
                                 <>
@@ -323,7 +323,7 @@ const ContactForm = () => {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center relative inline-block">
                         Find Us
-                        <span className="absolute bottom-0 left-0 w-16 h-1 bg-[#ffc155]"></span>
+                        <span className="absolute bottom-0 left-0 w-16 h-1 bg-[#22c55e]"></span>
                     </h2>
 
                     <div className="relative rounded-xl overflow-hidden shadow-2xl border-8 border-white">
@@ -348,7 +348,7 @@ const ContactForm = () => {
                             href="https://www.google.co.in/maps/place/Sri+Ramkarthic+Polymers+Pvt+Ltd/@11.1404028,77.0252325,17z/data=!3m1!4b1!4m6!3m5!1s0x3ba8587495555555:0x40f051893debd129!8m2!3d11.1404028!4d77.0278074!16s%2Fg%2F11c0qgzmfc?authuser=1&entry=ttu&g_ep=EgoyMDI1MDIyMy4xIKXMDSoASAFQAw%3D%3D"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-block mt-6 px-8 py-3 bg-[#ffc155] text-gray-900 font-medium rounded-lg hover:bg-[#e9b040] transition-all duration-300 shadow-md hover:shadow-lg"
+                            className="inline-block mt-6 px-8 py-3 bg-[#22c55e] text-gray-900 font-medium rounded-lg hover:bg-[#e9b040] transition-all duration-300 shadow-md hover:shadow-lg"
                         >
                             Get Directions
                         </a>
@@ -360,7 +360,7 @@ const ContactForm = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
                 <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center relative inline-block">
                     Frequently Asked Questions
-                    <span className="absolute bottom-0 left-0 w-16 h-1 bg-[#ffc155]"></span>
+                    <span className="absolute bottom-0 left-0 w-16 h-1 bg-[#22c55e]"></span>
                 </h2>
 
                 <div className="grid md:grid-cols-2 gap-8">

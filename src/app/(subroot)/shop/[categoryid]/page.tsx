@@ -52,13 +52,13 @@ const StyledSelectTrigger = ({ children, variant = "default" }) => {
     default: cn(
       "group h-auto bg-white",
       "rounded-lg",
-      "border border-[#E8E8E8] hover:border-[#FFC156]",
+      "border border-[#E8E8E8] hover:border-[#22c55e]",
       "p-3 pl-4",
       "font-inter font-medium",
       "text-sm text-[#141718]",
       "shadow-sm",
       "transition-all duration-200",
-      "focus:ring-1 focus:ring-[#FFC156] focus:ring-offset-0"
+      "focus:ring-1 focus:ring-[#22c55e] focus:ring-offset-0"
     ),
     sortBy: cn(
       "group h-auto bg-white",
@@ -69,7 +69,7 @@ const StyledSelectTrigger = ({ children, variant = "default" }) => {
       "font-inter font-medium",
       "text-sm text-[#121212]",
       "transition-all duration-200",
-      "hover:text-[#FFC156]",
+      "hover:text-[#22c55e]",
       "focus:ring-0 focus:ring-offset-0"
     ),
   };
@@ -88,10 +88,10 @@ const StyledSelectItem = ({ value, children }) => (
       "cursor-pointer rounded-lg p-3",
       "font-inter font-normal",
       "text-sm text-[#6C7275] bg-white",
-      "focus:bg-[#FFF8E7] focus:text-[#141718]",
-      "hover:bg-[#FFF8E7] hover:text-[#FFC156]",
+      "focus:bg-[#22c55e]/50 focus:text-[#141718]",
+      "hover:bg-[#22c55e] hover:text-[#22c55e]",
       "transition-all duration-150",
-      "data-[state=checked]:bg-[#FFF8E7] data-[state=checked]:font-medium data-[state=checked]:text-[#FFC156]"
+      "data-[state=checked]:bg-emerald-50 data-[state=checked]:font-medium data-[state=checked]:text-[#22c55e]"
     )}
   >
     {children}
@@ -109,11 +109,11 @@ const FilterSelect = ({ label, options, value, onValueChange }) => (
         <SelectIcon asChild>
           <ChevronDown
             color="#6C7275"
-            className="h-5 w-5 transition-transform duration-200 group-data-[state=open]:rotate-180 group-hover:text-[#FFC156]"
+            className="h-5 w-5 transition-transform duration-200 group-data-[state=open]:rotate-180 group-hover:text-[#22c55e]"
           />
         </SelectIcon>
       </StyledSelectTrigger>
-      <SelectContent className="rounded-xl border border-[#E8E8E8] p-1 shadow-lg">
+      <SelectContent className="rounded-xl border bg-white border-[#E8E8E8] p-1 shadow-lg">
         {options.map((option) => (
           <StyledSelectItem key={option.value} value={option.value}>
             {option.text}
@@ -294,7 +294,7 @@ export default function ShopPage() {
     <SectionLayout>
       <div>
         {/* Enhanced Hero Section */}
-        <div className="relative flex h-[320px] flex-col items-center justify-center gap-6 bg-gradient-to-r from-[#FFC156] to-[#FFD68A] text-center">
+        <div className="relative flex h-[320px] flex-col items-center justify-center gap-6 bg-gradient-to-r from-[#22c55e] to-[#22c55e] text-center">
           <div className="absolute inset-0 bg-[url('/patterns/subtle-dots.png')] opacity-10"></div>
           <div className="relative z-10 flex items-center gap-4">
             <Text size="sm" color="gray/900" weight={500} className="flex items-center gap-1 text-[#5A5A5A]">
@@ -303,7 +303,7 @@ export default function ShopPage() {
             <Text size="sm" weight={600} className="text-[#141718]">Shop</Text>
           </div>
           <div className="relative">
-            <Heading as="h1" className="text-4xl md:text-5xl font-serif text-[#141718]">
+            <Heading as="h1" className="text-4xl md:text-5xl font-serif text-[#fff]">
               Premium Collection
             </Heading>
             <div className="absolute -bottom-3 left-1/2 h-[3px] w-20 -translate-x-1/2 bg-[#141718] opacity-30"></div>
@@ -315,11 +315,11 @@ export default function ShopPage() {
 
         {/* Enhanced Search Bar */}
         <div className="mx-auto my-8 max-w-3xl px-4">
-          <div className="relative drop-shadow-sm">
+          <div className="relative drop-shadow-lg">
             <input
               type="text"
               placeholder="Search our collection..."
-              className="w-full rounded-xl border border-[#E8E8E8] bg-white p-4 pl-12 text-[#141718] placeholder-[#9CA3AF] transition-all duration-200 focus:border-[#FFC156] focus:outline-none focus:ring-1 focus:ring-[#FFC156]"
+              className="w-full rounded-xl border border-[#E8E8E8] bg-white p-4 pl-12 text-[#141718] placeholder-[#9CA3AF] transition-all duration-200 focus:border-[#22c55e] focus:outline-none focus:ring-1 focus:ring-[#22c55e]"
               value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
@@ -385,11 +385,11 @@ export default function ShopPage() {
                     <SelectIcon asChild>
                       <ChevronDown
                         color="#121212"
-                        className="h-5 w-5 transition-transform duration-200 group-data-[state=open]:rotate-180 group-hover:text-[#FFC156]"
+                        className="h-5 w-5 transition-transform duration-200 group-data-[state=open]:rotate-180 group-hover:text-[#22c55e]"
                       />
                     </SelectIcon>
                   </StyledSelectTrigger>
-                  <SelectContent className="w-[200px] rounded-xl border border-[#E8E8E8] p-1 shadow-lg">
+                  <SelectContent className="w-[200px] rounded-xl border bg-white border-[#E8E8E8] p-1 shadow-lg">
                     {FILTER_OPTIONS.sorts.map((sort) => (
                       <StyledSelectItem key={sort.value} value={sort.value}>
                         {sort.text}
@@ -407,7 +407,7 @@ export default function ShopPage() {
         <div className="min-h-[400px] px-4">
           {loading && productList.length === 0 ? (
             <div className="flex flex-col items-center justify-center gap-4 py-16">
-              <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#FFC156] border-t-transparent"></div>
+              <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#22c55e] border-t-transparent"></div>
               <Text className="text-[#6C7275]">Loading exquisite products...</Text>
             </div>
           ) : error ? (
@@ -433,10 +433,10 @@ export default function ShopPage() {
             <div className="flex flex-col items-center justify-center py-16">
               {routeCategoryId === "C0000" ? (
                 // Enhanced Coming Soon
-                <div className="flex flex-col items-center justify-center gap-6 rounded-xl bg-amber-50 p-12 text-center shadow-sm">
+                <div className="flex flex-col items-center justify-center gap-6 rounded-xl bg-emerald-50 p-12 text-center shadow-sm">
                   <div className="relative inline-block">
-                    <div className="absolute inset-0 animate-pulse rounded-full bg-[#FFC156] opacity-20"></div>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#FFC156" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <div className="absolute inset-0 animate-pulse rounded-full bg-[#22c55e] opacity-20"></div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <circle cx="12" cy="12" r="10" />
                       <polyline points="12 6 12 12 16 14" />
                     </svg>
@@ -447,7 +447,7 @@ export default function ShopPage() {
                   <Text className="max-w-md text-[#6C7275]">
                     We&apos;re crafting something exceptional. Stay tuned for our latest premium collection.
                   </Text>
-                  <div className="mt-2 h-1 w-16 rounded-full bg-[#FFC156] opacity-60"></div>
+                  <div className="mt-2 h-1 w-16 rounded-full bg-[#22c55e] opacity-60"></div>
                 </div>
               ) : (
                 // Enhanced No Products

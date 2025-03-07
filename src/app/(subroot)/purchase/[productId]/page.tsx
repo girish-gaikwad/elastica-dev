@@ -32,11 +32,11 @@ export default function ProductPage() {
   const whatsappNumber = "7598315432";
 
   // Luxurious theme colors
-  const primaryColor = "#FFC155"; // Golden base color
-  const accentColor = "#8A6D3B"; // Darker gold for contrast
+  const primaryColor = "#22c55e"; // Golden base color
+  const accentColor = "#15803d"; // Darker gold for contrast
   const textDark = "#1A1A1A"; // Near black for text
   const textLight = "#6B6B6B"; // Light gray for secondary text
-  const bgLight = "#FFFAF0"; // Cream/ivory background
+  const bgLight = "#ecfdf5"; // Cream/ivory background
   const bgDark = "#2D2D2D"; // Dark background for contrast elements
 
   useEffect(() => {
@@ -296,6 +296,29 @@ Hey i am enquiring about this product "Iam intrested"
                   </p>
                 )}
               </div>
+            {/* Color Variants */}
+            <div className="space-y-6 py-6">
+              <div className="space-y-2">
+                <p className="font-inter text-base font-semibold" style={{ color: accentColor }}>
+                  Colors
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    { id: 1, hexCode: "#FF0000" },
+                    { id: 2, hexCode: "#00FF00" },
+                    { id: 3, hexCode: "#0000FF" },
+                    { id: 4, hexCode: "#FFFF00" },
+                    { id: 5, hexCode: "#FF00FF" },
+                  ].map((color) => (
+                    <div
+                      key={color.id}
+                      className="w-12 h-12 rounded-full shadow-lg"
+                      style={{ background: color.hexCode }}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
 
             </div>
 
@@ -513,10 +536,10 @@ Hey i am enquiring about this product "Iam intrested"
                 >
                   <WishlistIcon
                     stroke={accentColor}
-                    fill={isInWishlist ? accentColor : "none"}
+                    fill={isInWishlist ? "#2E7D32" : "none"}
                     className="h-5 w-5"
                   />
-                  <span className="font-inter text-base font-medium" style={{ color: accentColor }}>
+                  <span className="font-inter text-base font-medium" style={{ color: isInWishlist ? "#2E7D32" : "#121212" }}>
                     {wishlistLoading ? "Loading..." : isInWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
                   </span>
                 </button>

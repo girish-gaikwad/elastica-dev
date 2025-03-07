@@ -8,7 +8,7 @@ function Features() {
     <SectionLayout>
       <div className="py-16 px-6 sm:px-8">
         <div className="mb-10 text-center">
-          <div className="mb-2 h-1 w-16 bg-[#FFC156] mx-auto"></div>
+          <div className="mb-2 h-1 w-16 bg-[#22c55e] mx-auto"></div>
           <Text 
             size="lg"
             weight={600}
@@ -24,8 +24,8 @@ function Features() {
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4">
-          <div className="group flex flex-col items-center text-center space-y-4 bg-white p-6 border border-gray-100 shadow-sm transition-all duration-300 hover:border-[#FFC156]/20 hover:shadow-md">
-            <div className="h-16 w-16 flex items-center justify-center bg-[#FFC156]/5 rounded-none border border-[#FFC156]/10 mb-2 transition-all duration-300 group-hover:bg-[#FFC156]/10">
+          <div className="group flex flex-col items-center text-center space-y-4 bg-white p-6 border border-gray-100 shadow-sm transition-all duration-300 hover:border-[#22c55e]/20 hover:shadow-md">
+            <div className="h-16 w-16 flex items-center justify-center bg-[#22c55e]/5 rounded-none border border-[#22c55e]/10 mb-2 transition-all duration-300 group-hover:bg-[#22c55e]/10">
               <DeliveryIcon className="h-8 w-8 text-[#15273e]" />
             </div>
             <div className="space-y-2">
@@ -44,8 +44,8 @@ function Features() {
             </div>
           </div>
 
-          <div className="group flex flex-col items-center text-center space-y-4 bg-white p-6 border border-gray-100 shadow-sm transition-all duration-300 hover:border-[#FFC156]/20 hover:shadow-md">
-            <div className="h-16 w-16 flex items-center justify-center bg-[#FFC156]/5 rounded-none border border-[#FFC156]/10 mb-2 transition-all duration-300 group-hover:bg-[#FFC156]/10">
+          <div className="group flex flex-col items-center text-center space-y-4 bg-white p-6 border border-gray-100 shadow-sm transition-all duration-300 hover:border-[#22c55e]/20 hover:shadow-md">
+            <div className="h-16 w-16 flex items-center justify-center bg-[#22c55e]/5 rounded-none border border-[#22c55e]/10 mb-2 transition-all duration-300 group-hover:bg-[#22c55e]/10">
               <MoneyIcon className="h-8 w-8 text-[#15273e]" />
             </div>
             <div className="space-y-2">
@@ -64,8 +64,8 @@ function Features() {
             </div>
           </div>
 
-          <div className="group flex flex-col items-center text-center space-y-4 bg-white p-6 border border-gray-100 shadow-sm transition-all duration-300 hover:border-[#FFC156]/20 hover:shadow-md">
-            <div className="h-16 w-16 flex items-center justify-center bg-[#FFC156]/5 rounded-none border border-[#FFC156]/10 mb-2 transition-all duration-300 group-hover:bg-[#FFC156]/10">
+          <div className="group flex flex-col items-center text-center space-y-4 bg-white p-6 border border-gray-100 shadow-sm transition-all duration-300 hover:border-[#22c55e]/20 hover:shadow-md">
+            <div className="h-16 w-16 flex items-center justify-center bg-[#22c55e]/5 rounded-none border border-[#22c55e]/10 mb-2 transition-all duration-300 group-hover:bg-[#22c55e]/10">
               <LockIcon className="h-8 w-8 text-[#15273e]" />
             </div>
             <div className="space-y-2">
@@ -84,8 +84,8 @@ function Features() {
             </div>
           </div>
 
-          <div className="group flex flex-col items-center text-center space-y-4 bg-white p-6 border border-gray-100 shadow-sm transition-all duration-300 hover:border-[#FFC156]/20 hover:shadow-md">
-            <div className="h-16 w-16 flex items-center justify-center bg-[#FFC156]/5 rounded-none border border-[#FFC156]/10 mb-2 transition-all duration-300 group-hover:bg-[#FFC156]/10">
+          <div className="group flex flex-col items-center text-center space-y-4 bg-white p-6 border border-gray-100 shadow-sm transition-all duration-300 hover:border-[#22c55e]/20 hover:shadow-md">
+            <div className="h-16 w-16 flex items-center justify-center bg-[#22c55e]/5 rounded-none border border-[#22c55e]/10 mb-2 transition-all duration-300 group-hover:bg-[#22c55e]/10">
               <CallIcon className="h-8 w-8 text-[#15273e]" />
             </div>
             <div className="space-y-2">

@@ -32,7 +32,7 @@ const CatalogProduct = ({
   if (loading) {
     return (
       <div className="flex justify-center items-center py-12 sm:py-16 md:py-20">
-        <div className="animate-spin rounded-full h-8 w-8 sm:h-10 sm:w-10 border-b-2 border-[#ffc155]"></div>
+        <div className="animate-spin rounded-full h-8 w-8 sm:h-10 sm:w-10 border-b-2 border-[#22c55e]"></div>
       </div>
     );
   }
@@ -60,7 +60,7 @@ const CatalogProduct = ({
             key={product._id || product.id}
             data={product}
             className={cn(
-              "group transition-all duration-300 hover:shadow-lg rounded-lg overflow-hidden border border-transparent hover:border-[#ffc15540]",
+              "group transition-all duration-300 hover:shadow-lg rounded-lg overflow-hidden border border-transparent hover:border-[#22c55e]",
               showDetail ? "sm:grid sm:grid-cols-2 sm:place-items-center" : undefined
             )}
           >
@@ -70,7 +70,7 @@ const CatalogProduct = ({
               <ProductCard.ThumbnailBadge className="flex justify-between w-full p-2 sm:p-3">
                 <div className="space-y-1">
                   {isNewProduct(product.createdAt) && (
-                    <ProductCard.Badge className="bg-[#ffc155] text-white font-medium tracking-wide px-2 py-0.5 text-xs sm:px-3 sm:py-1 sm:text-sm">new</ProductCard.Badge>
+                    <ProductCard.Badge className="bg-[#22c55e] text-white font-medium tracking-wide px-2 py-0.5 text-xs sm:px-3 sm:py-1 sm:text-sm">new</ProductCard.Badge>
                   )}
                   {product.originalPrice && product.originalPrice > product.price && (
                     <ProductCard.Badge intent="discount" className="bg-black text-white font-medium tracking-wide px-2 py-0.5 text-xs sm:px-3 sm:py-1 sm:text-sm">
@@ -79,7 +79,7 @@ const CatalogProduct = ({
                   )}
                 </div>
 
-                {!showDetail && <ProductCard.WishlistButton className="text-gray-800 hover:text-[#ffc155] transition-colors h-6 w-6 sm:h-7 sm:w-7" />}
+                {!showDetail && <ProductCard.WishlistButton productId={ product.id} className="text-gray-800 hover:text-[#22c55e] transition-colors h-6 w-6 sm:h-7 sm:w-7" />}
               </ProductCard.ThumbnailBadge>
 
               {/* image */}
@@ -95,14 +95,10 @@ const CatalogProduct = ({
             {/* product card content */}
             <ProductCard.Content className="p-3 sm:p-4 md:p-5 lg:p-6 bg-white">
               <Link href={`/purchase/${product.id}`}>
-                <ProductCard.Ratings value={product.rating || 0} className="text-[#ffc155] text-sm sm:text-base" />
+                <ProductCard.Ratings value={product.rating || 0} className="text-[#22c55e] text-sm sm:text-base" />
                 <div className="flex items-center justify-between gap-1 mt-1.5 sm:mt-2">
                   <ProductCard.Name className="font-serif text-gray-900 tracking-wide text-sm sm:text-base truncate">{product.name}</ProductCard.Name>
-                  <button
-                    className={`flex items-center justify-center p-1 sm:p-1.5 md:hidden ${!showDetail && "hidden"}`}
-                  >
-                    <WishlistIcon className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-gray-800 hover:text-[#ffc155] transition-colors" />
-                  </button>
+                
                 </div>
                 <div className="flex items-center gap-2 sm:gap-3 mt-1 sm:mt-2">
                   {product?.discount > 0 && (
@@ -131,20 +127,14 @@ const CatalogProduct = ({
                       width="full"
                       fontSize="sm"
                       onClick={() => addToWishlist(product.id)}
-                      className="flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm lg:text-base border border-gray-200 hover:border-[#ffc155] hover:text-[#ffc155] transition-colors py-2 sm:py-2.5 lg:py-3"
-                    >
+                      className="flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm lg:text-base border border-gray-200 hover:border-[#22c55e] hover:text-[#22c55e] transition-colors py-2 sm:py-2.5 lg:py-3"
+                      >
                       <WishlistIcon fill="currentColor" className="h-4 w-4 sm:h-5 sm:w-5" />
                       Add to Wishlist
                     </ProductCard.Button>
-                    <ProductCard.Button
-                      width="full"
-                      fontSize="sm"
-                      onClick={() => addToCart(product.id)}
-                      className="text-xs sm:text-sm lg:text-base bg-[#ffc155] text-white hover:bg-[#e5ad4d] transition-colors py-2 sm:py-2.5 lg:py-3 hover:cursor-pointer"
-                      disabled={!product.inStock}
-                    >
-                      {product.stock ? "Add to cart" : "Out of stock"}
-                    </ProductCard.Button>
+                    
+                  <ProductCard.AddToCartButton productId={ product.id}  />
+
                   </div>
                 </div>
               )}
@@ -156,7 +146,7 @@ const CatalogProduct = ({
       {hasmore && (
         <div className="flex justify-center pt-4 sm:pt-6">
           <button
-            className="rounded-full border-2 border-[#ffc155] px-6 sm:px-8 md:px-12 py-2 sm:py-2.5 font-serif text-sm sm:text-base font-medium text-[#333] hover:bg-[#ffc155] hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed tracking-wide"
+            className="rounded-full border-2 border-[#22c55e] px-6 sm:px-8 md:px-12 py-2 sm:py-2.5 font-serif text-sm sm:text-base font-medium text-[#333] hover:bg-[#22c55e] hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed tracking-wide"
             onClick={onLoadMore}
             disabled={loading}
           >

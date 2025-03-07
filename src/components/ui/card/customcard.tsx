@@ -18,7 +18,7 @@ import {
   ProductCardProvider,
   useProductCardContext,
 } from "@/hooks/productCardContext";
-import { addToWishlist, getWishlist, removeFromWishlist } from "@/lib/cartWishlistUtils";
+import { addToCart, addToWishlist, getWishlist, removeFromWishlist } from "@/lib/cartWishlistUtils";
 
 export type ProductDataProps = {
   data: {
@@ -155,6 +155,46 @@ const WishlistButton: React.FC<WishlistButtonProps> = ({
       {...props}
     >
       <WishlistIcon className="h-5 w-5" />
+    </button>
+  );
+};
+
+type AddToCartButtonProps = React.HTMLAttributes<HTMLButtonElement> & {
+  productId: string | number;
+  quantity?: number;
+};
+
+const AddToCartButton: React.FC<AddToCartButtonProps> = ({
+  className,
+  productId,
+  quantity = 1,
+  ...props
+}) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const handleAddToCart = async (e) => {
+    e.stopPropagation(); // Prevent triggering card click
+    if (!productId) return;
+    setIsLoading(true);
+    try {
+      await addToCart(productId.toString(), quantity);
+    } catch (error) {
+      console.error("Add to cart failed:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  return (
+    <button
+      className={cn(
+        "w-full bg-gradient-to-r from-[#22c55e] to-[#22c55e] text-[#2c405e] border-none px-6 py-3 text-sm font-medium shadow-md transition-all duration-300 hover:shadow-lg hover:shadow-[#22c55e]/20 active:scale-98 font-serif",
+        isLoading ? "opacity-80 cursor-not-allowed" : "",
+        className,
+      )}
+      onClick={handleAddToCart}
+      disabled={isLoading}
+      {...props}
+    >
+      <span>{isLoading ? "Adding..." : "Add to Cart"}</span>
     </button>
   );
 };
@@ -312,5 +352,6 @@ export {
   Name,
   Price,
   Description,
-  MRP
+  MRP,
+  AddToCartButton
 };

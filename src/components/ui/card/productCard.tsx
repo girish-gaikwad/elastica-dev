@@ -43,7 +43,7 @@ const Root: React.FC<RootProps> = ({ data, className, children, ...props }) => {
     <ProductCardProvider data={data}>
       <div
         className={cn(
-          "group relative w-full max-w-sm overflow-hidden rounded-xl border border-[#ffc156]/30 bg-white shadow-lg transition-all duration-300 hover:shadow-xl hover:shadow-[#ffc156]/10 hover:translate-y-[-4px]",
+          "group relative w-full max-w-sm overflow-hidden rounded-xl border border-[#22c55e]/30 bg-white shadow-lg transition-all duration-300 hover:shadow-xl hover:shadow-[#22c55e]/10 hover:translate-y-[-4px]",
           className
         )}
         {...props}
@@ -84,10 +84,10 @@ const badgeVariants = cva(
   {
     variants: {
       intent: {
-        default: "bg-white/95 text-[#2c405e] border border-[#ffc156]/20 shadow-sm backdrop-blur-sm",
-        discount: "bg-gradient-to-r from-[#ffc156] to-[#ffb830] text-[#2c405e]",
+        default: "bg-white/95 text-[#2c405e] border border-[#22c55e]/20 shadow-sm backdrop-blur-sm",
+        discount: "bg-gradient-to-r from-[#22c55e] to-[#22c55e] text-[#2c405e]",
         new: "bg-gradient-to-r from-[#a1c4fd] to-[#c2e9fb] text-[#2c405e]",
-        exclusive: "bg-gradient-to-r from-[#2c405e] to-[#15273e] text-[#ffc156]",
+        exclusive: "bg-gradient-to-r from-[#2c405e] to-[#15273e] text-[#22c55e]",
       },
     },
     defaultVariants: {
@@ -161,9 +161,9 @@ const WishlistButton: React.FC<WishlistButtonProps> = ({
   return (
     <button
       className={cn(
-        "absolute right-4 top-4 z-20 rounded-full bg-white/90 p-2.5 shadow-md backdrop-blur-sm transition-all duration-300 ease-out opacity-0 group-hover:opacity-100 hover:bg-white border border-[#ffc156]/20 hover:border-[#ffc156]/40 hover:shadow-lg",
+        "absolute right-4 top-4 z-20 rounded-full bg-white/90 p-2.5 shadow-md backdrop-blur-sm transition-all duration-300 ease-out opacity-0 group-hover:opacity-100 hover:bg-white border border-[#22c55e]/20 hover:border-[#22c55e]/40 hover:shadow-lg",
         isLoading ? "cursor-not-allowed" : "hover:scale-110 active:scale-95",
-        isInWishlist ? "bg-[#ffc156]/10" : "",
+        isInWishlist ? "bg-[#22c55e]/10" : "",
         className,
       )}
       onClick={handleWishlistToggle}
@@ -174,7 +174,7 @@ const WishlistButton: React.FC<WishlistButtonProps> = ({
       <Heart 
         className={cn(
           "h-5 w-5 transition-colors",
-          isInWishlist ? "fill-[#ffc156] text-[#ffc156]" : "text-[#2c405e]"
+          isInWishlist ? "fill-[#22c55e] text-[#22c55e]" : "text-[#2c405e]"
         )}
       />
     </button>
@@ -222,7 +222,7 @@ const Content: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
 }) => {
   return (
     <div className={cn("px-6 py-5 space-y-3 relative", className)} {...props}>
-      <div className="absolute top-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-[#ffc156]/30 to-transparent"></div>
+      <div className="absolute top-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-[#22c55e]/30 to-transparent"></div>
       {children}
     </div>
   );
@@ -250,7 +250,7 @@ const Ratings: React.FC<RatingsProps> = ({ className }) => {
           <StarIcon
             key={index}
             className={cn(
-              "h-4 w-4 text-[#ffc156]"
+              "h-4 w-4 text-[#22c55e]"
             )}
           />
         ))}
@@ -310,7 +310,7 @@ const Discount: React.FC<DiscountProps> = ({ className, ...props }) => {
       size="xs"
       weight={700}
       color="[#2c405e]"
-      className={cn("bg-[#ffc156] px-2.5 py-1 rounded-md inline-block", className)}
+      className={cn("bg-[#22c55e] px-2.5 py-1 rounded-md inline-block", className)}
       {...props}
     >
       -{discount}%
@@ -371,7 +371,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   return (
     <Button
       className={cn(
-        "w-full bg-gradient-to-r from-[#ffc156] to-[#ffb830] text-[#2c405e] border-none px-6 py-3 text-sm font-medium shadow-md transition-all duration-300 hover:shadow-lg hover:shadow-[#ffc156]/20 active:scale-98 font-serif",
+        "w-full bg-gradient-to-r from-[#22c55e] to-[#22c55e] text-[#2c405e] border-none px-6 py-3 text-sm font-medium shadow-md transition-all duration-300 hover:shadow-lg hover:shadow-[#22c55e]/20 active:scale-98 font-serif",
         isLoading ? "opacity-80 cursor-not-allowed" : "",
         className
       )}

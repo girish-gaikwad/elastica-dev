@@ -136,7 +136,7 @@ function ProfilePage() {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen bg-gray-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#ffc155]"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#22c55e]"></div>
       </div>
     );
   }
@@ -146,14 +146,14 @@ function ProfilePage() {
       <div className="flex flex-col justify-center items-center min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
         <div className="bg-white p-8 rounded-lg shadow-xl max-w-md w-full border border-gray-100">
           <div className="flex justify-center mb-6">
-            <div className="h-20 w-20 bg-[#ffc155] rounded-full flex items-center justify-center shadow-lg">
+            <div className="h-20 w-20 bg-[#22c55e] rounded-full flex items-center justify-center shadow-lg">
               <LockIcon size={36} className="text-white" />
             </div>
           </div>
           <h1 className="text-2xl font-bold text-center mb-4">Access Denied</h1>
           <p className="text-gray-600 text-center">Please login to view your profile</p>
           <div className="mt-6">
-            <a href="/login" className="block w-full text-center py-3 px-4 bg-[#ffc155] hover:bg-amber-400 text-white font-medium rounded-md transition duration-300 shadow-md">
+            <a href="/login" className="block w-full text-center py-3 px-4 bg-[#22c55e] hover:bg-emerald-400 text-white font-medium rounded-md transition duration-300 shadow-md">
               Go to Login
             </a>
           </div>
@@ -165,14 +165,14 @@ function ProfilePage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-[#ffc155] to-amber-400 text-white py-10 shadow-md">
+      <div className="bg-gradient-to-r from-[#22c55e] to-emerald-400 text-white py-10 shadow-md">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="mb-6 md:mb-0">
               <div className="flex items-center">
                 <div className="bg-white rounded-full p-3 mr-5 shadow-lg">
-                  <div className="h-20 w-20 rounded-full bg-gradient-to-br from-amber-100 to-amber-200 flex items-center justify-center">
-                    <UserIcon size={40} className="text-[#ffc155]" />
+                  <div className="h-20 w-20 rounded-full bg-gradient-to-br from-emerald-100 to-emerald-200 flex items-center justify-center">
+                    <UserIcon size={40} className="text-[#22c55e]" />
                   </div>
                 </div>
                 <div>
@@ -200,7 +200,7 @@ function ProfilePage() {
               <button 
                 onClick={() => setActiveTab('personal')}
                 className={`px-5 py-2.5 rounded-md transition duration-300 flex items-center ${
-                  activeTab === 'personal' ? 'bg-white text-[#ffc155] shadow-md' : 'bg-transparent text-white hover:bg-white/20'
+                  activeTab === 'personal' ? 'bg-white text-[#22c55e] shadow-md' : 'bg-transparent text-white hover:bg-white/20'
                 }`}
               >
                 <UserIcon size={18} className="mr-2" />
@@ -209,7 +209,7 @@ function ProfilePage() {
               <button 
                 onClick={() => setActiveTab('security')}
                 className={`px-5 py-2.5 rounded-md transition duration-300 flex items-center ${
-                  activeTab === 'security' ? 'bg-white text-[#ffc155] shadow-md' : 'bg-transparent text-white hover:bg-white/20'
+                  activeTab === 'security' ? 'bg-white text-[#22c55e] shadow-md' : 'bg-transparent text-white hover:bg-white/20'
                 }`}
               >
                 <ShieldIcon size={18} className="mr-2" />
@@ -228,7 +228,7 @@ function ProfilePage() {
               <div className="border-b border-gray-200 p-8">
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-xl font-semibold text-gray-800 flex items-center">
-                    <UserIcon size={20} className="text-[#ffc155] mr-2" />
+                    <UserIcon size={20} className="text-[#22c55e] mr-2" />
                     Personal Information
                   </h2>
                   <button 
@@ -236,7 +236,7 @@ function ProfilePage() {
                     className={`px-4 py-2 rounded-lg transition duration-300 flex items-center ${
                       isEditing 
                         ? 'bg-gray-100 text-gray-700 hover:bg-gray-200' 
-                        : 'bg-[#ffc155] text-white hover:bg-amber-400 shadow-md'
+                        : 'bg-[#22c55e] text-white hover:bg-emerald-400 shadow-md'
                     }`}
                   >
                     {isEditing ? (
@@ -267,7 +267,7 @@ function ProfilePage() {
                             name="name"
                             value={formData.name}
                             onChange={handleChange}
-                            className="w-full pl-10 px-4 py-3 border border-gray-300 text-black rounded-lg focus:ring-2 focus:ring-[#ffc155] focus:border-transparent transition"
+                            className="w-full pl-10 px-4 py-3 border border-gray-300 text-black rounded-lg focus:ring-2 focus:ring-[#22c55e] focus:border-transparent transition"
                           />
                         </div>
                       </div>
@@ -298,7 +298,7 @@ function ProfilePage() {
                             name="phone"
                             value={formData.phone}
                             onChange={handleChange}
-                            className="w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg text-black focus:ring-2 focus:ring-[#ffc155] focus:border-transparent transition"
+                            className="w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg text-black focus:ring-2 focus:ring-[#22c55e] focus:border-transparent transition"
                           />
                         </div>
                       </div>
@@ -316,8 +316,8 @@ function ProfilePage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition duration-300">
                         <div className="flex items-center mb-3">
-                          <div className="p-2 rounded-full bg-amber-100 mr-3">
-                            <UserIcon size={18} className="text-[#ffc155]" />
+                          <div className="p-2 rounded-full bg-emerald-100 mr-3">
+                            <UserIcon size={18} className="text-[#22c55e]" />
                           </div>
                           <p className="text-sm font-medium text-gray-500">Full Name</p>
                         </div>
@@ -325,8 +325,8 @@ function ProfilePage() {
                       </div>
                       <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition duration-300">
                         <div className="flex items-center mb-3">
-                          <div className="p-2 rounded-full bg-amber-100 mr-3">
-                            <MailIcon size={18} className="text-[#ffc155]" />
+                          <div className="p-2 rounded-full bg-emerald-100 mr-3">
+                            <MailIcon size={18} className="text-[#22c55e]" />
                           </div>
                           <p className="text-sm font-medium text-gray-500">Email Address</p>
                         </div>
@@ -334,8 +334,8 @@ function ProfilePage() {
                       </div>
                       <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition duration-300">
                         <div className="flex items-center mb-3">
-                          <div className="p-2 rounded-full bg-amber-100 mr-3">
-                            <PhoneIcon size={18} className="text-[#ffc155]" />
+                          <div className="p-2 rounded-full bg-emerald-100 mr-3">
+                            <PhoneIcon size={18} className="text-[#22c55e]" />
                           </div>
                           <p className="text-sm font-medium text-gray-500">Phone Number</p>
                         </div>
@@ -343,8 +343,8 @@ function ProfilePage() {
                       </div>
                       <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition duration-300">
                         <div className="flex items-center mb-3">
-                          <div className="p-2 rounded-full bg-amber-100 mr-3">
-                            <BriefcaseIcon size={18} className="text-[#ffc155]" />
+                          <div className="p-2 rounded-full bg-emerald-100 mr-3">
+                            <BriefcaseIcon size={18} className="text-[#22c55e]" />
                           </div>
                           <p className="text-sm font-medium text-gray-500">Role</p>
                         </div>
@@ -352,8 +352,8 @@ function ProfilePage() {
                       </div>
                       <div className="col-span-1 md:col-span-2 bg-gradient-to-br from-gray-50 to-gray-100 p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition duration-300">
                         <div className="flex items-center mb-3">
-                          <div className="p-2 rounded-full bg-amber-100 mr-3">
-                            <CalendarIcon size={18} className="text-[#ffc155]" />
+                          <div className="p-2 rounded-full bg-emerald-100 mr-3">
+                            <CalendarIcon size={18} className="text-[#22c55e]" />
                           </div>
                           <p className="text-sm font-medium text-gray-500">Member Since</p>
                         </div>
@@ -377,7 +377,7 @@ function ProfilePage() {
               <div className="p-8">
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center">
-                    <ShieldIcon size={22} className="text-[#ffc155] mr-3" />
+                    <ShieldIcon size={22} className="text-[#22c55e] mr-3" />
                     <h2 className="text-xl font-semibold text-gray-800">Password & Security</h2>
                   </div>
                   <button 
@@ -385,7 +385,7 @@ function ProfilePage() {
                     className={`px-4 py-2 rounded-lg transition duration-300 flex items-center ${
                       isChangingPassword 
                         ? 'bg-gray-100 text-gray-700 hover:bg-gray-200' 
-                        : 'bg-[#ffc155] text-white hover:bg-amber-400 shadow-md'
+                        : 'bg-[#22c55e] text-white hover:bg-emerald-400 shadow-md'
                     }`}
                   >
                     {isChangingPassword ? (
@@ -416,7 +416,7 @@ function ProfilePage() {
                             name="currentPassword"
                             value={formData.currentPassword}
                             onChange={handleChange}
-                            className="w-full pl-10 px-4 py-3 border text-black border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ffc155] focus:border-transparent transition"
+                            className="w-full pl-10 px-4 py-3 border text-black border-gray-300 rounded-lg focus:ring-2 focus:ring-[#22c55e] focus:border-transparent transition"
                             required
                           />
                         </div>
@@ -432,7 +432,7 @@ function ProfilePage() {
                             name="newPassword"
                             value={formData.newPassword}
                             onChange={handleChange}
-                            className="w-full pl-10 px-4 py-3 border text-black border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ffc155] focus:border-transparent transition"
+                            className="w-full pl-10 px-4 py-3 border text-black border-gray-300 rounded-lg focus:ring-2 focus:ring-[#22c55e] focus:border-transparent transition"
                             required
                           />
                         </div>
@@ -448,7 +448,7 @@ function ProfilePage() {
                             name="confirmPassword"
                             value={formData.confirmPassword}
                             onChange={handleChange}
-                            className="w-full pl-10 px-4 py-3 border text-black border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ffc155] focus:border-transparent transition"
+                            className="w-full pl-10 px-4 py-3 border text-black border-gray-300 rounded-lg focus:ring-2 focus:ring-[#22c55e] focus:border-transparent transition"
                             required
                           />
                         </div>
@@ -465,8 +465,8 @@ function ProfilePage() {
                 ) : (
                   <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-6 rounded-xl mt-6 shadow-md border border-gray-100">
                     <div className="flex items-start">
-                      <div className="bg-amber-100 p-3 rounded-full mr-4 shadow-sm">
-                        <ShieldIcon size={24} className="text-[#ffc155]" />
+                      <div className="bg-emerald-100 p-3 rounded-full mr-4 shadow-sm">
+                        <ShieldIcon size={24} className="text-[#22c55e]" />
                       </div>
                       <div>
                         <h3 className="font-medium text-gray-800 text-lg">Password Protection</h3>
@@ -501,7 +501,7 @@ function ProfilePage() {
                         </div>
                         <button 
                           onClick={handlePasswordToggle}
-                          className="mt-6 px-4 py-2 bg-[#ffc155] text-white hover:bg-amber-400 font-medium transition rounded-lg shadow-md flex items-center"
+                          className="mt-6 px-4 py-2 bg-[#22c55e] text-white hover:bg-emerald-400 font-medium transition rounded-lg shadow-md flex items-center"
                         >
                           <LockIcon size={16} className="mr-2" />
                           Change my password

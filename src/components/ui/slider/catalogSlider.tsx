@@ -81,14 +81,14 @@ export default function CatalogSlider({ products }) {
   return (
     <div className="relative py-6 sm:py-8 px-2 sm:px-4">
       {/* Background gradient effect - mobile optimized */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#f0f8ff]/30 via-white to-[#ffc156]/10 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#f0f8ff]/30 via-white to-[#22c55e]/10 pointer-events-none" />
       
       {loaded && instanceRef.current && !isMobile && (
         <>
           <button
             onClick={() => instanceRef.current?.prev()}
             disabled={currentSlide === 0}
-            className="absolute left-2 sm:left-4 top-1/2 z-10 flex h-8 w-8 sm:h-12 sm:w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white border border-[#ffc156]/20 shadow-lg transition-all duration-300 hover:border-[#ffc156]/40 hover:bg-[#ffc156]/5 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed"
+            className="absolute left-2 sm:left-4 top-1/2 z-10 flex h-8 w-8 sm:h-12 sm:w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white border border-[#22c55e]/20 shadow-lg transition-all duration-300 hover:border-[#22c55e]/40 hover:bg-[#22c55e]/5 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed"
             aria-label="Previous slide"
           >
             <ChevronLeft className="h-4 w-4 sm:h-6 sm:w-6 text-[#2c405e]" />
@@ -99,7 +99,7 @@ export default function CatalogSlider({ products }) {
               currentSlide ===
               instanceRef.current.track.details.slides.length - 1
             }
-            className="absolute right-2 sm:right-4 top-1/2 z-10 flex h-8 w-8 sm:h-12 sm:w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white border border-[#ffc156]/20 shadow-lg transition-all duration-300 hover:border-[#ffc156]/40 hover:bg-[#ffc156]/5 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed"
+            className="absolute right-2 sm:right-4 top-1/2 z-10 flex h-8 w-8 sm:h-12 sm:w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white border border-[#22c55e]/20 shadow-lg transition-all duration-300 hover:border-[#22c55e]/40 hover:bg-[#22c55e]/5 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed"
             aria-label="Next slide"
           >
             <ChevronRight className="h-4 w-4 sm:h-6 sm:w-6 text-[#2c405e]" />
@@ -108,8 +108,8 @@ export default function CatalogSlider({ products }) {
       )}
       
       {/* Decorative elements - mobile optimized */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 h-px w-1/2 sm:w-1/3 bg-gradient-to-r from-transparent via-[#ffc156]/40 to-transparent" />
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-px w-1/2 sm:w-1/3 bg-gradient-to-r from-transparent via-[#ffc156]/40 to-transparent" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 h-px w-1/2 sm:w-1/3 bg-gradient-to-r from-transparent via-[#22c55e]/40 to-transparent" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-px w-1/2 sm:w-1/3 bg-gradient-to-r from-transparent via-[#22c55e]/40 to-transparent" />
       
       <div ref={slideRef} className="keen-slider">
         {products.map((product) => (
@@ -164,7 +164,7 @@ export default function CatalogSlider({ products }) {
               onClick={() => instanceRef.current?.moveToIdx(idx)}
               className={`h-1.5 sm:h-2 rounded-full transition-all duration-300 ${
                 currentSlide === idx 
-                  ? "w-4 sm:w-6 bg-[#ffc156]" 
+                  ? "w-4 sm:w-6 bg-[#22c55e]" 
                   : "w-1.5 sm:w-2 bg-[#2c405e]/20 hover:bg-[#2c405e]/40"
               }`}
               aria-label={`Go to slide ${idx + 1}`}

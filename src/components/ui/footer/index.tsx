@@ -20,7 +20,7 @@ const Footer = () => {
                 Elastica
                 {/* <span className="text-[#FFC156]">.</span> */}
               </h3>
-              <div className="absolute -bottom-2 left-0 h-[2px] w-16 bg-[#FFC156] opacity-70"></div>
+              <div className="absolute -bottom-2 left-0 h-[2px] w-16 bg-[#22c55e] opacity-70"></div>
             </div>
             <Text size="sm" color="white/900" className="max-w-xs text-center lg:text-left">
               Discover the world of  recycled rubber products crafted with sustainability and elegance in mind.
@@ -29,16 +29,16 @@ const Footer = () => {
             <div className="mt-4 flex items-center justify-center gap-6 lg:mt-6">
               <Link href="https://www.instagram.com/elastica_srkp/">
                 <InstagramIcon
-                  fill="#FFC156"
-                  stroke="#FFC156"
+                  fill="#22c55e"
+                  stroke="#22c55e"
                   className="h-5 w-5 transition-all hover:opacity-80"
                 />
               </Link>
               <Link href="mailto:sales@elastica.co.in">
-                <Mail stroke="#FFC156" className="h-5 w-5 transition-all hover:opacity-80" />
+                <Mail stroke="#22c55e" className="h-5 w-5 transition-all hover:opacity-80" />
               </Link>
               <Link href="tel:+917598315432">
-                <CallIcon stroke="#FFC156" className="h-5 w-5 transition-all hover:opacity-80" />
+                <CallIcon stroke="#22c55e" className="h-5 w-5 transition-all hover:opacity-80" />
               </Link>
             </div>
           </div>
@@ -49,19 +49,19 @@ const Footer = () => {
                 NAVIGATION
               </Text>
               <ul className="flex flex-col gap-4 text-center lg:text-left">
-                <li className="font-inter text-sm font-normal text-[#FEFEFE] transition-all hover:text-[#FFC156]">
+                <li className="font-inter text-sm font-normal text-[#FEFEFE] transition-all hover:text-[#22c55e]">
                   <Link href="/">Home</Link>
                 </li>
-                <li className="font-inter text-sm font-normal text-[#FEFEFE] transition-all hover:text-[#FFC156]">
+                <li className="font-inter text-sm font-normal text-[#FEFEFE] transition-all hover:text-[#22c55e]">
                   <Link href="/aboutUs">About Us</Link>
                 </li>
-                <li className="font-inter text-sm font-normal text-[#FEFEFE] transition-all hover:text-[#FFC156]">
+                <li className="font-inter text-sm font-normal text-[#FEFEFE] transition-all hover:text-[#22c55e]">
                   <Link href="/shop/all">Shop</Link>
                 </li>
-                <li className="font-inter text-sm font-normal text-[#FEFEFE] transition-all hover:text-[#FFC156]">
+                <li className="font-inter text-sm font-normal text-[#FEFEFE] transition-all hover:text-[#22c55e]">
                   <Link href="/products">Products</Link>
                 </li>
-                <li className="font-inter text-sm font-normal text-[#FEFEFE] transition-all hover:text-[#FFC156]">
+                <li className="font-inter text-sm font-normal text-[#FEFEFE] transition-all hover:text-[#22c55e]">
                   <Link href="/contactUs">Contact Us</Link>
                 </li>
               </ul>
@@ -72,13 +72,13 @@ const Footer = () => {
                 COLLECTIONS
               </Text>
               <ul className="flex flex-col gap-4 text-center lg:text-left">
-                <li className="font-inter text-sm font-normal text-[#FEFEFE] transition-all hover:text-[#FFC156]">
+                <li className="font-inter text-sm font-normal text-[#FEFEFE] transition-all hover:text-[#22c55e]">
                   <Link href="/shop/all">All Products</Link>
                 </li>
-                <li className="font-inter text-sm font-normal text-[#FEFEFE] transition-all hover:text-[#FFC156]">
+                <li className="font-inter text-sm font-normal text-[#FEFEFE] transition-all hover:text-[#22c55e]">
                   <Link href="/shop/C1001">Home & Gardern</Link>
                 </li>
-                <li className="font-inter text-sm font-normal text-[#FEFEFE] transition-all hover:text-[#FFC156]">
+                <li className="font-inter text-sm font-normal text-[#FEFEFE] transition-all hover:text-[#22c55e]">
                   <Link href="/shop/C1002">Sports & Fitness</Link>
                 </li>
                
@@ -90,10 +90,10 @@ const Footer = () => {
                 CONTACT
               </Text>
               <div className="flex flex-col gap-4 text-center lg:text-left">
-                <Text size="sm" color="white/900" className="transition-all hover:text-[#FFC156]">
+                <Text size="sm" color="white/900" className="transition-all hover:text-[#22c55e]">
                   <Link href="mailto:sales@elastica.co.in">sales@elastica.co.in</Link>
                 </Text>
-                <Text size="sm" color="white/900" className="transition-all hover:text-[#FFC156]">
+                <Text size="sm" color="white/900" className="transition-all hover:text-[#22c55e]">
                   <Link href="tel:+917598315432">+91 759 831 5432</Link>
                 </Text>
                 <Text size="sm" color="white/900">
@@ -116,12 +116,12 @@ const Footer = () => {
 
           <div className="flex justify-center gap-7">
             <Link href="/terms&policy">
-              <Text size="xs" weight={400} family="poppins" color="white/900" className="transition-all hover:text-[#FFC156]">
+              <Text size="xs" weight={400} family="poppins" color="white/900" className="transition-all hover:text-[#22c55e]">
                 Privacy Policy
               </Text>
             </Link>
             <Link href="/terms&policy">
-              <Text size="xs" weight={400} family="poppins" color="white/900" className="transition-all hover:text-[#FFC156]">
+              <Text size="xs" weight={400} family="poppins" color="white/900" className="transition-all hover:text-[#22c55e]">
                 Terms of Use
               </Text>
             </Link>

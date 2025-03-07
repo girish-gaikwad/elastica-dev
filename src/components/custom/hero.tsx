@@ -142,7 +142,7 @@ const HeroSection = () => {
   const handleMouseLeave = () => setIsPaused(false);
 
   if (error) return (
-    <SectionLayout bg="bg-gradient-to-r from-[#ffc95c] to-[#ffb84d]" className="relative overflow-hidden">
+    <SectionLayout bg="bg-gradient-to-r from-green-500 to-green-600" className="relative overflow-hidden">
       <div className="min-h-[600px] sm:min-h-[500px] lg:min-h-[600px] flex items-center justify-center">
         <div className="p-6 bg-white rounded-xl shadow-lg">
           <Text className="text-red-500 text-center font-medium">Error: {error}</Text>
@@ -152,7 +152,7 @@ const HeroSection = () => {
   );
 
   if (loading) return (
-    <SectionLayout bg="bg-gradient-to-r from-[#ffc95c] to-[#ffb84d]" className="relative overflow-hidden">
+    <SectionLayout bg="bg-gradient-to-r from-green-500 to-green-600" className="relative overflow-hidden">
       <div className="relative min-h-[600px] sm:min-h-[500px] lg:min-h-[600px] w-full">
         <HeroSkeleton />
       </div>
@@ -163,7 +163,7 @@ const HeroSection = () => {
 
   return (
     <SectionLayout
-      bg="bg-gradient-to-r from-[#ffc95c] to-[#ffb84d]"
+      bg="bg-gradient-to-r from-[#22c55e] to-[#22c55e]"
       className="relative overflow-hidden"
     >
       {/* Background pattern */}
@@ -218,7 +218,7 @@ const HeroSection = () => {
               >
                 <motion.div variants={textVariants} custom={0}>
                   <div className="inline-flex items-center gap-2 bg-black bg-opacity-10 backdrop-blur-md px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm border border-white border-opacity-20">
-                    <span className="text-[#377DFF] font-semibold">{products[currentIndex].category}</span>
+                    <span className="text-white font-semibold">{products[currentIndex].category}</span>
                     <div className="flex items-center">
                       <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
                       <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
@@ -230,8 +230,9 @@ const HeroSection = () => {
                 </motion.div>
                 
                 <motion.div variants={textVariants} custom={1}>
-                  <Heading as="h2" className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
-                    {products[currentIndex].title} <span className="text-[#377DFF]">amazing</span>
+                  <Heading as="h2" className="text-2xl text-[#f6f6f6] sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
+                    {products[currentIndex].title} 
+                    {/* <span className="text-[#377DFF]">amazing</span> */}
                   </Heading>
                 </motion.div>
                 

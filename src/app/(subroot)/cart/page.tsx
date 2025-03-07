@@ -178,15 +178,15 @@ const CartPage = () => {
       <header className="bg-white shadow-md py-5 sticky top-0 z-10 border-b border-gray-100">
         <div className="container mx-auto px-6">
           <div className="flex justify-between items-center">
-            <Link href="/" className="flex items-center text-gray-800 hover:text-[#ffc155] transition-colors">
+            <Link href="/" className="flex items-center text-gray-800 hover:text-[#22c55e] transition-colors">
               <ArrowLeft className="h-5 w-5 mr-2" />
               <span className="font-medium">Continue Shopping</span>
             </Link>
             <div className="flex items-center space-x-8">
-              <Link href="/cart" className="font-medium text-[#ffc155] border-b-2 border-[#ffc155] pb-1">
+              <Link href="/cart" className="font-medium text-[#22c55e] border-b-2 border-[#22c55e] pb-1">
                 Shopping Bag
               </Link>
-              <Link href="/wishlist" className="font-medium text-gray-600 hover:text-[#ffc155] transition-colors">
+              <Link href="/wishlist" className="font-medium text-gray-600 hover:text-[#22c55e] transition-colors">
                 Favorites
               </Link>
             </div>
@@ -210,7 +210,7 @@ const CartPage = () => {
             <p className="text-gray-500 mb-8 max-w-md mx-auto">It looks like you haven't added any items to your collection yet.</p>
             <Link 
               href="/categories" 
-              className="bg-[#ffc155] hover:bg-[#e6ad4c] text-white px-8 py-3 rounded-full font-medium transition-colors inline-block shadow-md hover:shadow-lg"
+              className="bg-[#22c55e] hover:bg-emerald-600 text-white px-8 py-3 rounded-full font-medium transition-colors inline-block shadow-md hover:shadow-lg"
             >
               Discover Luxury Items
             </Link>
@@ -245,7 +245,7 @@ const CartPage = () => {
                       {/* Product Details */}
                       <div className="flex-grow px-0 sm:px-6">
                         <Link href={`/purchase/${product.id}`}>
-                          <h3 className="font-medium text-gray-800 hover:text-[#ffc155] transition-colors text-lg">{product.name}</h3>
+                          <h3 className="font-medium text-gray-800 hover:text-[#22c55e] transition-colors text-lg">{product.name}</h3>
                         </Link>
                         <p className="text-sm text-gray-500 mt-2">Brand: <span className="font-medium">{product.brand}</span></p>
                         <div className="mt-3">
@@ -326,7 +326,7 @@ const CartPage = () => {
                 
                 {/* WhatsApp Enquiry Button */}
                 <button 
-                  className="w-full bg-[#ffc155] hover:bg-[#e6ad4c] text-white py-4 rounded-full font-medium mt-8 transition-colors flex items-center justify-center shadow-md hover:shadow-lg"
+                  className="w-full bg-[#22c55e] hover:bg-emerald-600 text-white py-4 rounded-full font-medium mt-8 transition-colors flex items-center justify-center shadow-md hover:shadow-lg"
                   onClick={handleWhatsAppEnquiry}
                   disabled={cart.length === 0}
                 >
@@ -339,7 +339,7 @@ const CartPage = () => {
                 </div>
                 
                 <div className="flex justify-center mt-6">
-                  <Link href="/" className="text-[#ffc155] hover:text-[#e6ad4c] font-medium flex items-center transition-colors">
+                  <Link href="/" className="text-[#22c55e] hover:text-emerald-600 font-medium flex items-center transition-colors">
                     <ArrowLeft className="h-4 w-4 mr-2" />
                     Continue Shopping
                   </Link>

@@ -87,15 +87,15 @@ const WishlistPage = () => {
       <header className="bg-white shadow-md py-5 sticky top-0 z-10 border-b border-gray-100">
         <div className="container mx-auto px-6">
           <div className="flex justify-between items-center">
-            <Link href="/" className="flex items-center text-gray-800 hover:text-[#ffc155] transition-colors">
+            <Link href="/" className="flex items-center text-gray-800 hover:text-[#22c55e] transition-colors">
               <ArrowLeft className="h-5 w-5 mr-2" />
               <span className="font-medium">Continue Shopping</span>
             </Link>
             <div className="flex items-center space-x-8">
-              <Link href="/cart" className="font-medium text-gray-600 hover:text-[#ffc155] transition-colors">
+              <Link href="/cart" className="font-medium text-gray-600 hover:text-[#22c55e] transition-colors">
                 Shopping Bag
               </Link>
-              <Link href="/wishlist" className="font-medium text-[#ffc155] border-b-2 border-[#ffc155] pb-1">
+              <Link href="/wishlist" className="font-medium text-[#22c55e] border-b-2 border-[#22c55e] pb-1">
                 Favorites
               </Link>
             </div>
@@ -119,7 +119,7 @@ const WishlistPage = () => {
             <p className="text-gray-500 mb-8 max-w-md mx-auto">Items you save to favorites will be displayed here for easy access.</p>
             <Link 
               href="/categories" 
-              className="bg-[#ffc155] hover:bg-[#e6ad4c] text-white px-8 py-3 rounded-full font-medium transition-colors inline-block shadow-md hover:shadow-lg"
+              className="bg-[#22c55e] hover:bg-emerald-600 text-white px-8 py-3 rounded-full font-medium transition-colors inline-block shadow-md hover:shadow-lg"
             >
               Discover Luxury Items
             </Link>
@@ -160,7 +160,7 @@ const WishlistPage = () => {
                 </div>
                 <div className="p-6">
                   <Link href={`/purchase/${product.id}`}>
-                    <h3 className="font-medium text-gray-800 text-lg line-clamp-2 group-hover:text-[#ffc155] transition-colors min-h-[3.5rem]">{product.name}</h3>
+                    <h3 className="font-medium text-gray-800 text-lg line-clamp-2 group-hover:text-[#22c55e] transition-colors min-h-[3.5rem]">{product.name}</h3>
                   </Link>
                   <p className="text-sm text-gray-500 mt-2">Brand: <span className="font-medium">{product.brand}</span></p>
                   <div className="mt-3">
@@ -176,7 +176,7 @@ const WishlistPage = () => {
                   <button 
                     onClick={() => handleAddToCart(product.id)}
                     disabled={actionLoading[product.id] === 'cart'}
-                    className="w-full mt-5 bg-[#ffc155] hover:bg-[#e6ad4c] text-white py-3 rounded-full font-medium transition-colors flex items-center justify-center shadow-md hover:shadow-lg"
+                    className="w-full mt-5 bg-[#22c55e] hover:bg-emerald-600 text-white py-3 rounded-full font-medium transition-colors flex items-center justify-center shadow-md hover:shadow-lg"
                   >
                     {actionLoading[product.id] === 'cart' ? (
                       <>

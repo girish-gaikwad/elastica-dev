@@ -48,7 +48,7 @@ const Navbar: React.FC<NavbarProps> = () => {
       <div
         className={cn(
           "sticky top-0 z-[100] transition-all duration-300 ease-in-out",
-          isRootPage ? "bg-gradient-to-r from-amber-100 to-amber-200" : "bg-white",
+          isRootPage ? "bg-gradient-to-r from-green-100 to-green-200" : "bg-white",
           scroll && "bg-white shadow-md backdrop-blur-sm bg-white/90"
         )}
       >
@@ -72,7 +72,7 @@ const Navbar: React.FC<NavbarProps> = () => {
             <div className="flex items-center gap-4 lg:basis-1/4 lg:justify-end">
               <Link 
                 href="/profilePage" 
-                className="hidden lg:block text-gray-700 hover:text-black transition-colors" 
+                className="hidden lg:block text-gray-700 hover:text-green-600 transition-colors" 
                 data-tooltip-id="profile-tooltip"
               >
                 <User className="w-5 h-5 stroke-2" />
@@ -90,11 +90,11 @@ const Navbar: React.FC<NavbarProps> = () => {
             
               <Link 
                 href="/cart" 
-                className="flex items-center relative text-gray-700 hover:text-black transition-colors" 
+                className="flex items-center relative text-gray-700 hover:text-green-600 transition-colors" 
                 data-tooltip-id="cart-tooltip"
               >
                 <CartIcon className="w-6" />
-                <span className="absolute -top-2 -right-2 w-4 h-4 bg-amber-500 text-white rounded-full text-xs flex items-center justify-center">2</span>
+                <span className="absolute -top-2 -right-2 w-4 h-4 bg-green-500 text-white rounded-full text-xs flex items-center justify-center">2</span>
               </Link>
               <Tooltip id="cart-tooltip" place="top" content="Cart" className="text-xs font-light" />
             
@@ -119,7 +119,7 @@ const Navbar: React.FC<NavbarProps> = () => {
               </Link>
               <Link
                 href="/signup"
-                className="hidden lg:flex items-center justify-center px-5 py-2 rounded-lg bg-amber-500 text-white hover:bg-amber-600 transition-colors text-sm font-medium"
+                className="hidden lg:flex items-center justify-center px-5 py-2 rounded-lg bg-green-500 text-white hover:bg-green-600 transition-colors text-sm font-medium"
               >
                 <User className="h-4 w-4 text-white mr-2" />
                 Join Now

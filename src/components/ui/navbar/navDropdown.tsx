@@ -67,7 +67,7 @@ function DropdownSubLinks({ subLinks }: { subLinks?: SubLinkProps[] }) {
             <div onMouseLeave={() => setActiveIndex(null)}>
               <button
                 onMouseOver={() => setActiveIndex(idx)}
-                className="flex w-full items-center justify-between rounded-md px-4 py-2.5 font-medium text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-800 transition-colors duration-150"
+                className="flex w-full items-center justify-between rounded-md px-4 py-2.5 font-medium text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-800 transition-colors duration-150"
               >
                 <span>{link.name}</span>
                 <DropdownIcon className="h-[16px] w-[16px] -rotate-90 text-gray-400" />
@@ -90,7 +90,7 @@ function DropdownSubLinks({ subLinks }: { subLinks?: SubLinkProps[] }) {
           ) : (
             <Link
               href={link.path}
-              className="inline-block w-full rounded-md px-4 py-2.5 font-medium text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-800 transition-colors duration-150"
+              className="inline-block w-full rounded-md px-4 py-2.5 font-medium text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-800 transition-colors duration-150"
             >
               {link.name}
             </Link>

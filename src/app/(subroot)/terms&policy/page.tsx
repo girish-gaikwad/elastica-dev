@@ -7,19 +7,19 @@ const TermsAndPrivacy = () => {
   return (
     <div className="min-h-screen bg-white text-gray-100">
       {/* Header */}
-      <header className="bg-[#ffc95c] py-6">
+      <header className="bg-[#22c55e] py-6">
         <div className="container mx-auto px-4">
-          <h1 className="text-black text-3xl font-bold text-center">Elatica - Terms & Privacy</h1>
+          <h1 className="text-white text-3xl font-bold text-center">Elatica - Terms & Privacy</h1>
         </div>
       </header>
 
       {/* Navigation Tabs */}
-      <div className="bg-[#ffc95c] text-black">
+      <div className="bg-[#22c55e] text-black">
         <div className="container mx-auto px-4">
           <div className="flex border-b border-black">
             <button
               className={`py-4 px-6 font-medium ${
-                activeTab === 'terms' ? 'bg-white text-[#ffc95c]' : ''
+                activeTab === 'terms' ? 'bg-white text-emerald-500' : ''
               }`}
               onClick={() => setActiveTab('terms')}
             >
@@ -27,7 +27,7 @@ const TermsAndPrivacy = () => {
             </button>
             <button
               className={`py-4 px-6 font-medium ${
-                activeTab === 'privacy' ? 'bg-white text-[#ffc95c]' : ''
+                activeTab === 'privacy' ? 'bg-white text-emerald-500' : ''
               }`}
               onClick={() => setActiveTab('privacy')}
             >
@@ -39,11 +39,11 @@ const TermsAndPrivacy = () => {
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-12">
-        <div className="max-w-4xl mx-auto bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+        <div className="max-w-4xl mx-auto bg-emerald-50 text-black rounded-lg shadow-lg overflow-hidden">
           <div className="p-8">
             {activeTab === 'terms' ? (
               <div className="terms-content">
-                <h2 className="text-2xl font-bold mb-6 text-[#ffc95c]">Terms and Conditions</h2>
+                <h2 className="text-2xl font-bold mb-6 text-[#22c55e]">Terms and Conditions</h2>
                 <div className="space-y-6">
                   <section>
                     <h3 className="text-xl font-semibold mb-3 text-[#90EE90]">1. Acceptance of Terms</h3>
@@ -97,7 +97,7 @@ const TermsAndPrivacy = () => {
               </div>
             ) : (
               <div className="privacy-content">
-                <h2 className="text-2xl font-bold mb-6 text-[#ffc95c]">Privacy Policy</h2>
+                <h2 className="text-2xl font-bold mb-6 text-[#22c55e]">Privacy Policy</h2>
                 <div className="space-y-6">
                   <section>
                     <h3 className="text-xl font-semibold mb-3 text-[#90EE90]">1. Information Collection</h3>
@@ -156,7 +156,7 @@ const TermsAndPrivacy = () => {
               </div>
             )}
           </div>
-          <div className="bg-[#ffc95c] text-black p-6 text-center">
+          <div className="bg-[#22c55e] text-black p-6 text-center">
             <p>Last Updated: February 26, 2025</p>
           </div>
         </div>
