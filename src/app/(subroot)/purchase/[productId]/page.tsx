@@ -27,6 +27,7 @@ export default function ProductPage() {
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [wishlistLoading, setWishlistLoading] = useState(false);
   const [cartLoading, setCartLoading] = useState(false);
+  const [selectedColor, setSelectedColor] = useState(null);
 
   // WhatsApp phone number - replace with your actual WhatsApp number
   const whatsappNumber = "7598315432";
@@ -52,6 +53,10 @@ export default function ProductPage() {
 
         const data = await res.json();
         setProduct(data);
+        // Set the first color as the default selected color if colors exist
+        if (data.product.colors && data.product.colors.length > 0) {
+          setSelectedColor(data.product.colors[0]);
+        }
       } catch (error) {
         console.error("Failed to fetch product:", error);
       } finally {
@@ -118,13 +123,22 @@ export default function ProductPage() {
     }
   };
 
-  // Handle add to cart
+  // Handle color selection
+  const handleColorSelect = (color) => {
+    setSelectedColor(color);
+  };
+
+  // Handle add to cart with the selected color
   const handleAddToCart = async () => {
     if (!productId || product.product.stock === 0) return;
+    if (!selectedColor) {
+      toast.error("Please select a color");
+      return;
+    }
 
     setCartLoading(true);
     try {
-      await addToCart(productId, quantity);
+      await addToCart(productId, quantity, selectedColor);
     } catch (error) {
       console.error("Add to cart failed:", error);
     } finally {
@@ -142,13 +156,13 @@ Name: ${product.product.name}
 productID:${product.product.id}
 Price:₹ ${product.product.finalPrice}
 Brand: ${product.product.brand}
+${selectedColor ? `Selected Color: ${selectedColor.name}` : ''}
 Category: ${product.product.categoryId}
 Quantity: ${quantity}
 Subtotal:₹ ${calculateSubtotal()}
 Stock: ${product.product.stock} units available
 Dimensions: ${product.product.dimensions}
 Weight: ${product.product.weight}\n
-
 Hey i am enquiring about this product "Iam intrested"
 `;
   };
@@ -296,30 +310,40 @@ Hey i am enquiring about this product "Iam intrested"
                   </p>
                 )}
               </div>
-            {/* Color Variants */}
-            <div className="space-y-6 py-6">
-              <div className="space-y-2">
-                <p className="font-inter text-base font-semibold" style={{ color: accentColor }}>
-                  Colors
+              
+              {/* Color Variants - Enhanced with selection functionality */}
+              <div className="space-y-6 py-6">
+                <p className="font-inter text-base font-medium" style={{ color: accentColor }}>
+                  Choose Color
+                  {selectedColor && <span className="ml-2 text-sm" style={{ color: textLight }}>Selected: {selectedColor.name}</span>}
                 </p>
-                <div className="flex flex-wrap gap-2">
-                  {[
-                    { id: 1, hexCode: "#FF0000" },
-                    { id: 2, hexCode: "#00FF00" },
-                    { id: 3, hexCode: "#0000FF" },
-                    { id: 4, hexCode: "#FFFF00" },
-                    { id: 5, hexCode: "#FF00FF" },
-                  ].map((color) => (
+                <div className="flex flex-wrap gap-3">
+                  {product.product.colors.map((color) => (
                     <div
-                      key={color.id}
-                      className="w-12 h-12 rounded-full shadow-lg"
-                      style={{ background: color.hexCode }}
-                    />
+                      key={color.id || color.name}
+                      className={`h-12 w-12 rounded-full cursor-pointer p-0.5 transition-all duration-200 ease-in-out flex items-center justify-center`}
+                      style={{ 
+                        border: selectedColor && (selectedColor.id === color.id || selectedColor.name === color.name) 
+                          ? `3px solid ${accentColor}` 
+                          : '2px solid #E8E8E8',
+                        transform: selectedColor && (selectedColor.id === color.id || selectedColor.name === color.name)
+                          ? 'scale(1.1)'
+                          : 'scale(1)'
+                      }}
+                      onClick={() => handleColorSelect(color)}
+                    >
+                      <div 
+                        className="h-full w-full rounded-full"
+                        style={{ backgroundColor: color.hex }}
+                        title={color.name}
+                      ></div>
+                    </div>
                   ))}
                 </div>
+                {!selectedColor && (
+                  <p className="text-sm italic" style={{ color: '#d32f2f' }}>Please select a color</p>
+                )}
               </div>
-            </div>
-
             </div>
 
             {/* Tags */}
@@ -406,16 +430,22 @@ Hey i am enquiring about this product "Iam intrested"
               {/* Add to Cart Button */}
               <button
                 className="w-full h-12 rounded-lg flex items-center justify-center gap-2"
-                disabled={product.product.stock === 0 || cartLoading}
+                disabled={product.product.stock === 0 || cartLoading || !selectedColor}
                 onClick={handleAddToCart}
                 style={{
-                  background: product.product.stock === 0 ? '#E0E0E0' : primaryColor,
-                  color: product.product.stock === 0 ? textLight : 'white'
+                  background: product.product.stock === 0 || !selectedColor ? '#E0E0E0' : primaryColor,
+                  color: product.product.stock === 0 || !selectedColor ? textLight : 'white'
                 }}
               >
                 <ShoppingBagIcon className="h-5 w-5" />
                 <span className="font-inter text-base font-medium">
-                  {product.product.stock === 0 ? "Out of Stock" : cartLoading ? "Adding..." : "Add to Cart"}
+                  {product.product.stock === 0 
+                    ? "Out of Stock" 
+                    : !selectedColor 
+                      ? "Select a Color" 
+                      : cartLoading 
+                        ? "Adding..." 
+                        : "Add to Cart"}
                 </span>
               </button>
 
@@ -444,6 +474,12 @@ Hey i am enquiring about this product "Iam intrested"
                 <dd style={{ color: textDark }} className="font-medium">{product.product.weight}</dd>
                 <dt style={{ color: textLight }}>Dimensions</dt>
                 <dd style={{ color: textDark }} className="font-medium">{product.product.dimensions}</dd>
+                {selectedColor && (
+                  <>
+                    <dt style={{ color: textLight }}>Color</dt>
+                    <dd style={{ color: textDark }} className="font-medium">{selectedColor.name}</dd>
+                  </>
+                )}
               </dl>
             </div>
           </div>
@@ -487,6 +523,28 @@ Hey i am enquiring about this product "Iam intrested"
                   </button>
                 </div>
 
+                {/* Selected Color Display */}
+                {product.product.colors && product.product.colors.length > 0 && (
+                  <div className="mt-4">
+                    <p className="font-poppins font-medium mb-2" style={{ color: textDark }}>
+                      Selected Color
+                    </p>
+                    <div className="flex items-center gap-3">
+                      {selectedColor ? (
+                        <>
+                          <div 
+                            className="h-8 w-8 rounded-full border"
+                            style={{ backgroundColor: selectedColor.hex, borderColor: '#E8E8E8' }}
+                          ></div>
+                          <span style={{ color: textDark }}>{selectedColor.name}</span>
+                        </>
+                      ) : (
+                        <span className="text-sm" style={{ color: '#d32f2f' }}>Please select a color</span>
+                      )}
+                    </div>
+                  </div>
+                )}
+
                 <div className="space-y-2 pt-2">
                   <div className="flex justify-between items-center">
                     <p className="font-inter text-sm" style={{ color: textLight }}>Price ({quantity} {quantity > 1 ? 'items' : 'item'})</p>
@@ -512,16 +570,22 @@ Hey i am enquiring about this product "Iam intrested"
               <div className="space-y-3 pt-2">
                 <button
                   className="w-full h-12 rounded-lg flex items-center justify-center gap-2"
-                  disabled={product.product.stock === 0 || cartLoading}
+                  disabled={product.product.stock === 0 || cartLoading || !selectedColor}
                   onClick={handleAddToCart}
                   style={{
-                    background: product.product.stock === 0 ? '#E0E0E0' : primaryColor,
-                    color: product.product.stock === 0 ? textLight : 'white'
+                    background: product.product.stock === 0 || !selectedColor ? '#E0E0E0' : primaryColor,
+                    color: product.product.stock === 0 || !selectedColor ? textLight : 'white'
                   }}
                 >
                   <ShoppingBagIcon className="h-5 w-5" />
                   <span className="font-inter text-base font-medium">
-                    {product.product.stock === 0 ? "Out of Stock" : cartLoading ? "Adding..." : "Add to Cart"}
+                    {product.product.stock === 0 
+                      ? "Out of Stock" 
+                      : !selectedColor 
+                        ? "Select a Color" 
+                        : cartLoading 
+                          ? "Adding..." 
+                          : "Add to Cart"}
                   </span>
                 </button>
 

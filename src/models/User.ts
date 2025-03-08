@@ -1,15 +1,6 @@
-// import mongoose from "mongoose";
-
-// const UserSchema = new mongoose.Schema({
-//   name: String,
-//   email: { type: String, unique: true },
-//   password: String,
-// });
-
-// export default mongoose.models.User || mongoose.model("User", UserSchema);
-
-
+// models/User.js
 import mongoose from "mongoose";
+
 const userSchema = new mongoose.Schema({
   userId: {
     type: String,
@@ -52,6 +43,11 @@ const userSchema = new mongoose.Schema({
         type: Number,
         required: true,
         min: 1
+      },
+      color: {
+        name: String,
+        hex: String,
+        id: String
       }
     }
   ],

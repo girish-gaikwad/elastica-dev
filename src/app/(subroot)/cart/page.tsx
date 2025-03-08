@@ -247,6 +247,9 @@ const CartPage = () => {
                         <Link href={`/purchase/${product.id}`}>
                           <h3 className="font-medium text-gray-800 hover:text-[#22c55e] transition-colors text-lg">{product.name}</h3>
                         </Link>
+                        <span className='text-xs text-red-500'>
+                        Color choice is customizable at order 
+                        </span>
                         <p className="text-sm text-gray-500 mt-2">Brand: <span className="font-medium">{product.brand}</span></p>
                         <div className="mt-3">
                           {product.discount > 0 ? (

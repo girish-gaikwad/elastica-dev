@@ -33,6 +33,10 @@ const ProductSchema = new mongoose.Schema(
     tags: [{ type: String }], // Searchable tags for filtering
     createdAt: { type: Date, default: Date.now }, // Creation timestamp
     updatedAt: { type: Date, default: Date.now }, // Update timestamp
+    colors:[{
+      hex:{ type: String },
+      name:{ type: String },
+    }]
   },
   { timestamps: true } // Automatically manage createdAt & updatedAt
 );
