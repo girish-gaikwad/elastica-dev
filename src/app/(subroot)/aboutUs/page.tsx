@@ -149,7 +149,7 @@ export default function AboutUs() {
           </motion.div>
           
           <div className="grid md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((item, index) => (
+            {[ 2, 3,4,5,6,7].map((item, index) => (
               <motion.div 
                 key={index}
                 className="text-center"
@@ -160,7 +160,7 @@ export default function AboutUs() {
               >
                 <div className="relative mb-6 overflow-hidden rounded-xl">
                   <Image 
-                    src={`/api/placeholder/400/${400 + index * 10}`} 
+                    src={`/images/w-${item}.jpg`} 
                     alt="Team member" 
                     width={400} 
                     height={400 + index * 10} 
