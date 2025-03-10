@@ -5,6 +5,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import Link from 'next/link';
+import { Dumbbell, Heart, Star } from 'lucide-react';
 
 export default function AboutUs() {
   // References for scroll animations
@@ -149,7 +150,7 @@ export default function AboutUs() {
           </motion.div>
           
           <div className="grid md:grid-cols-3 gap-8">
-            {[ 2, 3,4,5,6,7].map((item, index) => (
+            {[1, 2, 3,4,5,6].map((item, index) => (
               <motion.div 
                 key={index}
                 className="text-center"
@@ -175,9 +176,27 @@ export default function AboutUs() {
                       <p className="font-medium mb-2">Our Expert Artisans</p>
                       <div className="flex justify-center space-x-4 mt-4">
                         {/* Social icons would go here */}
-                        <div className="w-8 h-8 rounded-full bg-white/20"></div>
-                        <div className="w-8 h-8 rounded-full bg-white/20"></div>
-                        <div className="w-8 h-8 rounded-full bg-white/20"></div>
+                        <motion.div 
+                          className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center"
+                          whileHover={{ scale: 1.2, rotate: 90 }}
+                          transition={{ type: "spring", stiffness: 300 }}
+                        >
+                          <Star className="text-white" />
+                        </motion.div>
+                        <motion.div 
+                          className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center"
+                          whileHover={{ scale: 1.2, rotate: 90 }}
+                          transition={{ type: "spring", stiffness: 300 }}
+                        >
+                          <Heart className="text-white" />
+                        </motion.div>
+                        <motion.div 
+                          className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center"
+                          whileHover={{ scale: 1.2, rotate: 90 }}
+                          transition={{ type: "spring", stiffness: 300 }}
+                        >
+                          <Dumbbell className="text-white" />
+                        </motion.div>
                       </div>
                     </div>
                   </motion.div>

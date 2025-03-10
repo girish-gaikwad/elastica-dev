@@ -118,8 +118,8 @@ export default function CatalogSlider({ products }) {
               <ProductCard.Root data={product}>
                 <ProductCard.Thumbnail className="relative">
                   <ProductCard.ThumbnailBadge className="absolute top-2 sm:top-4 left-2 sm:left-4 flex items-center gap-1 sm:gap-2">
-                    {product?.tags?.[2] && (
-                      <ProductCard.Badge intent="exclusive" className="text-xs sm:text-sm">{product.tags[2]}</ProductCard.Badge>
+                    {product?.tags?.[0] && (
+                      <ProductCard.Badge intent="exclusive" className="text-xs sm:text-sm">{product.tags[0]}</ProductCard.Badge>
                     )}
                     <ProductCard.WishlistButton productId={product.id} />
                   </ProductCard.ThumbnailBadge>

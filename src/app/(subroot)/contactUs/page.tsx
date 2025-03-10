@@ -129,12 +129,8 @@ const ContactForm = () => {
                             <div className="ml-6">
                                 <h3 className="text-lg font-semibold text-gray-900">Our Address</h3>
                                 <p className="mt-2 text-gray-700 leading-relaxed">
-                                    BDS ELASTICA RUBBER AND
-                                    ALLIED PRODUCTS LLP
-                                    <br />
-                                    Old no 2F, New no 38 LGB Nagar,
-                                    <br />
-                                    Saravanampatti, Coimbatore 641035
+                                38, Krishnapuram, Saravanampatti, Coimbatore - 641035
+
                                 </p>
                             </div>
                         </div>
