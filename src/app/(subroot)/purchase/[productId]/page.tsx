@@ -289,9 +289,25 @@ Hey i am enquiring about this product "Iam intrested"
               {/* Price Display */}
               <div className="mt-6 p-4 rounded-lg" style={{ background: `${primaryColor}10` }}>
                 <p className="font-poppins text-3xl font-medium" style={{ color: textDark }}>
-                  <span className="align-middle">
-                    ₹{product.product.finalPrice.toLocaleString()}
+      
+                  <span className="flex flex-col items-start text-lg font-semibold text-gray-800">
+                    {product.product.name.toLowerCase().includes('dumbell') ||
+                      product.product.name.toLowerCase().includes('squat wedge') ? (
+                      <div className="flex gap-4 items-center">
+                        <span className="bg-gradient-to-r from-orange-500 to-yellow-400 text-white px-3 py-1 rounded-md">
+                          ₹{product.product.finalPrice.toLocaleString()} <span className="text-sm">(Single)</span>
+                        </span>
+                        <span className="text-red-500 font-bold">
+                          ₹{(product.product.finalPrice * 2).toLocaleString()} <span className="text-sm">(Pair)</span>
+                        </span>
+                      </div>
+                    ) : (
+                      <span className="text-3xl">
+                        ₹{(product.product.finalPrice * quantity).toLocaleString()}
+                      </span>
+                    )}
                   </span>
+
                   {product.product.discount > 0 &&
                     (<>
                       <span className="ml-3 align-middle text-lg line-through decoration-2" style={{ color: textLight }}>
@@ -310,7 +326,7 @@ Hey i am enquiring about this product "Iam intrested"
                   </p>
                 )}
               </div>
-              
+
               {/* Color Variants - Enhanced with selection functionality */}
               <div className="space-y-6 py-6">
                 <p className="font-inter text-base font-medium" style={{ color: accentColor }}>
@@ -322,9 +338,9 @@ Hey i am enquiring about this product "Iam intrested"
                     <div
                       key={color.id || color.name}
                       className={`h-12 w-12 rounded-full cursor-pointer p-0.5 transition-all duration-200 ease-in-out flex items-center justify-center`}
-                      style={{ 
-                        border: selectedColor && (selectedColor.id === color.id || selectedColor.name === color.name) 
-                          ? `3px solid ${accentColor}` 
+                      style={{
+                        border: selectedColor && (selectedColor.id === color.id || selectedColor.name === color.name)
+                          ? `3px solid ${accentColor}`
                           : '2px solid #E8E8E8',
                         transform: selectedColor && (selectedColor.id === color.id || selectedColor.name === color.name)
                           ? 'scale(1.1)'
@@ -332,7 +348,7 @@ Hey i am enquiring about this product "Iam intrested"
                       }}
                       onClick={() => handleColorSelect(color)}
                     >
-                      <div 
+                      <div
                         className="h-full w-full rounded-full"
                         style={{ backgroundColor: color.hex }}
                         title={color.name}
@@ -439,12 +455,12 @@ Hey i am enquiring about this product "Iam intrested"
               >
                 <ShoppingBagIcon className="h-5 w-5" />
                 <span className="font-inter text-base font-medium">
-                  {product.product.stock === 0 
-                    ? "Out of Stock" 
-                    : !selectedColor 
-                      ? "Select a Color" 
-                      : cartLoading 
-                        ? "Adding..." 
+                  {product.product.stock === 0
+                    ? "Out of Stock"
+                    : !selectedColor
+                      ? "Select a Color"
+                      : cartLoading
+                        ? "Adding..."
                         : "Add to Cart"}
                 </span>
               </button>
@@ -532,7 +548,7 @@ Hey i am enquiring about this product "Iam intrested"
                     <div className="flex items-center gap-3">
                       {selectedColor ? (
                         <>
-                          <div 
+                          <div
                             className="h-8 w-8 rounded-full border"
                             style={{ backgroundColor: selectedColor.hex, borderColor: '#E8E8E8' }}
                           ></div>
@@ -579,12 +595,12 @@ Hey i am enquiring about this product "Iam intrested"
                 >
                   <ShoppingBagIcon className="h-5 w-5" />
                   <span className="font-inter text-base font-medium">
-                    {product.product.stock === 0 
-                      ? "Out of Stock" 
-                      : !selectedColor 
-                        ? "Select a Color" 
-                        : cartLoading 
-                          ? "Adding..." 
+                    {product.product.stock === 0
+                      ? "Out of Stock"
+                      : !selectedColor
+                        ? "Select a Color"
+                        : cartLoading
+                          ? "Adding..."
                           : "Add to Cart"}
                   </span>
                 </button>
