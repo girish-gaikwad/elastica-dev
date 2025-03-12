@@ -15,7 +15,7 @@ export async function GET() {
         // Fetch products related to this category
         const product = await products
           .find({ categoryId: category.categoryId })
-          .limit(3);
+          ;
         // Generate subLinks based on products
         const subLinks = product.map((product) => ({
           id: product.id,
