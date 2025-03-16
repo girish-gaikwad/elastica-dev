@@ -1,24 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Logo from "@/components/ui/assets/logo";
 import {
   CartIcon,
-  HamburgerMenu,
-  SearchIcon,
+  HamburgerMenu
 } from "@/components/ui/assets/svg";
 import NavLinks from "@/components/ui/navbar/navLinks";
 import NavMobile from "@/components/ui/navbar/navMobile";
-import PromoSection from "@/components/ui/promo";
-import { Tooltip } from "react-tooltip";
 import { useRootContext } from "@/hooks/rootContext";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 import { useAuthStore } from "@/stores/Auth";
-import { Heart, LogIn, LogOut, User } from "lucide-react";
+import { Heart, LogIn, LogOut, User, User2Icon, UserCheck2, UserCircle, UserCircle2 } from "lucide-react";
 import { signOut } from "next-auth/react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { Tooltip } from "react-tooltip";
 
-interface NavbarProps {}
+interface NavbarProps { }
 
 const Navbar: React.FC<NavbarProps> = () => {
   const isRootPage = useRootContext();
@@ -37,6 +35,7 @@ const Navbar: React.FC<NavbarProps> = () => {
   const checkSession = useAuthStore(state => state.checkSession);
   const isAuthenticated = useAuthStore(state => state.isAuthenticated);
   const isLoading = useAuthStore(state => state.isLoading);
+  const user = useAuthStore(state => state.user);
 
   useEffect(() => {
     checkSession();
@@ -44,7 +43,7 @@ const Navbar: React.FC<NavbarProps> = () => {
 
   return (
     <>
-      {!open && <PromoSection />}
+      {/* {!open && <PromoSection />} */}
       <div
         className={cn(
           "sticky top-0 z-[100] transition-all duration-300 ease-in-out",
@@ -54,8 +53,8 @@ const Navbar: React.FC<NavbarProps> = () => {
       >
         <nav className="mx-auto flex max-w-[1440px] items-center justify-between px-6 py-5 lg:justify-normal">
           <div className="flex items-center gap-3 lg:basis-1/4">
-            <button 
-              className="lg:hidden text-gray-800 hover:text-black transition-colors" 
+            <button
+              className="lg:hidden text-gray-800 hover:text-black transition-colors"
               onClick={() => setOpen(true)}
             >
               <HamburgerMenu className="w-6" />
@@ -70,38 +69,56 @@ const Navbar: React.FC<NavbarProps> = () => {
 
           {isAuthenticated ? (
             <div className="flex items-center gap-4 lg:basis-1/4 lg:justify-end">
-              <Link 
-                href="/profilePage" 
-                className="hidden lg:block text-gray-700 hover:text-green-600 transition-colors" 
+              {user?.role !== "customer" && (
+                <>
+
+                  <Link
+                    href="/admin"
+                    className="hidden lg:flex items-center gap-2 px-4 py-2 rounded-lg bg-green-600 text-white font-medium shadow-md hover:bg-green-700 transition-all duration-300"
+                    data-tooltip-id="admin-tooltip"
+                  >
+                    <UserCircle2 className="w-5 h-5 stroke-2" />
+                    <span>Admin</span>
+                  </Link>
+
+                  <Tooltip id="admin-tooltip" place="top" content="Admin Dashboard" className="text-xs font-light" />
+                </>
+              )}
+
+              <Link
+                href="/profilePage"
+                className="hidden lg:block text-gray-700 hover:text-green-600 transition-colors"
                 data-tooltip-id="profile-tooltip"
               >
                 <User className="w-5 h-5 stroke-2" />
               </Link>
               <Tooltip id="profile-tooltip" place="top" content="Profile" className="text-xs font-light" />
-            
-              <Link 
-                href="/wishlist" 
-                className="hidden lg:flex items-center text-gray-700 hover:text-rose-500 transition-colors" 
+
+              <Link
+                href="/wishlist"
+                className="hidden lg:flex items-center text-gray-700 hover:text-rose-500 transition-colors"
                 data-tooltip-id="wishlist-tooltip"
               >
                 <Heart className="w-5 h-5 stroke-2" />
               </Link>
               <Tooltip id="wishlist-tooltip" place="top" content="Wishlist" className="text-xs font-light" />
-            
-              <Link 
-                href="/cart" 
-                className="flex items-center relative text-gray-700 hover:text-green-600 transition-colors" 
+
+              <Link
+                href="/cart"
+                className="flex items-center relative text-gray-700 hover:text-green-600 transition-colors"
                 data-tooltip-id="cart-tooltip"
               >
                 <CartIcon className="w-6" />
-                <span className="absolute -top-2 -right-2 w-4 h-4 bg-green-500 text-white rounded-full text-xs flex items-center justify-center">2</span>
+                <span className="absolute -top-2 -right-2 w-4 h-4 bg-green-500 text-white rounded-full text-xs flex items-center justify-center">
+                  {user?.cart?.length || 0}
+                </span>
               </Link>
               <Tooltip id="cart-tooltip" place="top" content="Cart" className="text-xs font-light" />
-            
-              <button 
-                type="button" 
-                className="hidden lg:block text-gray-700 hover:text-red-600 transition-colors" 
-                onClick={() => signOut({ callbackUrl: "/" })} 
+
+              <button
+                type="button"
+                className="hidden lg:block text-gray-700 hover:text-red-600 transition-colors"
+                onClick={() => signOut({ callbackUrl: "/" })}
                 data-tooltip-id="signout-tooltip"
               >
                 <LogOut className="w-5 h-5 stroke-2" />

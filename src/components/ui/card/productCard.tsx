@@ -203,8 +203,8 @@ const Image: React.FC<ImageProps> = ({ className, ...props }) => {
 
   return (
     <NextImage
-      src={image.url}
-      alt={image.alt || "luxury product"}
+      src={image?.url}
+      alt={image?.alt || "luxury product"}
       fill
       className={cn(
         "object-cover object-center transition-transform duration-500 group-hover:scale-105",

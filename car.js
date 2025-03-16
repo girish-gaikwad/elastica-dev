@@ -1,296 +1,525 @@
 "use client";
-import NewsFeed from '@/components/custom/newsfeed';
-import { InstagramIcon } from '@/components/ui/assets/svg';
-import { Mail, MessageCircle, Phone } from 'lucide-react';
-import { useState } from 'react';
+import { ChromePicker } from "react-color";
+import React, { useState, useEffect } from "react";
+import { CldUploadWidget } from "next-cloudinary";
+import { Plus, Trash2, Upload } from "lucide-react";
+import Image from "next/image";
+import toast from "react-hot-toast";
 
-const ContactUsPage = () => {
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
+const AdminAddProductPage = () => {
+    const [product, setProduct] = useState({
+        id: "",
+        name: "",
+        categoryId: "",
+        dimensions: "",
+        weight: "",
+        mrp: 0,
+        discount: 0,
+        finalPrice: 0,
+        stock: 0,
+        brand: "",
+        isNew: true,
+        description: "",
+        keyFeatures: [],
+        technicalDetails: {
+            material: "",
+            waterResistant: false,
+            indoorOutdoor: "Indoor",
+            ecoFriendly: false,
+            leakProof: false,
+            weatherResistant: false,
+            easyToClean: false,
+        },
+        images: [],
+        tags: [],
+        colors: [],
     });
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [submitStatus, setSubmitStatus] = useState(null);
 
-    const handleChange = (e) => {
+    const [categories, setCategories] = useState([]);
+    const [uploading, setUploading] = useState(false);
+    const [isFinalPriceEditable, setIsFinalPriceEditable] = useState(false);
+
+    useEffect(() => {
+        if (!isFinalPriceEditable) {
+            const calculatedPrice = product?.mrp - (product?.mrp * (product?.discount / 100));
+            setProduct({ ...product, finalPrice: Math.round(calculatedPrice) });
+        }
+    }, [product?.mrp, product?.discount, isFinalPriceEditable]);
+
+    useEffect(() => {
+        // Fetch categories from API
+        const fetchCategories = async () => {
+            try {
+                const response = await fetch("/api/get_collections"); // Update with the correct API URL
+                const data = await response.json();
+                setCategories(data);
+            } catch (error) {
+                console.error("Error fetching categories:", error);
+            }
+        };
+
+        fetchCategories();
+    }, []);
+
+    const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prevData => ({
-            ...prevData,
-            [name]: value
-        }));
+        setProduct({
+            ...product,
+            [name]: value,
+        });
+    };
+
+    const handleTechnicalDetailsChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setProduct({
+            ...product,
+            technicalDetails: {
+                ...product.technicalDetails,
+                [name]: type === "checkbox" ? checked : value,
+            },
+        });
+    };
+
+    const handleUploadSuccess = (result) => {
+        setUploading(false);
+
+        // Extract the secure URL from the upload result
+        const uploadedImageUrl = result.info.secure_url;
+
+        // Create a new image object and add it to the product
+        const newImage = {
+            url: uploadedImageUrl,
+            altText: "New product image", // Default alt text
+        };
+
+        setProduct({
+            ...product,
+            images: [...product.images, newImage],
+        });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setIsSubmitting(true);
 
-        // Simulate form submission
-        setTimeout(() => {
-            setIsSubmitting(false);
-            setSubmitStatus('success');
-            setFormData({
-                name: '',
-                email: '',
-                subject: '',
-                message: ''
+        console.log(product);
+
+
+        const isProductValid = Object.values(product).every(value => value !== '' && value !== null);
+
+        if (!isProductValid) {
+            toast.error("Please fill in all fields before saving.");
+            return;
+        }
+        try {
+            const response = await fetch("/api/admin/addproduct", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(product),
             });
 
-            // Reset status after 5 seconds
-            setTimeout(() => setSubmitStatus(null), 5000);
-        }, 1500);
+            if (response.ok) {
+                toast.success("Product added successfully!");
+                // Reset the form
+                setProduct({
+                    id: "",
+                    name: "",
+                    categoryId: "",
+                    dimensions: "",
+                    weight: "",
+                    mrp: 0,
+                    discount: 0,
+                    finalPrice: 0,
+                    stock: 0,
+                    brand: "",
+                    isNew: true,
+                    description: "",
+                    keyFeatures: [],
+                    technicalDetails: {
+                        material: "",
+                        waterResistant: false,
+                        indoorOutdoor: "Indoor",
+                        ecoFriendly: false,
+                        leakProof: false,
+                        weatherResistant: false,
+                        easyToClean: false,
+                    },
+                    images: [],
+                    tags: [],
+                    colors: [],
+                });
+            } else {
+                toast.error(response.error || "Failed to add product.");
+            }
+        } catch (error) {
+            console.error("Error adding product:", error);
+        }
     };
 
+
+    const [showColorPicker, setShowColorPicker] = useState(false);
+    const [currentColor, setCurrentColor] = useState("#ffffff");
+    const [colorName, setColorName] = useState(""); // Custom name for the color
+
+    const handleColorChange = (color) => {
+        setCurrentColor(color.hex);
+    };
+
+    // Handle adding the color with a custom name
+    const handleAddColor = () => {
+        if (currentColor && colorName) {
+            const newColor = {
+                hex: currentColor,
+                name: colorName,
+            };
+            setProduct({
+                ...product,
+                colors: [...product.colors, newColor],
+            });
+            setCurrentColor("#ffffff"); // Reset color
+            setColorName(""); // Reset name
+            setShowColorPicker(false); // Hide color picker
+        }
+    };
+
+
     return (
-        <div className="min-h-screen bg-white">
-            {/* Hero Section */}
-            <div className="bg-[#ffc95c] relative overflow-hidden">
-                <div className="absolute inset-0 bg-black bg-opacity-10"></div>
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 relative z-10">
-                    <h1 className="text-4xl md:text-5xl font-bold text-black mb-4">Get in Touch</h1>
-                    <p className="text-lg md:text-xl text-black max-w-2xl">
-                        We&apos;d love to hear from you. Our friendly team is always here to help with any questions or concerns.
-                    </p>
+        <>
+            <h1 className="text-2xl font-bold mb-6">Add New Product</h1>
+
+
+            <form className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 bg-white p-6 rounded-lg shadow-md">
+                <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700">Product ID</label>
+                    <input
+                        type="text"
+                        name="id"
+                        //onchange="handleInputChange(event)"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                        required
+                    />
                 </div>
 
-                {/* Decorative Elements */}
-                <div className="absolute bottom-0 right-0 w-64 h-64 bg-[#8BC34A] opacity-20 rounded-full -mr-32 -mb-32"></div>
-                <div className="absolute top-0 left-0 w-32 h-32 bg-[#8BC34A] opacity-20 rounded-full -ml-16 -mt-16"></div>
-            </div>
+                <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700">Product Name</label>
+                    <input
+                        type="text"
+                        name="name"
+                        //onchange="handleInputChange(event)"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                        required
+                    />
+                </div>
 
-            {/* Contact Information & Form Section */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 grid md:grid-cols-2 gap-12">
-                {/* Left Column - Contact Information */}
-                <div>
-                    <h2 className="text-3xl font-semibold text-black mb-8">Contact Information</h2>
+                <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700">Category</label>
+                    <select
+                        name="categoryId"
+                        //onchange="handleInputChange(event)"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                        required
+                    >
+                        <option value="">Select a category</option>
+                        <option value="cat1">Kitchen</option>
+                        <option value="cat2">Bedroom</option>
+                        <option value="cat3">Living Room</option>
+                    </select>
+                </div>
 
-                    <div className="space-y-8">
-                        <div className="flex items-start">
-                            <div className="flex-shrink-0 bg-[#ffc95c] p-3 rounded-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                </svg>
-                            </div>
-                            <div className="ml-4">
-                                <h3 className="text-lg font-medium text-black">Our Address</h3>
-                                <p className="mt-1 text-gray-700">
-                                    BDS ELASTICA RUBBER AND
-                                    ALLIED PRODUCTS LLP
-                                    Old no 2F, New no 38 LGB Nagar,
-                                    Saravanampatti, Coimbatore 641035
-                                </p>
-                            </div>
-                        </div>
+                <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700">Dimensions</label>
+                    <input
+                        type="text"
+                        name="dimensions"
+                        //onchange="handleInputChange(event)"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                        required
+                    />
+                </div>
 
-                        <div className="flex items-start">
-                            <div className="flex-shrink-0 bg-[#ffc95c] p-3 rounded-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                                </svg>
-                            </div>
-                            <div className="ml-4">
-                                <h3 className="text-lg font-medium text-black">Call Us</h3>
-                                <p className="mt-1 text-gray-700">+91 7598315432</p>
-                                <p className="mt-1 text-gray-500">Mon-Fri from 8am to 6pm</p>
-                            </div>
-                        </div>
+                <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700">Weight</label>
+                    <input
+                        type="text"
+                        name="weight"
+                        //onchange="handleInputChange(event)"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                        required
+                    />
+                </div>
 
-                        <div className="flex items-start">
-                            <div className="flex-shrink-0 bg-[#ffc95c] p-3 rounded-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                </svg>
-                            </div>
-                            <div className="ml-4">
-                                <h3 className="text-lg font-medium text-black">Email Us</h3>
-                                <p className="mt-1 text-gray-700">sales@elastica.co.in</p>
-                                <p className="mt-1 text-gray-500">We&apos;ll respond as soon as possible</p>
-                            </div>
-                        </div>
+                <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700">MRP</label>
+                    <input
+                        type="number"
+                        name="mrp"
+                        //onchange="handleInputChange(event)"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                        required
+                    />
+                </div>
 
-                        <div className="flex items-start">
-                            <div className="flex-shrink-0 bg-[#ffc95c] p-3 rounded-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
-                            <div className="ml-4">
-                                <h3 className="text-lg font-medium text-black">Business Hours</h3>
-                                <p className="mt-1 text-gray-700">Monday - Friday: 9:00 AM - 5:00 PM</p>
-                                <p className="mt-1 text-gray-700">Saturday: 10:00 AM - 2:00 PM</p>
-                                <p className="mt-1 text-gray-700">Sunday: Closed</p>
-                            </div>
-                        </div>
+                <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700">Discount</label>
+                    <input
+                        type="number"
+                        name="discount"
+                        //onchange="handleInputChange(event)"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                        required
+                    />
+                </div>
+
+                <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700">Final Price</label>
+                    <input
+                        type="number"
+                        name="finalPrice"
+                        //onchange="handleInputChange(event)"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                        required
+                    />
+                    <label className="inline-flex items-center mt-2">
+                        <input
+                            type="checkbox"
+                            //onchange="toggleFinalPriceEditable(event)"
+                            className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">Edit Final Price Manually</span>
+                    </label>
+                </div>
+
+                <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700">Stock</label>
+                    <input
+                        type="number"
+                        name="stock"
+                        //onchange="handleInputChange(event)"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                        required
+                    />
+                </div>
+
+                <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700">Brand</label>
+                    <input
+                        type="text"
+                        name="brand"
+                        //onchange="handleInputChange(event)"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                        required
+                    />
+                </div>
+
+
+                <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700">Is New</label>
+                    <div className="flex items-center">
+                        <input
+                            type="checkbox"
+                            name="isNew"
+                            //onchange="handleCheckboxChange(event)"
+                            className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
+                        />
+                        <span className="ml-2 text-sm text-gray-600">Mark as new product</span>
                     </div>
+                </div>
 
-                    {/* Social Media Links */}
-                    <div className="mt-12">
-                        <h3 className="text-lg font-medium text-black mb-4">Connect With Us</h3>
-                        <div className="flex space-x-4">
-                            <a href="tel:7598315432" className="bg-[#ffc95c] p-3 rounded-full hover:bg-[#e9b64e] transition-colors">
-                                <Phone className='text-black'/>
-                            </a>
-                            <a href="mailto:sales@elastica.co.in" className="bg-[#ffc95c] p-3 rounded-full hover:bg-[#e9b64e] transition-colors">
-                                <Mail className='text-black'/>
-                            </a>
-                            <a href="https://www.instagram.com/elastica_srkp" className="bg-[#ffc95c] p-3 rounded-full hover:bg-[#e9b64e] transition-colors">
-                               <InstagramIcon className='text-black'/>
-                            </a>
-                            <a href="https://wa.me/7598315432" className="bg-[#ffc95c] p-3 rounded-full hover:bg-[#e9b64e] transition-colors">
-                                <MessageCircle className='text-black'/>
-                            </a>
+                <div className="space-y-2 col-span-1 md:col-span-2 lg:col-span-3">
+                    <label className="block text-sm font-medium text-gray-700">Description</label>
+                    <textarea
+                        name="description"
+                        //onchange="handleInputChange(event)"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                        rows="3"
+                    ></textarea>
+                </div>
+
+                <div className="space-y-2 col-span-1 md:col-span-2 lg:col-span-3">
+                    <label className="block text-sm font-medium text-gray-700">Key Features</label>
+                    <input
+                        type="text"
+                        name="keyFeatures"
+                        //onchange="handleKeyFeaturesChange(event)"
+                        placeholder="Enter features separated by commas"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                    />
+                </div>
+
+                <div className="space-y-2 col-span-1 md:col-span-2 lg:col-span-3">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Technical Details</label>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        <div>
+                            <label className="flex items-center space-x-2">
+                                <input
+                                    type="checkbox"
+                                    name="waterResistant"
+                                    //onchange="handleTechnicalDetailsChange(event)"
+                                    className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
+                                />
+                                <span className="text-sm text-gray-700">Water Resistant</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label className="flex items-center space-x-2">
+                                <input
+                                    type="checkbox"
+                                    name="ecoFriendly"
+                                    //onchange="handleTechnicalDetailsChange(event)"
+                                    className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
+                                />
+                                <span className="text-sm text-gray-700">Eco Friendly</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label className="flex items-center space-x-2">
+                                <input
+                                    type="checkbox"
+                                    name="leakProof"
+                                    //onchange="handleTechnicalDetailsChange(event)"
+                                    className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
+                                />
+                                <span className="text-sm text-gray-700">Leak Proof</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label className="flex items-center space-x-2">
+                                <input
+                                    type="checkbox"
+                                    name="weatherResistant"
+                                    //onchange="handleTechnicalDetailsChange(event)"
+                                    className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
+                                />
+                                <span className="text-sm text-gray-700">Weather Resistant</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label className="flex items-center space-x-2">
+                                <input
+                                    type="checkbox"
+                                    name="easyToClean"
+                                    //onchange="handleTechnicalDetailsChange(event)"
+                                    className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
+                                />
+                                <span className="text-sm text-gray-700">Easy to Clean</span>
+                            </label>
                         </div>
                     </div>
                 </div>
 
-                {/* Right Column - Contact Form */}
-                <div className="bg-white rounded-lg shadow-lg p-8 border border-gray-100">
-                    <h2 className="text-3xl font-semibold text-black mb-6">Send us a Message</h2>
-
-                    {submitStatus === 'success' && (
-                        <div className="mb-6 bg-[#8BC34A] bg-opacity-20 border border-[#8BC34A] text-[#2E7D32] px-4 py-3 rounded">
-                            Thank you! Your message has been sent successfully.
-                        </div>
-                    )}
-
-                    <form onSubmit={handleSubmit}>
-                        <div className="grid gap-6">
-                            <div>
-                                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                                <input
-                                    type="text"
-                                    id="name"
-                                    name="name"
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#ffc95c] focus:border-[#ffc95c] transition-colors"
-                                    placeholder="John Doe"
-                                    required
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#ffc95c] focus:border-[#ffc95c] transition-colors"
-                                    placeholder="john@example.com"
-                                    required
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
-                                <input
-                                    type="text"
-                                    id="subject"
-                                    name="subject"
-                                    value={formData.subject}
-                                    onChange={handleChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#ffc95c] focus:border-[#ffc95c] transition-colors"
-                                    placeholder="How can we help you?"
-                                    required
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Message</label>
-                                <textarea
-                                    id="message"
-                                    name="message"
-                                    value={formData.message}
-                                    onChange={handleChange}
-                                    rows="5"
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#ffc95c] focus:border-[#ffc95c] transition-colors"
-                                    placeholder="Tell us how we can assist you..."
-                                    required
-                                ></textarea>
-                            </div>
-
-                            <div>
-                                <button
-                                    type="submit"
-                                    disabled={isSubmitting}
-                                    className={`w-full px-6 py-3 bg-[#ffc95c] text-black font-medium rounded-md hover:bg-[#e9b64e] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#ffc95c] transition-colors ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
-                                        }`}
-                                >
-                                    {isSubmitting ? 'Sending...' : 'Send Message'}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                <div className="space-y-2 col-span-1 md:col-span-2 lg:col-span-3">
+                    <label className="block text-sm font-medium text-gray-700">Images</label>
+                    <div
+                        onclick="openImageUpload()"
+                        className="border-2 border-dashed border-gray-300 rounded-lg h-40 flex flex-col items-center justify-center cursor-pointer hover:border-green-500 hover:bg-green-50 transition-colors"
+                    >
+                        <svg className="h-8 w-8 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                        </svg>
+                        <p className="mt-2 text-sm font-medium text-gray-500">Add Image</p>
+                    </div>
+                    <div className="mt-4 flex flex-wrap gap-2" id="imagePreviewContainer">
+                        <!-- Image previews will be added here -->
+                    </div>
                 </div>
-            </div>
 
-            {/* Map Section */}
-            <div className="bg-[#f9f9f9] py-16">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <h2 className="text-3xl font-semibold text-black mb-8 text-center">Find Us</h2>
-
-                    <div className="relative h-96 rounded-lg overflow-hidden shadow-lg border-8 border-white">
-                        {/* This is a placeholder for a map - in a real application, you would integrate with Google Maps or similar */}
-                        <div className="absolute inset-0 bg-gray-300">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3914.6368208325493!2d77.02523247486243!3d11.140402789031363!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba8587495555555%3A0x40f051893debd129!2sSri%20Ramkarthic%20Polymers%20Pvt%20Ltd!5e0!3m2!1sen!2sin!4v1740556183677!5m2!1sen!2sin" width="1200" height="450"  allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
-                           
+                <div className="space-y-2 col-span-1 md:col-span-2 lg:col-span-3">
+                    <label className="block text-sm font-medium text-gray-700">Tags</label>
+                    <div className="space-y-2" id="tagContainer">
+                        <div className="flex items-center">
+                            <input
+                                type="text"
+                                name="tags"
+                                //onchange="handleTagChange(event, 0)"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                            />
+                            <button
+                                type="button"
+                                onclick="removeTag(0)"
+                                className="ml-2 flex items-center justify-center w-8 h-8 bg-red-500 hover:bg-red-600 rounded-full text-white focus:outline-none"
+                            >
+                                <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 6h18"></path>
+                                    <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path>
+                                </svg>
+                            </button>
                         </div>
                     </div>
+                    <button
+                        type="button"
+                        onclick="addTag()"
+                        className="mt-2 flex items-center justify-center w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500"
+                    >
+                        <svg className="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 5v14m-7-7h14"></path>
+                        </svg>
+                        Add Tag
+                    </button>
+                </div>
 
-                    <div className="mt-8 text-center">
-                        <p className="text-gray-700">
-                        BDS ELASTICA RUBBER AND
-                                    ALLIED PRODUCTS LLP
-                                    Old no 2F, New no 38 LGB Nagar,
-                                    Saravanampatti, Coimbatore 641035
-                        </p>
-                        <a
-                            href="https://www.google.co.in/maps/place/Sri+Ramkarthic+Polymers+Pvt+Ltd/@11.1404028,77.0252325,17z/data=!3m1!4b1!4m6!3m5!1s0x3ba8587495555555:0x40f051893debd129!8m2!3d11.1404028!4d77.0278074!16s%2Fg%2F11c0qgzmfc?authuser=1&entry=ttu&g_ep=EgoyMDI1MDIyMy4xIKXMDSoASAFQAw%3D%3D"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-block mt-4 px-6 py-2 bg-[#8BC34A] text-white font-medium rounded-md hover:bg-opacity-90 transition-colors"
+                <div className="space-y-2 col-span-1 md:col-span-2 lg:col-span-3">
+                    <label className="block text-sm font-medium text-gray-700">Colors</label>
+                    <div className="flex flex-wrap gap-2" id="colorContainer">
+                        <div className="h-8 w-8 rounded-full border-2 border-gray-300 flex items-center justify-center" style="background-color: #1cb353">
+                            <span className="text-xs text-white mix-blend-difference">1</span>
+                        </div>
+
+                        <button
+                            type="button"
+                            onclick="toggleColorPicker()"
+                            className="h-8 w-8 rounded-full border-2 border-dashed border-gray-300 flex items-center justify-center text-gray-500 hover:border-green-500 hover:text-green-500"
                         >
-                            Get Directions
-                        </a>
+                            +
+                        </button>
+                    </div>
+
+                    <div className="mt-4 hidden" id="colorPickerSection">
+                        <!-- Simple color picker - for a real app, you might use a library -->
+                        <div className="grid grid-cols-6 gap-2">
+                            <button type="button" onclick="selectColor('#1cb353', 'Green')" className="h-8 w-8 rounded-full bg-green-500"></button>
+                            <button type="button" onclick="selectColor('#3b82f6', 'Blue')" className="h-8 w-8 rounded-full bg-blue-500"></button>
+                            <button type="button" onclick="selectColor('#ef4444', 'Red')" className="h-8 w-8 rounded-full bg-red-500"></button>
+                            <button type="button" onclick="selectColor('#f59e0b', 'Yellow')" className="h-8 w-8 rounded-full bg-yellow-500"></button>
+                            <button type="button" onclick="selectColor('#8b5cf6', 'Purple')" className="h-8 w-8 rounded-full bg-purple-500"></button>
+                            <button type="button" onclick="selectColor('#ec4899', 'Pink')" className="h-8 w-8 rounded-full bg-pink-500"></button>
+                            <button type="button" onclick="selectColor('#10b981', 'Emerald')" className="h-8 w-8 rounded-full bg-emerald-500"></button>
+                            <button type="button" onclick="selectColor('#6366f1', 'Indigo')" className="h-8 w-8 rounded-full bg-indigo-500"></button>
+                            <button type="button" onclick="selectColor('#000000', 'Black')" className="h-8 w-8 rounded-full bg-black"></button>
+                            <button type="button" onclick="selectColor('#ffffff', 'White')" className="h-8 w-8 rounded-full bg-white border border-gray-300"></button>
+                            <button type="button" onclick="selectColor('#d1d5db', 'Gray')" className="h-8 w-8 rounded-full bg-gray-300"></button>
+                            <button type="button" onclick="selectColor('#78350f', 'Brown')" className="h-8 w-8 rounded-full bg-amber-900"></button>
+                        </div>
+                        <div className="mt-2">
+                            <input
+                                type="text"
+                                id="colorNameInput"
+                                placeholder="Color Name"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                            />
+                        </div>
+                        <button
+                            type="button"
+                            onclick="addColor()"
+                            className="mt-2 px-4 py-2 bg-green-600 text-white font-medium rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                        >
+                            Add Color
+                        </button>
                     </div>
                 </div>
-            </div>
 
-            {/* FAQ Section */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                <h2 className="text-3xl font-semibold text-black mb-8 text-center">Frequently Asked Questions</h2>
-
-                <div className="grid md:grid-cols-2 gap-8">
-                    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                        <h3 className="text-lg font-medium text-black mb-2">What are your business hours?</h3>
-                        <p className="text-gray-700">Our office is open Monday through Friday from 9:00 AM to 5:00 PM, and Saturday from 10:00 AM to 2:00 PM. We are closed on Sundays and major holidays.</p>
-                    </div>
-
-                    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                        <h3 className="text-lg font-medium text-black mb-2">How quickly do you respond to inquiries?</h3>
-                        <p className="text-gray-700">We strive to respond to all inquiries within 24 business hours. For urgent matters, we recommend calling our office directly.</p>
-                    </div>
-
-                    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                        <h3 className="text-lg font-medium text-black mb-2">Do you offer virtual meetings?</h3>
-                        <p className="text-gray-700">Yes, we offer virtual meetings via Zoom, Google Meet, or Microsoft Teams. Please let us know your preference when scheduling.</p>
-                    </div>
-
-                    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                        <h3 className="text-lg font-medium text-black mb-2">Is there parking available at your office?</h3>
-                        <p className="text-gray-700">Yes, we have free parking available for clients in our designated parking area. Additional street parking is also available nearby.</p>
-                    </div>
+                <div className="col-span-1 md:col-span-2 lg:col-span-3">
+                    <button
+                        type="submit"
+                        onclick="handleSubmit(event)"
+                        className="w-full px-4 py-3 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                    >
+                        Add Product
+                    </button>
                 </div>
-            </div>
-
-            <NewsFeed />
-
-        </div>
+            </form>
+        </>
     );
 };
 
-export default ContactUsPage;
+export default AdminAddProductPage;

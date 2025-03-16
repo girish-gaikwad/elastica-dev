@@ -1,6 +1,6 @@
 // package
 import type { Metadata } from "next";
-import { Poppins, Inter } from "next/font/google";
+// import { Poppins, Inter } from "next/font/google";
 
 // lib
 import { cn } from "@/lib/utils";
@@ -9,19 +9,19 @@ import { cn } from "@/lib/utils";
 import "./globals.css";
 import SessionProviderWrapper from "@/components/custom/SessionProviderWrapper";
 
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-poppins",
-  display: "swap",
-});
+// const poppins = Poppins({
+//   subsets: ["latin"],
+//   weight: ["400", "500", "600"],
+//   variable: "--font-poppins",
+//   display: "swap",
+// });
 
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-inter",
-  display: "swap",
-});
+// const inter = Inter({
+//   subsets: ["latin"],
+//   weight: ["400", "500", "600", "700"],
+//   variable: "--font-inter",
+//   display: "swap",
+// });
 
 export const metadata: Metadata = {
   title: "Elastica - Recycled rubber products",

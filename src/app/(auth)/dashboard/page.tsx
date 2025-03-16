@@ -14,6 +14,8 @@ export default function Dashboard() {
   }, [session, status, router]);
   const { checkSession, isAuthenticated, isLoading, user } = useAuthStore();
 
+
+  console.log(user)
   useEffect(() => {
     checkSession();
   }, [checkSession]);

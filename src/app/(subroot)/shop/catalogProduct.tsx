@@ -85,7 +85,7 @@ const CatalogProduct = ({
               {/* image */}
               <Link href={`/purchase/${product.id}`} className="block overflow-hidden h-full w-full">
                 <ProductCard.Image
-                  src={product.images?.[0].url}
+                  src={product.images?.[0]?.url}
                   alt={product.name || "luxury product"}
                   className="transition-transform duration-700 group-hover:scale-105 h-full w-full object-cover"
                 />
