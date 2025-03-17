@@ -150,22 +150,21 @@ const ProductEditAdmin = () => {
 
   // Handle Cloudinary upload success
   const handleUploadSuccess = (result) => {
-    setUploading(false);
+  setUploading(false);
 
-    // Extract the secure URL from the upload result
-    const uploadedImageUrl = result.info.secure_url;
+  const uploadedImageUrl = result.info.secure_url;
 
-    // Create a new image object and add it to the product
-    const newImage = {
-      url: uploadedImageUrl,
-      altText: "New product image" // Default alt text
-    };
-
-    setProduct({
-      ...product,
-      images: [...product.images, newImage]
-    });
+  const newImage = {
+    url: uploadedImageUrl,
+    altText: "New product image",
   };
+
+  setProduct((prevProduct) => ({
+    ...prevProduct,
+    images: [...(prevProduct.images || []), newImage], // Ensure previous images are retained
+  }));
+};
+
 
   const handleRemoveImage = (index) => {
     const updatedImages = [...product.images];
