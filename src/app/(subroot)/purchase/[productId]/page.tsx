@@ -328,6 +328,7 @@ Hey i am enquiring about this product "Iam intrested"
               </div>
 
               {/* Color Variants - Enhanced with selection functionality */}
+              {product.product.colors.length > 0 && (
               <div className="space-y-6 py-6">
                 <p className="font-inter text-base font-medium" style={{ color: accentColor }}>
                   Choose Color
@@ -360,6 +361,7 @@ Hey i am enquiring about this product "Iam intrested"
                   <p className="text-sm italic" style={{ color: '#d32f2f' }}>Please select a color</p>
                 )}
               </div>
+              )}
             </div>
 
             {/* Tags */}

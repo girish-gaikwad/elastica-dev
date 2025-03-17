@@ -57,7 +57,21 @@ const HeroSection = () => {
       try {
         const res = await fetch('/api/get_silderImg');
         const data = await res.json();
-        setProducts(data);
+
+        const defaultProduct = {
+          productId: "SP-00001",
+          title: "Special Custom Gift Hamper",
+          description: "Starting from ₹199 , Contact Us to customize gifting hampers for your celebrations!",
+          category: "Gifting Hampers",
+          imgUrl: "https://res.cloudinary.com/dazuj2ddc/image/upload/v1739030363/Elastica/y0qznkahi7krsgv9d2a7.png",
+          createdAt: "2024-02-07T14:30:00.000Z"
+        };
+  
+        // Ensure the default product is always present
+        const updatedProducts = [defaultProduct, ...data];
+  
+        setProducts(updatedProducts);
+       
       } catch (error) {
         setError(error.message);
       } finally {
