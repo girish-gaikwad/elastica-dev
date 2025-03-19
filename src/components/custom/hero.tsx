@@ -32,7 +32,7 @@ const ProgressBar = ({ currentIndex, totalSlides, timeRemaining }) => {
         {currentIndex + 1}/{totalSlides}
       </div>
       <div className="w-16 sm:w-24 h-1 bg-black bg-opacity-20 backdrop-blur-sm rounded-full overflow-hidden">
-        <motion.div 
+        <motion.div
           className="h-full bg-white"
           initial={{ width: "100%" }}
           animate={{ width: `${timeRemaining * 10}%` }}
@@ -60,18 +60,18 @@ const HeroSection = () => {
 
         const defaultProduct = {
           productId: "SP-00001",
-          title: "Special Custom Gift Hamper",
+          title: "customizable gift hampers",
           description: "Starting from ₹199 , Contact Us to customize gifting hampers for your celebrations!",
           category: "Gifting Hampers",
           imgUrl: "https://res.cloudinary.com/dazuj2ddc/image/upload/v1739030363/Elastica/y0qznkahi7krsgv9d2a7.png",
           createdAt: "2024-02-07T14:30:00.000Z"
         };
-  
+
         // Ensure the default product is always present
         const updatedProducts = [defaultProduct, ...data];
-  
+
         setProducts(updatedProducts);
-       
+
       } catch (error) {
         setError(error.message);
       } finally {
@@ -94,7 +94,7 @@ const HeroSection = () => {
           return prev - 1;
         });
       }, 1000);
-      
+
       return () => clearInterval(countdown);
     }
   }, [loading, currentIndex, isPaused, products.length]);
@@ -182,9 +182,9 @@ const HeroSection = () => {
     >
       {/* Background pattern */}
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0wIDBoNDB2NDBoLTQweiIvPjxwYXRoIGQ9Ik0wIDBoMXYxaC0xeiIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjEpIiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48L2c+PC9zdmc+')] opacity-30 pointer-events-none"></div>
-      
-      <div 
-        className="relative min-h-[600px] sm:min-h-[500px] lg:min-h-[600px] w-full" 
+
+      <div
+        className="relative min-h-[600px] sm:min-h-[500px] lg:min-h-[600px] w-full"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
@@ -216,7 +216,7 @@ const HeroSection = () => {
           >
             {/* Text content */}
             <div className="flex flex-col items-center gap-6 w-full sm:max-w-[600px] md:max-w-[600px] mt-8 lg:mt-0 md:py-8 lg:py-16 lg:order-2 lg:max-w-none lg:items-start">
-              <motion.div 
+              <motion.div
                 className="space-y-6 sm:space-y-8 text-center lg:text-left w-full"
                 initial="hidden"
                 animate="visible"
@@ -242,22 +242,22 @@ const HeroSection = () => {
                     </div>
                   </div>
                 </motion.div>
-                
+
                 <motion.div variants={textVariants} custom={1}>
                   <Heading as="h2" className="text-2xl text-[#f6f6f6] sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
-                    {products[currentIndex].title} 
+                    {products[currentIndex].title}
                     {/* <span className="text-[#377DFF]">amazing</span> */}
                   </Heading>
                 </motion.div>
-                
+
                 <motion.div variants={textVariants} custom={2}>
                   <Text className="text-sm sm:text-base md:text-lg lg:text-xl max-w-[90%] mx-auto lg:mx-0 text-gray-800">
                     {products[currentIndex].description}
                   </Text>
                 </motion.div>
-                
-                <motion.div 
-                  variants={textVariants} 
+
+                <motion.div
+                  variants={textVariants}
                   custom={3}
                   className="flex flex-col sm:flex-row items-center gap-4 pt-2"
                 >
@@ -280,9 +280,9 @@ const HeroSection = () => {
                         origin-left transition-transform duration-500 ease-out opacity-10"></span>
                     </motion.button>
                   </Link>
-                  
+
                   <div className="flex items-center gap-2 text-sm">
-                    <motion.span 
+                    <motion.span
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.7 }}
@@ -290,7 +290,7 @@ const HeroSection = () => {
                     >
                       Premium Quality
                     </motion.span>
-                    <motion.span 
+                    <motion.span
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.8 }}
@@ -314,7 +314,7 @@ const HeroSection = () => {
                 {/* Decorative elements */}
                 <div className="absolute -inset-4 rounded-full bg-white bg-opacity-30 blur-xl"></div>
                 <div className="absolute -bottom-6 -left-6 -right-6 top-1/3 bg-white/20 blur-2xl rounded-full"></div>
-                
+
                 <div className="relative z-10 rounded-2xl overflow-hidden p-2 bg-gradient-to-br from-white/30 to-white/10 backdrop-blur-sm shadow-xl">
                   <Image
                     src={products[currentIndex].imgUrl}
@@ -327,7 +327,7 @@ const HeroSection = () => {
                     priority
                   />
                 </div>
-                
+
                 {/* Floating badge */}
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
@@ -345,9 +345,9 @@ const HeroSection = () => {
         </AnimatePresence>
 
         {/* Progress bar */}
-        <ProgressBar 
-          currentIndex={currentIndex} 
-          totalSlides={products.length} 
+        <ProgressBar
+          currentIndex={currentIndex}
+          totalSlides={products.length}
           timeRemaining={timeRemaining}
         />
 
@@ -376,7 +376,7 @@ const HeroSection = () => {
         </motion.button>
 
         {/* Dots navigation */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
@@ -388,8 +388,8 @@ const HeroSection = () => {
             <button
               key={index}
               className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 
-                ${index === currentIndex 
-                  ? 'bg-[#377DFF] scale-100' 
+                ${index === currentIndex
+                  ? 'bg-[#377DFF] scale-100'
                   : 'bg-gray-300 scale-75 hover:scale-90 hover:bg-gray-400'}`}
               onClick={() => {
                 setDirection(index > currentIndex ? 1 : -1);
